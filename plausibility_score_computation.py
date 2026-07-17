@@ -4,6 +4,7 @@ import pickle
 import glob
 import os
 import ast
+import random
 from tqdm import tqdm
 from print_color import print
 
@@ -262,13 +263,48 @@ kg_schemas = {
     'OptimusKG': OptimusKG_relations,
 }
 
-def get_models(view: str, emb_name: str, strategy: str, model: str, valid_rels: list):
+def show_schema_facts(kg: str = None, seed: int = None):
+    """
+    Prints every schema fact for a given KG (or for all KGs if kg is not
+    given), together with one randomly sampled node ID example for its source
+    and target type 
+    """
+    rng = random.Random(seed)
+    kgs = [kg] if kg else list(kg_schemas.keys())
+
+    schema_fact_examples = {}
+    for kg in kgs:
+        nodes = pd.read_csv(f"data/nodes_{kg}.csv", usecols=['URI:ID', ':LABEL'], low_memory=False)
+        ids_by_type = (
+            nodes.assign(**{':LABEL': nodes[':LABEL'].fillna('').astype(str).str.split(';')})
+            .explode(':LABEL')
+            .groupby(':LABEL')['URI:ID']
+            .apply(list)
+            .to_dict()
+        )
+
+        print(f"=== {kg} ===", color='cyan')
+        schema_fact_examples[kg] = {}
+        for facts in kg_schemas[kg].values():
+            for fact in facts:
+                sub_type, _, obj_type = fact.split(' - ')
+                source_id = rng.choice(ids_by_type[sub_type]) if sub_type in ids_by_type else None
+                target_id = rng.choice(ids_by_type[obj_type]) if obj_type in ids_by_type else None
+                schema_fact_examples[kg][fact] = (source_id, target_id)
+
+                print(fact)
+                print(f"  {sub_type} id example: {source_id}")
+                print(f"  {obj_type} id example: {target_id}")
+
+    return schema_fact_examples
+
+def get_models(kg: str, emb_name: str, strategy: str, model: str, valid_rels: list):
     
     models = {}
-    if view == 'miRNA-KG' or view == 'PKT-KG':
-        model_path = f"dumps_models_new/{view}/{emb_name}/{strategy}_1/err_beta_1/{model}/*.pkl"
+    if kg == 'miRNA-KG' or kg == 'PKT-KG':
+        model_path = f"dumps_models/{kg}/{emb_name}/{strategy}_1/err_beta_1/{model}/*.pkl"
     else:
-        model_path = f"dumps_models_new/{view}/{emb_name}/{strategy}/err_beta_1/{model}/*.pkl"
+        model_path = f"dumps_models/{kg}/{emb_name}/{strategy}/err_beta_1/{model}/*.pkl"
     
     for f in glob.glob(model_path):
         relation = f.split('/')[-1]
@@ -283,21 +319,21 @@ def get_models(view: str, emb_name: str, strategy: str, model: str, valid_rels: 
     
     return models
 
-def get_input(view: str, emb_name: str, strategy: str, needed_models: list, rels_pair: str, negative: bool):
+def get_input(kg: str, emb_name: str, strategy: str, needed_models: list, rels_pair: str, negative: bool):
 
     triples_dict = {}
     triples_cardinality = {}
 
     if not negative:
-        dir_add = f"blind_test_occ/{view}/*.csv"
+        dir_add = f"blind_test_occ/{kg}/*.csv"
     else:
-        if view == 'miRNA-KG' or view == 'PKT-KG':
-            dir_add = f"negative_samples/{view}/{strategy}_1/*.csv"
+        if kg == 'miRNA-KG' or kg == 'PKT-KG':
+            dir_add = f"negative_samples/{kg}/{strategy}_1/*.csv"
         else:
-            dir_add = f"negative_samples/{view}/{strategy}/*.csv"
+            dir_add = f"negative_samples/{kg}/{strategy}/*.csv"
         # Get the number of blind sample triples for each relation
         blind_size = {}
-        for f in glob.glob(f"blind_test_occ/{view}/*.csv"):
+        for f in glob.glob(f"blind_test_occ/{kg}/*.csv"):
             relation = f.split('/')[-1][:-4]
             if not relation in needed_models: continue
             blind_size[relation] = pd.read_csv(f).rename(columns={'subcject': 'subject'}).shape[0]
@@ -320,7 +356,7 @@ def get_input(view: str, emb_name: str, strategy: str, needed_models: list, rels
         triples_dict[relation] = triple_df
         triples_cardinality[relation] = triples_dict[relation].shape[0]
 
-    embedding = pd.read_csv(f"store_embeddings/{emb_name}/{view}.csv")
+    embedding = pd.read_csv(f"store_embeddings/{emb_name}/{kg}.csv")
 
     # Map triples to their embeddings
     mapped_emb = {}
@@ -343,9 +379,9 @@ def get_input(view: str, emb_name: str, strategy: str, needed_models: list, rels
             mapped_emb[rel].append(mul_emb)
 
     if not negative:
-        save_dir = f"formula_plausibility_files/{view}/{view}_blind_{rels_pair}.pkl"
+        save_dir = f"formula_plausibility_files/{kg}/{kg}_blind_{rels_pair}.pkl"
     else:
-        save_dir = f"formula_plausibility_files/{view}/{view}_{strategy}_{rels_pair}.pkl"
+        save_dir = f"formula_plausibility_files/{kg}/{kg}_{strategy}_{rels_pair}.pkl"
     print(save_dir)
     os.makedirs(os.path.dirname(save_dir), exist_ok=True)
     with open(save_dir, "wb") as f:
@@ -430,29 +466,29 @@ def p_comb(rel_main, rels_alt, score_main, score_alt, results, max_lmbda=10.0):
 
 def find_schema_fact(schema_fact: str):
     """
-        Finds which KG (view) a schema fact belongs to, along with the
+        Finds which KG a schema fact belongs to, along with the
         relations sharing the same subject/object types.
     """
-    for view, relations in kg_schemas.items():
+    for kg, relations in kg_schemas.items():
         for rels_pair, facts in relations.items():
             if schema_fact in facts:
-                return view, rels_pair, facts
+                return kg, rels_pair, facts
 
     raise Exception(f"Schema fact '{schema_fact}' was not found in any KG schema.")
 
-def get_pair_embedding(view: str, emb_name: str, source_id: str, target_id: str):
+def get_pair_embedding(kg: str, emb_name: str, source_id: str, target_id: str):
     """
         Looks up the embeddings of a single source/target ID pair and combines
         them the same way models were trained on (element-wise product).
     """
-    embedding = pd.read_csv(f"store_embeddings/{emb_name}/{view}.csv")
+    embedding = pd.read_csv(f"store_embeddings/{emb_name}/{kg}.csv")
 
     source_row = embedding[embedding['name'] == source_id]
     target_row = embedding[embedding['name'] == target_id]
     if source_row.empty:
-        raise Exception(f"Source id '{source_id}' not found in {view} embeddings.")
+        raise Exception(f"Source id '{source_id}' not found in {kg} embeddings.")
     if target_row.empty:
-        raise Exception(f"Target id '{target_id}' not found in {view} embeddings.")
+        raise Exception(f"Target id '{target_id}' not found in {kg} embeddings.")
 
     source_emb = ast.literal_eval(source_row.squeeze().to_list()[1])
     target_emb = ast.literal_eval(target_row.squeeze().to_list()[1])
@@ -460,28 +496,28 @@ def get_pair_embedding(view: str, emb_name: str, source_id: str, target_id: str)
 
     return mul_emb.reshape(1, -1)
 
-def get_node_types(view: str, node_ids: list):
+def get_node_types(kg: str, node_ids: list):
     """
         Looks up the KG node type for each of the given node IDs.
     """
-    nodes = pd.read_csv(f"data/nodes_{view}.csv", usecols=['URI:ID', ':LABEL'], low_memory=False)
+    nodes = pd.read_csv(f"data/nodes_{kg}.csv", usecols=['URI:ID', ':LABEL'], low_memory=False)
 
     types = {}
     for node_id in node_ids:
         row = nodes[nodes['URI:ID'] == node_id]
         if row.empty:
-            raise Exception(f"Node id '{node_id}' not found in {view} nodes.")
+            raise Exception(f"Node id '{node_id}' not found in {kg} nodes.")
         types[node_id] = row[':LABEL'].iloc[0]
 
     return types
 
-def check_types(schema_fact: str, source_id: str, target_id: str, view: str):
+def check_types(schema_fact: str, source_id: str, target_id: str, kg: str):
     """
         Validates that source_id/target_id have the correct types
         declared by the schema fact.
     """
     sub_type, _, obj_type = schema_fact.split(' - ')
-    node_types = get_node_types(view, [source_id, target_id])
+    node_types = get_node_types(kg, [source_id, target_id])
 
     source_types = str(node_types[source_id]).split(';')
     target_types = str(node_types[target_id]).split(';')
@@ -491,7 +527,7 @@ def check_types(schema_fact: str, source_id: str, target_id: str, view: str):
     if obj_type not in target_types:
         raise Exception(f"target_id '{target_id}' has type '{node_types[target_id]}', expected '{obj_type}' for schema fact '{schema_fact}'.")
 
-def get_medians(view: str, schema_fact: str, formula: str = 'comb', max_lmbda: float = 10.0, strategy: str = 'c-b-n-s'):
+def get_medians(kg: str, schema_fact: str, formula: str = 'comb', max_lmbda: float = 10.0, strategy: str = 'c-b-n-s'):
     """
         Retrieves the median of the plausibility scores for positive (blind) and
         negative samples of the given schema fact, from the precomputed scores.
@@ -499,7 +535,7 @@ def get_medians(view: str, schema_fact: str, formula: str = 'comb', max_lmbda: f
     suffix = f'{formula}_{int(max_lmbda)}'
     medians = {}
     for split in ('blind', 'neg'):
-        path = f"plausibility_scores/{view}/{strategy}/{view}_{strategy}_{split}_{suffix}_scores.pkl"
+        path = f"plausibility_scores/{kg}/{strategy}/{kg}_{strategy}_{split}_{suffix}_scores.pkl"
         with open(path, 'rb') as f:
             scores = pickle.load(f)
 
@@ -513,25 +549,25 @@ def get_medians(view: str, schema_fact: str, formula: str = 'comb', max_lmbda: f
     return medians['blind'], medians['neg']
 
 def compute_plausibility_score(schema_fact: str, source_id: str, target_id: str, max_lmbda: float = 10.0):
-    view, rels_pair, valid_rels = find_schema_fact(schema_fact)
-    check_types(schema_fact, source_id, target_id, view)
+    kg, rels_pair, valid_rels = find_schema_fact(schema_fact)
+    check_types(schema_fact, source_id, target_id, kg)
 
-    median_positive, median_negative = get_medians(view, schema_fact, max_lmbda=max_lmbda)
+    median_positive, median_negative = get_medians(kg, schema_fact, max_lmbda=max_lmbda)
 
     emb_name = 'transe'
     strategy = 'c-b-n-s'
     model_name = 'RF'
 
-    if view == 'miRNA-KG' or view == 'PKT-KG':
-        results = pd.read_csv(f'experiments_new/{view}/{emb_name}/RF_{strategy}_1_fixed.csv')[['relation', 'edges', 'balanced_accuracy']]
+    if kg == 'miRNA-KG' or kg == 'PKT-KG':
+        results = pd.read_csv(f'experiments/{kg}/{emb_name}/RF_{strategy}_1_fixed.csv')[['relation', 'edges', 'balanced_accuracy']]
     else:
-        results = pd.read_csv(f'experiments_new/{view}/{emb_name}/RF_{strategy}_fixed.csv')[['relation', 'edges', 'balanced_accuracy']]
+        results = pd.read_csv(f'experiments/{kg}/{emb_name}/RF_{strategy}_fixed.csv')[['relation', 'edges', 'balanced_accuracy']]
 
-    models = get_models(view=view, emb_name=emb_name, strategy=strategy, model=model_name, valid_rels=valid_rels)
+    models = get_models(kg=kg, emb_name=emb_name, strategy=strategy, model=model_name, valid_rels=valid_rels)
     if schema_fact not in models:
-        raise Exception(f"No trained {model_name} model found for schema fact '{schema_fact}' in {view}.")
+        raise Exception(f"No trained {model_name} model found for schema fact '{schema_fact}' in {kg}.")
 
-    sample = get_pair_embedding(view=view, emb_name=emb_name, source_id=source_id, target_id=target_id)
+    sample = get_pair_embedding(kg=kg, emb_name=emb_name, source_id=source_id, target_id=target_id)
 
     rels_alt = [rel for rel in valid_rels if rel != schema_fact and rel in models]
 
