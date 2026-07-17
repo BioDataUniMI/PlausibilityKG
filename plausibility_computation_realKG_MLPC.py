@@ -39,10 +39,10 @@ from sklearn.metrics import matthews_corrcoef
 
 
 
-def import_data(name_view_graph: str):
+def import_data(name_kg: str):
 
-    edges = pd.read_csv(f'data/edges_{name_view_graph}.csv',sep = ',',low_memory = False)
-    nodes = pd.read_csv(f'data/nodes_{name_view_graph}.csv',sep = ',', low_memory = False)
+    edges = pd.read_csv(f'data/edges_{name_kg}.csv',sep = ',',low_memory = False)
+    nodes = pd.read_csv(f'data/nodes_{name_kg}.csv',sep = ',', low_memory = False)
 
     nodes = nodes[[':LABEL','URI:ID']]
     edges = edges[[':START_ID', ':TYPE', ':END_ID']]
@@ -83,13 +83,13 @@ def filter_edge_type(types: str, type_df: pd.DataFrame) -> pd.DataFrame:
     return edge_type_dict, key
 
 
-def create_rnakg_graph(edges_df: pd.DataFrame,name_view_graph: str) -> nx.digraph:
+def create_rnakg_graph(edges_df: pd.DataFrame,name_kg: str) -> nx.digraph:
 
     edges = list(zip(edges_df[':START_ID'],edges_df['START_ID_LABEL'],edges_df[':END_ID'],edges_df['END_ID_LABEL'],edges_df[":TYPE"])) # list of edges
 
     g = nx.MultiDiGraph()
 
-    for source, type_src, dst, type_dst, predicate in tqdm(edges, desc = f'Creating RNA-KG ({name_view_graph} view)'):
+    for source, type_src, dst, type_dst, predicate in tqdm(edges, desc = f'Creating RNA-KG ({name_kg} view)'):
         g.add_node(source, label=type_src)
         g.add_node(dst, label=type_dst)
         g.add_edges_from([(source,dst)],label = predicate)
@@ -268,8 +268,8 @@ def calculate_mean_std(results):
 #     return summary
 
 
-def train_and_evaluate(X, y, alpha_values, hidden_layer_values, embedding_to_edge, relation: str,strategy_name : str, name_view_graph: str, embedding_name: str, model_selection_parameter: str, dump: bool ,serialize_models = False,  save_serialized_models_dir = '', 
-                       save_drawings_path = '', draw_graph = False, combined_negatives = False): 
+def train_and_evaluate(X, y, alpha_values, hidden_layer_values, embedding_to_edge, relation: str,strategy_name : str, name_kg: str, embedding_name: str, model_selection_parameter: str, dump: bool ,serialize_models = False,  save_serialized_models_dir = '', 
+                       save_drawings_path = '', draw_graph = False):
     """
     Trains and evaluates models using 5-fold cross-validation.
     Serializes models if enabled.
@@ -414,10 +414,7 @@ def train_and_evaluate(X, y, alpha_values, hidden_layer_values, embedding_to_edg
         elif model_selection_parameter == 'error_beta_score_2': err_beta = 'err_beta_2'
         elif model_selection_parameter == 'error_beta_score_0_5': err_beta = 'err_beta_0_5'
         # Dump del modello finale
-        if combined_negatives:
-            path_model = f'dumps_models_new/{name_view_graph}/{embedding_name}/combined_c_s_d/{err_beta}/MLPC/MLCP_model_{relation}_fixed.pkl'
-        else:
-            path_model = f'dumps_models_new/{name_view_graph}/{embedding_name}/{strategy_name}/{err_beta}/MLPC/MLCP_model_{relation}_fixed.pkl'
+        path_model = f'dumps_models/{name_kg}/{embedding_name}/{strategy_name}/{err_beta}/MLPC/MLCP_model_{relation}_fixed.pkl'
         os.makedirs(os.path.dirname(path_model), exist_ok=True)
         with open(path_model, 'wb') as f:
             pickle.dump(final_model ,f)
@@ -431,7 +428,7 @@ def train_and_evaluate(X, y, alpha_values, hidden_layer_values, embedding_to_edg
 
 
 
-def compute(relation: str,strategy,strategy_name: str,name_view_graph: str,embedding_name: str, parameter_model_selection = 'accuracy', blind_test = False,load_embedding = False,embedding_subgraph = False,dump = False, combined_negatives = False):
+def compute(relation: str,strategy,strategy_name: str,name_kg: str,embedding_name: str, parameter_model_selection = 'accuracy', blind_test = False,load_embedding = False,embedding_subgraph = False,dump = False):
 
     """
     PARAMS:
@@ -442,7 +439,7 @@ def compute(relation: str,strategy,strategy_name: str,name_view_graph: str,embed
 
     strategy_name: the name of the strategy e.g strategy: community based negative sampling --> strategy_name: c-b-n-s
 
-    name_view_graph: the name of the rna_kg's view
+    name_kg: the name of the rna_kg's view
 
     embedding_name: the name of embedding 'n2v' or 'transe'
 
@@ -463,13 +460,13 @@ def compute(relation: str,strategy,strategy_name: str,name_view_graph: str,embed
     results = {}
 
     #import and prepare data
-    edges, nodes = import_data(name_view_graph)
+    edges, nodes = import_data(name_kg)
     triple_type_df = node_type_join(edges, nodes)
     print(triple_type_df.columns)
 
     # Create che rna KG  
-    graph = create_rnakg_graph(triple_type_df, name_view_graph)
-    print(f'RNA-kg ({name_view_graph}) has: {len(graph.nodes())} nodes and {len(graph.edges())} edges')
+    graph = create_rnakg_graph(triple_type_df, name_kg)
+    print(f'RNA-kg ({name_kg}) has: {len(graph.nodes())} nodes and {len(graph.edges())} edges')
 
     # Create the subgraph that include only edges that match the input relation
     filtered_edges, filter = filter_edge_type(relation, triple_type_df)
@@ -481,38 +478,29 @@ def compute(relation: str,strategy,strategy_name: str,name_view_graph: str,embed
     positives_subgraph = list(subgraph.edges())
 
     predicted_negatives = None
-    if combined_negatives:
-        comb_negs = pd.read_csv(f"negative_samples/{name_view_graph}/combine_c_s_d_proportion/{relation}.csv")
+    # Check if negative samples already exist
+    if os.path.exists(f'negative_samples/{name_kg}/{strategy_name}/{relation}.csv'):
+        load_negatives = pd.read_csv(f"negative_samples/{name_kg}/{strategy_name}/{relation}.csv")
         predicted_negatives = set()
-        for row in comb_negs[['source', 'target']].itertuples(index=False):
+        for row in load_negatives[['source', 'target']].itertuples(index=False):
             predicted_negatives.add(( row[0], row[1] ))
 
-        print('# combined negatives:', len(predicted_negatives), background='w', color='red')
-
+        print('# loaded negatives:', len(predicted_negatives), background='magenta', color='w')
     else:
-        # Check if negative samples already exist
-        if os.path.exists(f'negative_samples/{name_view_graph}/{strategy_name}/{relation}.csv'):
-            load_negatives = pd.read_csv(f"negative_samples/{name_view_graph}/{strategy_name}/{relation}.csv")
-            predicted_negatives = set()
-            for row in load_negatives[['source', 'target']].itertuples(index=False):
-                predicted_negatives.add(( row[0], row[1] ))
-
-            print('# loaded negatives:', len(predicted_negatives), background='magenta', color='w')
-        else:
-            #Apply strategy on the subgraph
-            type_src = relation.split('-')[0].strip()
-            type_dst = relation.split('-')[2].strip()
-            predicted_negatives = apply_strategy(subgraph,strategy,positives_subgraph,type_src,type_dst)
-            print(type(predicted_negatives))
-            predicate = relation.split(' - ')[1]
-            negative_with_types = {(*t, predicate, type_src, type_dst) for t in predicted_negatives}
-            data = list(negative_with_types)
-            predicted_negatives_df = pd.DataFrame(data, columns=['source', 'target', 'predicate', 'source_type', 'target_type'])
-            predicted_negatives_df.to_csv(f'negative_samples/{name_view_graph}/{strategy_name}/{relation}.csv', index=False)
-            print(f'{len(predicted_negatives)} predicted negatives biased')
-            #if no pred negs biased return 
-            if len(predicted_negatives) == 0:
-                return
+        #Apply strategy on the subgraph
+        type_src = relation.split('-')[0].strip()
+        type_dst = relation.split('-')[2].strip()
+        predicted_negatives = apply_strategy(subgraph,strategy,positives_subgraph,type_src,type_dst)
+        print(type(predicted_negatives))
+        predicate = relation.split(' - ')[1]
+        negative_with_types = {(*t, predicate, type_src, type_dst) for t in predicted_negatives}
+        data = list(negative_with_types)
+        predicted_negatives_df = pd.DataFrame(data, columns=['source', 'target', 'predicate', 'source_type', 'target_type'])
+        predicted_negatives_df.to_csv(f'negative_samples/{name_kg}/{strategy_name}/{relation}.csv', index=False)
+        print(f'{len(predicted_negatives)} predicted negatives biased')
+        #if no pred negs biased return
+        if len(predicted_negatives) == 0:
+            return
 
     #Take the predicted nevatives unbiased (with not positive edges)
     predicted_negatives =set(predicted_negatives) - set((x[0],x[1]) for x in positives_subgraph) 
@@ -540,7 +528,7 @@ def compute(relation: str,strategy,strategy_name: str,name_view_graph: str,embed
         df = pd.DataFrame(blind_test_positives,columns = ["subject","object","predicate"])
         blind_test_positives = [(x[0],x[1],relation.split('-')[1]) for x in blind_test_positives]
         test_dir = 'blind_test_occ'
-        save_test_path = f'{test_dir}/{name_view_graph}/{relation}.csv'
+        save_test_path = f'{test_dir}/{name_kg}/{relation}.csv'
         df.to_csv(save_test_path, index=False)
         print(f'Positives for blind test saved in {save_test_path}')
     
@@ -553,9 +541,10 @@ def compute(relation: str,strategy,strategy_name: str,name_view_graph: str,embed
     
     if embedding_name == 'n2v' and not load_embedding:
         # apply_node2vec take the path of the folder where you can save the embeddings
-        path = f'store_embeddings/{embedding_name}/{name_view_graph}.csv'
+        path = f'store_embeddings/{embedding_name}/{name_kg}.csv'
         edges_embs = apply_node2vec(subgraph,path) if embedding_subgraph else apply_node2vec(graph,path)
         return 
+        
     elif embedding_name == 'transe' and not load_embedding:
         transe_graph = grape_graph_from_networkx(subgraph,'rna_kg',True) if embedding_subgraph else grape_graph_from_networkx(graph,'rna_kg',False)
         print("Applying TransE embedding...", color='yellow')
@@ -568,12 +557,81 @@ def compute(relation: str,strategy,strategy_name: str,name_view_graph: str,embed
         df_transe.insert(0, 'name', df_transe.index)
         X_transe = df_transe.iloc[:, 1:].to_numpy()
         df_transe['embedding'] = [json.dumps(row.tolist()) for row in X_transe]
-        df_transe[['name', 'embedding']].reset_index(drop=True).to_csv(f'store_embeddings/transe/{name_view_graph}.csv', index=False)
-        print(f"TransE embeddings saved in store_embeddings/transe/{name_view_graph}.csv", color='green')
+        df_transe[['name', 'embedding']].reset_index(drop=True).to_csv(f'store_embeddings/transe/{name_kg}.csv', index=False)
+        print(f"TransE embeddings saved in store_embeddings/transe/{name_kg}.csv", color='green')
+
+    elif embedding_name == 'transh' and not load_embedding:
+        transh_graph = grape_graph_from_networkx(subgraph,'rna_kg',True) if embedding_subgraph else grape_graph_from_networkx(graph,'rna_kg',False)
+        print("Applying TransH embedding...", color='yellow')
+        transh_start = time.time()
+        graph_embedding = apply_transh_embedding(transh_graph)
+        transh_elapsed = time.time() - transh_start
+        print(f"TransH embedding completed in {int(transh_elapsed // 3600):02d}:{int((transh_elapsed % 3600) // 60):02d}:{int(transh_elapsed % 60):02d}", color='green')
+        embedding_nodes = graph_embedding.get_all_node_embedding()
+
+        # Save embeddings to CSV
+        os.makedirs('store_embeddings/transh', exist_ok=True)
+        df_transh = embedding_nodes[0].copy()
+        df_transh.insert(0, 'name', df_transh.index)
+        X_transh = df_transh.iloc[:, 1:].to_numpy()
+        df_transh['embedding'] = [json.dumps(row.tolist()) for row in X_transh]
+        df_transh[['name', 'embedding']].reset_index(drop=True).to_csv(f'store_embeddings/transh/{name_kg}.csv', index=False)
+        print(f"TransH embeddings saved in store_embeddings/transh/{name_kg}.csv", color='green')
+
+    elif embedding_name == 'distmult' and not load_embedding:
+        distmult_graph = grape_graph_from_networkx(subgraph,'rna_kg',True) if embedding_subgraph else grape_graph_from_networkx(graph,'rna_kg',False)
+        print("Applying DistMult embedding...", color='yellow')
+        distmult_start = time.time()
+        graph_embedding = apply_distmult_embedding(distmult_graph)
+        distmult_elapsed = time.time() - distmult_start
+        print(f"DistMult embedding completed in {int(distmult_elapsed // 60):02d}:{int(distmult_elapsed % 60):02d}", color='green')
+        embedding_nodes = graph_embedding.get_all_node_embedding()
+
+        # Save embeddings to CSV
+        os.makedirs('store_embeddings/distmult', exist_ok=True)
+        df_distmult = embedding_nodes[0].copy()
+        df_distmult.insert(0, 'name', df_distmult.index)
+        X_distmult = df_distmult.iloc[:, 1:].to_numpy()
+        df_distmult['embedding'] = [json.dumps(row.tolist()) for row in X_distmult]
+        df_distmult[['name', 'embedding']].reset_index(drop=True).to_csv(f'store_embeddings/distmult/{name_kg}.csv', index=False)
+        print(f"DistMult embeddings saved in store_embeddings/distmult/{name_kg}.csv", color='green')
+
+    elif embedding_name == 'complex' and not load_embedding:
+        complex_graph = grape_graph_from_networkx(subgraph,'rna_kg',True) if embedding_subgraph else grape_graph_from_networkx(graph,'rna_kg',False)
+        print("Applying complex embedding...", color='yellow')
+        complex_start = time.time()
+        graph_embedding = apply_complex_embedding(complex_graph)
+        complex_elapsed = time.time() - complex_start
+        print(f"ComplEx embedding completed in {int(complex_elapsed // 60):02d}:{int(complex_elapsed % 60):02d}", color='green')
+
+        # Save embeddings to CSV
+        embedding_nodes = graph_embedding.get_all_node_embedding()
+        complex_array = embedding_nodes[0].to_numpy()
+        X_complex = np.stack([complex_array.real, complex_array.imag], axis=2).reshape(len(complex_array), -1)
+        df_complex = pd.DataFrame({'name': embedding_nodes[0].index.tolist(), 'embedding': [json.dumps(row.tolist()) for row in X_complex]})
+        df_complex.to_csv(f'store_embeddings/complex/{name_kg}.csv', index=False)
+        print(f"ComplEx embeddings saved in store_embeddings/complex/{name_kg}.csv", color='green')
+
+    elif embedding_name == 'rotate' and not load_embedding:
+        rotate_graph = grape_graph_from_networkx(subgraph,'rna_kg',True) if embedding_subgraph else grape_graph_from_networkx(graph,'rna_kg',False)
+
+        print("Applying RotatE embedding...", color='yellow')
+        rotate_start = time.time()
+        graph_embedding = apply_rotate_embedding(rotate_graph)
+        rotate_elapsed = time.time() - rotate_start
+        print(f"RotatE embedding completed in {int(rotate_elapsed // 60):02d}:{int(rotate_elapsed % 60):02d}", color='green')
+
+        # Save embeddings to CSV
+        embedding_nodes = graph_embedding.get_all_node_embedding()
+        rotate_array = embedding_nodes[0].to_numpy()
+        X_rotate = np.stack([rotate_array.real, rotate_array.imag], axis=2).reshape(len(rotate_array), -1)
+        df_rotate = pd.DataFrame({'name': embedding_nodes[0].index.tolist(), 'embedding': [json.dumps(row.tolist()) for row in X_rotate]})
+        df_rotate.to_csv(f'store_embeddings/rotate/{name_kg}.csv', index=False)
+        print(f"RotatE embeddings saved in store_embeddings/rotate/{name_kg}.csv", color='green')
 
     #Load embeddings
     if load_embedding:
-        embeddings_path = f'store_embeddings/{embedding_name}/{name_view_graph}.csv'
+        embeddings_path = f'store_embeddings/{embedding_name}/{name_kg}.csv'
         df = pd.read_csv(embeddings_path)
         embedding_to_edge =  {
         str(row[0]): np.array(ast.literal_eval(row[1]), dtype=np.float64)
@@ -599,11 +657,14 @@ def compute(relation: str,strategy,strategy_name: str,name_view_graph: str,embed
             emb = np.multiply(embedding_to_edge[p[0]],embedding_to_edge[p[1]])
         elif embedding_name == 'n2v' and not load_embedding:
             emb = edges_embs[(p[0], p[1])]
-        elif embedding_name == 'transe' and not load_embedding:
+        elif embedding_name in ('transe', 'transh', 'distmult', 'complex', 'rotate') and not load_embedding:
             df_embedding_nodes = embedding_nodes[0]
-            emb_src = df_embedding_nodes.loc[p[0]]
-            emb_dst = df_embedding_nodes.loc[p[1]]
-            emb = np.multiply(emb_src.tolist(),emb_dst.tolist())
+            emb_src = df_embedding_nodes.loc[p[0]].to_numpy()
+            emb_dst = df_embedding_nodes.loc[p[1]].to_numpy()
+            if embedding_name in ('complex', 'rotate'):
+                emb_src = complex_to_real(emb_src)
+                emb_dst = complex_to_real(emb_dst)
+            emb = np.multiply(emb_src, emb_dst)
 
         X_pos.append(emb)
         embedding_to_edge[tuple(emb.tolist())] = p  # Salva la mappatura (embedding → arco)
@@ -613,11 +674,14 @@ def compute(relation: str,strategy,strategy_name: str,name_view_graph: str,embed
             emb = np.multiply(embedding_to_edge[n[0]],embedding_to_edge[n[1]])
         elif embedding_name == 'n2v' and not load_embedding:
             emb = edges_embs[(n[0], n[1])]
-        elif embedding_name == 'transe' and not load_embedding:
+        elif embedding_name in ('transe', 'transh', 'distmult', 'complex', 'rotate') and not load_embedding:
             df_embedding_nodes = embedding_nodes[0]
-            emb_src = df_embedding_nodes.loc[n[0]]
-            emb_dst = df_embedding_nodes.loc[n[1]]
-            emb = np.multiply(emb_src.tolist(),emb_dst.tolist())
+            emb_src = df_embedding_nodes.loc[n[0]].to_numpy()
+            emb_dst = df_embedding_nodes.loc[n[1]].to_numpy()
+            if embedding_name in ('complex', 'rotate'):
+                emb_src = complex_to_real(emb_src)
+                emb_dst = complex_to_real(emb_dst)
+            emb = np.multiply(emb_src, emb_dst)
 
         X_neg.append(emb)
         embedding_to_edge[tuple(emb.tolist())] = n  # Salva la mappatura (embedding → arco) 
@@ -638,7 +702,7 @@ def compute(relation: str,strategy,strategy_name: str,name_view_graph: str,embed
     #---
 
     print("Training and evaluating models...")
-    results_list,tp,fp,tn,fn,tp_arr,fp_arr,tn_arr,fn_arr,best_params = train_and_evaluate(X, y, alpha_values, hidden_layer_values, embedding_to_edge, relation,strategy_name,name_view_graph,embedding_name,parameter_model_selection,dump, combined_negatives = combined_negatives)
+    results_list,tp,fp,tn,fn,tp_arr,fp_arr,tn_arr,fn_arr,best_params = train_and_evaluate(X, y, alpha_values, hidden_layer_values, embedding_to_edge, relation,strategy_name,name_kg,embedding_name,parameter_model_selection,dump)
     print("Training and evaluation completed")
 
     pong = time.time()
@@ -647,15 +711,15 @@ def compute(relation: str,strategy,strategy_name: str,name_view_graph: str,embed
     minuti = (tempo_trascorso % 3600) // 60
     secondi = tempo_trascorso % 60
     excecution_time = f"{ore:02d}:{minuti:02d}:{secondi:02d}"
-    print(f"Total time taken: {excecution_time}\n{name_view_graph} | {relation} | {embedding_name} | {strategy_name} | {parameter_model_selection}", color='m')
+    print(f"Total time taken: {excecution_time}\n{name_kg} | {relation} | {embedding_name} | {strategy_name} | {parameter_model_selection}", color='m')
 
     #Calculate mean and dev std of the metrics
     results_mean = calculate_mean_std(results_list)
 
     #store the results
-    results["view_name"] = f'{name_view_graph}'
+    results["view_name"] = f'{name_kg}'
     results["relation"] = relation
-    results["strategy_name"] = strategy_name if not combined_negatives else 'combined_negatives'
+    results["strategy_name"] = strategy_name
     results["embedding"] = embedding_name
     results["nodes_type_src"] = number_type_src
     results["nodes_type_dst"] = numeber_type_dst
@@ -689,10 +753,7 @@ def compute(relation: str,strategy,strategy_name: str,name_view_graph: str,embed
 
 
     #NOTE: change this if you want another directory
-    if combined_negatives:
-        save_dir = f'experiments_new/{name_view_graph}/{embedding_name}/MLPC_combined_negatives_fixed.csv'
-    else:
-        save_dir = f'experiments_new/{name_view_graph}/{embedding_name}/MLPC_{strategy_name}_fixed.csv'
+    save_dir = f'experiments/{name_kg}/{embedding_name}/MLPC_{strategy_name}_fixed.csv'
 
     os.makedirs(os.path.dirname(save_dir), exist_ok=True)
     df = pd.DataFrame([results])
@@ -720,7 +781,7 @@ TYPES_miRNA_KG = [
     # 'miRNA - acts upstream of - GO'
     ]
 
-# compute(TYPES_miRNA_KG[0],strategy=community_based_negative_sampling,strategy_name='c-b-n-s_1',name_view_graph = 'miRNA-KG',embedding_name = 'transe',parameter_model_selection="error_beta_score_1",load_embedding = True,dump = True,blind_test= True, combined_negatives = False)
+# compute(TYPES_miRNA_KG[0],strategy=community_based_negative_sampling,strategy_name='c-b-n-s_1',name_kg = 'miRNA-KG',embedding_name = 'transe',parameter_model_selection="error_beta_score_1",load_embedding = True,dump = True,blind_test= True)
 
 
 TYPES_PKT_KG = [
@@ -759,7 +820,7 @@ TYPES_PKT_KG = [
     'Gene - participates in - Pathway'
 ]
 
-# compute(TYPES_PKT_KG[0],strategy=community_based_negative_sampling,strategy_name='c-b-n-s_1',name_view_graph = 'PKT-KG',embedding_name = 'distmult',parameter_model_selection= "error_beta_score_1",dump= True,load_embedding=True,blind_test=True, combined_negatives = False)
+# compute(TYPES_PKT_KG[0],strategy=community_based_negative_sampling,strategy_name='c-b-n-s_1',name_kg = 'PKT-KG',embedding_name = 'distmult',parameter_model_selection= "error_beta_score_1",dump= True,load_embedding=True,blind_test=True)
 
 
 TYPES_Hetionet = [
@@ -789,7 +850,7 @@ TYPES_Hetionet = [
     'Pharmacologic_class - includes - Compound'
 ]
 
-# compute(TYPES_Hetionet[0],strategy=community_based_negative_sampling,strategy_name='c-b-n-s',name_view_graph = 'Hetionet',embedding_name = 'transe',parameter_model_selection= "error_beta_score_1",dump= True,load_embedding=True,blind_test=True, combined_negatives = False)
+# compute(TYPES_Hetionet[0],strategy=community_based_negative_sampling,strategy_name='c-b-n-s',name_kg = 'Hetionet',embedding_name = 'transe',parameter_model_selection= "error_beta_score_1",dump= True,load_embedding=True,blind_test=True)
 
                 
 TYPES_PrimeKG = [
@@ -818,7 +879,7 @@ TYPES_PrimeKG = [
     'Gene_and_or_protein - ppi - Gene_and_or_protein'
 ]
 
-# compute(TYPES_PrimeKG[0],strategy=community_based_negative_sampling,strategy_name='c-b-n-s',name_view_graph = 'PrimeKG',embedding_name = 'transe',parameter_model_selection= "error_beta_score_1",dump= True,load_embedding=True,blind_test=True, combined_negatives = False)
+# compute(TYPES_PrimeKG[0],strategy=community_based_negative_sampling,strategy_name='c-b-n-s',name_kg = 'PrimeKG',embedding_name = 'transe',parameter_model_selection= "error_beta_score_1",dump= True,load_embedding=True,blind_test=True)
 
 TYPES_OptimusKG = [
     'Anatomy - EXPRESSION_ABSENT - Gene',               
@@ -846,4 +907,4 @@ TYPES_OptimusKG = [
     'Molecular_function - INTERACTS_WITH - Gene'        
 ]
 
-# compute(TYPES_OptimusKG[0],strategy=community_based_negative_sampling,strategy_name='c-b-n-s',name_view_graph = 'OptimusKG',embedding_name = 'transe',parameter_model_selection= "error_beta_score_1",dump= True,load_embedding=True,blind_test=True, combined_negatives = False)
+# compute(TYPES_OptimusKG[0],strategy=community_based_negative_sampling,strategy_name='c-b-n-s',name_kg = 'OptimusKG',embedding_name = 'transe',parameter_model_selection= "error_beta_score_1",dump= True,load_embedding=True,blind_test=True)
