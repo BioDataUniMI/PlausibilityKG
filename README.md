@@ -1,94 +1,199 @@
-# Plausibility Scoring for candidate biomedical edges
+# Plausibility-Driven Prioritization of Candidate Biomedical Annotations
 
-Research codebase for scoring the **plausibility of predicted edges** in biomedical knowledge graphs (PKT-KG, miRNA-KG, Hetionet, PrimeKG, OptimusKG, and others). Given a knowledge graph and a target schema fact, the pipeline generates negative edges, embeds the graph, trains a classifier to separate real from negative edges and evaluates how plausible new (candidate) edges are.
+This repository provides the implementation of a plausibility-based approach for supporting biomedical annotation and curation.
+
+Given a candidate biomedical fact, the pipeline estimates how compatible it is with the patterns already encoded in a bioKG. The resulting plausibility scores can help curators prioritize strongly supported candidates, identify likely implausible annotations, and flag uncertain cases that require expert inspection.
 
 ## Pipeline overview
 
-For a given schema fact (e.g. `Gene - interacts - Gene`) and knowledge graph view:
+Given a bioKG, such as Hetionet or PrimeKG, and one of its schema facts, such as `Gene - interacts - Gene`, the pipeline performs the following steps.
 
-1. **Load & filter**
-   - Read `data/edges_<view>.csv` and `data/nodes_<view>.csv`, and join node types onto edges.
-   - Build a single graph from **all** edges/nodes of the KG view (not just the target schema fact) — this is the graph that gets embedded in step 3.
-   - Separately, filter that data down to a **subgraph** containing only edges of the target schema fact (e.g. `Gene - interacts - Gene`). This subgraph is only used to pick which node pairs become positive training examples — it is not what gets embedded.
-2. **Negative sampling** — generate negative edges using one of the strategies in [`plausibility/strategies.py`](plausibility/strategies.py) (e.g. random, degree-aware, community-based, shortest-path-based, PageRank-based), or load a previously computed set from `negative_samples/<view>/<strategy_name>/<schema_fact>.csv`.
-3. **Embedding**
-   - Compute or load node embeddings (TransE via `grape`) for the **full KG graph** built in step 1 — the whole KG view is embedded, regardless of which schema fact is being scored.
-   - The positive edges (from the schema fact's subgraph) and negative edges (from step 2) then each look up their two endpoint embeddings from that embedding and combine them (element-wise product) into a single feature vector per edge — this is the input to the classifier in step 4.
-4. **Classification** — train a classifier (Random Forest or MLP) to distinguish positive from negative edges, with hyperparameter selection via cross-validation.
-5. **Evaluation** — compute accuracy, precision, recall, specificity, F-beta, and error-beta scores; optionally hold out a blind test set of positive edges.
-6. **Plausibility score** — use the trained model to score a candidate edge. Core logic lives in `plausibility_score_computation.py`; to score a specific triple, use `plausibility_score_computation.ipynb`, which calls `compute_plausibility_score(schema_fact, source_id, target_id)` with worked examples for each KG.
+1. **Load and filter the bioKG**
+   - Read `data/edges_<kg>.csv` and `data/nodes_<kg>.csv`.
+   - Associate source and target node types with each edge.
+   - Select the edges associated with the target schema fact. This partition determines the positive examples for the corresponding classifier.
 
-## Data & Models
+2. **Generate negative examples**
+   - Generate negative edges using one of the strategies implemented in [`plausibility/strategies.py`](plausibility/strategies.py), including the community-based sampling presented in the article.
+   - Alternatively, load a previously generated negative set from:
 
-The KGs (nodes and edges) used in this project are available [here]().
+     ```text
+     negative_samples/<kg>/<strategy_name>/<schema_fact>.csv
+     ```
 
-The trained models (Random Forest and MLP) are available [here]().
+3. **Compute graph embeddings**
+   - Compute or load node embeddings for the complete bioKG using [`grape`](https://github.com/AnacletoLAB/grape).
+   - Supported embedding methods include TransE, ComplEx, TransH, DistMult, RotatE, and Node2Vec.
+   - For each positive or negative edge, retrieve the embeddings of its source and target nodes.
+   - Combine the two endpoint embeddings through an element-wise Hadamard product.
+   - The resulting edge-level feature vector is used as input to the binary classifier.
+
+4. **Train a relation-specific classifier**
+   - Train a binary classifier for the selected schema fact to distinguish observed positive edges from generated negative examples. Random Forest and Multilayer Perceptron classifiers are supported.
+   - Hyperparameters are selected through cross-validation.
+   - The classifier output estimates the membership of a candidate edge to the target schema fact, i.e., its compatibility with the structural and semantic patterns observed for that relation type in the bioKG.
+
+5. **Evaluate the classifier**
+   - Compute classification metrics including:
+     - balanced accuracy;
+     - precision;
+     - recall;
+     - specificity;
+     - F-beta score;
+     - error-beta score (as described in the article).
+   - Optionally, hold out a blind set containing 10% of the observed positive edges. Blind positive edges are excluded from training and model selection and are subsequently used to evaluate plausibility on unseen positive facts (it is useful for replicating experiments in the article).
+
+6. **Compute plausibility scores**
+   - Use the trained relation-specific classifiers to estimate the plausibility of candidate biomedical annotations. Estimates can be computed according to the Base, Gain, SoftMax, and COmbo formulations presented in the article.
+   - See:
+     - [`plausibility_score_computation.py`](plausibility_score_computation.py)
+     - [`plausibility_score_computation.ipynb`](plausibility_score_computation.ipynb)
+
+   MIAD: here you have to include the metrics you implemented for evaluating the quality of plausibility scores (a separate .py is fine). then the user can ignore them, but we need to provide
+
+## Data and pretrained models
+
+The bioKG datasets, embeddings, generated negative samples, and pretrained models used in the experiments are available [here]().
+
+The currently supported bioKGs are:
+
+- [PKT-KG](https://doi.org/10.1038/s41597-024-03171-w)
+- [miRNA-KG](https://doi.org/10.1093/nargab/lqaf194)
+- [Hetionet](https://doi.org/10.7554/eLife.26726)
+- [PrimeKG](https://doi.org/10.1038/s41597-023-01960-3)
+- [OptimusKG](https://doi.org/10.48550/arXiv.2604.27269)
 
 ## Project structure
 
-```
-plausibility/                     Core library
-├── dataset.py                    Dataset download/read helpers
-├── strategies.py, strategies_new.py   Negative sampling strategies
-├── samplings.py                  Sampling utilities
-├── embedding_utils.py            Embedding helpers (TransE / node2vec)
-├── classifiers.py                Custom classifiers (e.g. OCSVM wrapper)
-├── metrics.py                    Evaluation metrics
-└── visualizations.py             Plotting helpers
+```text
+plausibility/
+├── dataset.py                         Dataset download and loading utilities
+├── strategies.py                      Negative-sampling strategies
+├── samplings.py                       General sampling utilities
+├── embedding_utils.py                 Graph-embedding utilities
+└── metrics.py                         Classification and evaluation metrics
 
-plausibility_computation_realKG_RF.py     Random Forest classifier — defines a
-                                           `compute(...)` entry point
-plausibility_computation_realKG_MLPC.py   MLP classifier — defines a
-                                           `compute(...)` entry point
 
-plausibility_score_computation.py      Plausibility scoring logic
-plausibility_score_computation.ipynb   Entry point to score a single triple
+[MIAD: let's add the empty subfolders here with readme pointing to zenodo and a minimal instruction on what to download and place inside]
+
+
+plausibility_computation_realKG_RF.py   Random Forest experiments
+plausibility_computation_realKG_MLPC.py MLP experiments
+
+plausibility_score_computation.py       Plausibility-score computation
+plausibility_score_computation.ipynb    Interactive notebook for scoring
+                                        candidate biomedical annotations
 ```
 
 ## Setup
 
+Create and activate a Python virtual environment:
+
 ```bash
 python -m venv venv
 source venv/bin/activate
+```
+
+Install the required dependencies:
+
+```bash
 pip install -r requirements.txt
 ```
 
 ## Usage
 
-The classifier scripts don't take CLI arguments — each script defines its own `compute(...)` function and a list of schema facts at the bottom of the file. To run an experiment:
+plausibility_computation_realKG_{RF/MLPC}.py scripts define a `compute(...)` function and the schema-facts we considered in the article.
 
-1. Open the script for the classifier you want, e.g. [`plausibility_computation_realKG_RF.py`](plausibility_computation_realKG_RF.py).
-2. Uncomment / edit a call to `compute(...)` at the bottom of the file, e.g.:
+To run an experiment:
+
+1. Open the script corresponding to the desired classifier, for example:
+
+   [`plausibility_computation_realKG_RF.py`](plausibility_computation_realKG_RF.py)
+
+2. Add, uncomment, or modify a call to `compute(...)`:
+
    ```python
    compute(
-       TYPES_Hetionet[0],
+       relation="Disease - associates - Gene",
        strategy=community_based_negative_sampling,
-       strategy_name='c-b-n-s',
-       name_view_graph='Hetionet',
-       embedding_name='transe',
-       parameter_model_selection='error_beta_score_1',
+       strategy_name="c-b-n-s",
+       name_view_graph="Hetionet",
+       embedding_name="transe",
+       parameter_model_selection="error_beta_score_1",
        dump=True,
        load_embedding=True,
        blind_test=True,
-       combined_negatives=False,
    )
    ```
-3. Run it:
+
+3. Run the script:
+
    ```bash
    python plausibility_computation_realKG_RF.py
    ```
 
-Key `compute()` parameters:
+## Main `compute()` parameters
 
-| Parameter | Meaning |
+| Parameter | Description |
 |---|---|
-| `relation` | Schema fact used to build the subgraph (view-specific, see `TYPES_*` lists) |
-| `strategy` / `strategy_name` | Negative sampling function + short name used for caching |
-| `name_view_graph` | KG view to use (`PKT-KG`, `miRNA-KG`, `Hetionet`, `PrimeKG`, `OptimusKG`) |
-| `embedding_name` | `'transe'` |
-| `load_embedding` | Reuse a cached embedding instead of recomputing |
-| `dump` | Save the trained model |
-| `blind_test` | Hold out 10% of positive edges for a later blind evaluation |
-| `combined_negatives` | Use a precombined negative set instead of a single strategy |
+| `relation` | Target schema fact, for example `Disease - associates - Gene` |
+| `strategy` | Negative-sampling function |
+| `strategy_name` | Short identifier used to cache and retrieve generated negatives |
+| `name_view_graph` | BioKG to use: `PKT-KG`, `miRNA-KG`, `Hetionet`, `PrimeKG`, or `OptimusKG` |
+| `embedding_name` | Embedding method: `transe`, `node2vec`, `complex`, `transh`, `distmult`, or `rotate` |
+| `parameter_model_selection` | Metric used during classifier model selection |
+| `load_embedding` | Reuse a cached embedding instead of recomputing it |
+| `dump` | Save the trained classifier |
+| `blind_test` | Hold out 10% of positive edges for the blind plausibility evaluation used in the article |
 
-Results (metrics, trained models) are written under `experiments_new/` and `dumps_models_new/`.
+Experimental metrics and trained models are written to:
+
+```text
+experiments/
+dumps_models/
+```
+
+## Scoring a candidate biomedical annotation
+
+[`plausibility_score_computation.ipynb`](plausibility_score_computation.ipynb) assigns a plausibility score to a candidate annotation.
+
+The notebook loads the required bioKG embeddings and trained relation-specific classifiers and computes the plausibility scores associated with a candidate biomedical fact.
+
+A candidate annotation is represented as a triple:
+
+```text
+subject - predicate - object
+```
+
+For example:
+
+```text
+Disease - associates - Gene
+```
+
+The candidate entities must use identifiers compatible with those adopted in the selected bioKG.
+
+## Plausibility formulations
+
+The repository implements four plausibility formulations:
+
+- **Base**: uses the confidence assigned by the classifier associated with the target schema fact.
+- **Gain**: compares the target classifier score with the strongest competing predicate.
+- **SoftMax**: normalizes the target score against the most relevant competing predicates.
+- **Combo**: combines the local classifier confidence with the competition-aware gain.
+
+The competition-aware formulations are designed for cases in which multiple biologically meaningful predicates may connect the same pair of entities. Details are provided in the article.
+
+The approach is designed as a support mechanism for assisted biomedical annotation and curation. The final decision remains under the control of expert biomedical curators.
+
+## Citation
+
+Please cite the following articles if this project was useful for your research:
+
+```bibtex
+  @article{Cavalleri2026plausibilitykg,
+      title="Plausibility-Driven Prioritization of Candidate Biomedical Annotations", 
+      author="Emanuele Cavalleri and Miad Alavinezhad and Dario Malchiodi and Marco Mesiti",
+      ADD ARXIV WHEN PUBLISHED
+  }
+```
