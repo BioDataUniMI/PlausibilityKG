@@ -356,7 +356,7 @@ def train_and_evaluate(X,
         elif model_selection_parameter == 'error_beta_score_2': err_beta = 'err_beta_2'
         elif model_selection_parameter == 'error_beta_score_0_5': err_beta = 'err_beta_0_5'
         # Dump final model
-        path_model = f'dumps_models/{name_kg}/{embedding_name}/{strategy_name}/{err_beta}/RF/RF_model_{relation}_fixed.pkl'
+        path_model = f'dumps_models/{name_kg}/{embedding_name}/{strategy_name}/{err_beta}/RF/RF_model_{relation}.pkl'
         os.makedirs(os.path.dirname(path_model), exist_ok=True)
         with open(path_model, 'wb') as f:
             pickle.dump(final_model ,f)
@@ -418,7 +418,7 @@ def compute(relation: str,strategy,strategy_name: str,name_kg: str,embedding_nam
         print(f'Randomly sampling 1,500,000 edges from {total_edges:,}')
         filtered_edges[filter] = filtered_edges[filter].sample(n=MAX_SAMPLE_SIZE, random_state=42)
         
-    subgraph,number_type_src,numeber_type_dst = create_subgraph(filtered_edges,filter)
+    subgraph,number_type_src,number_type_dst = create_subgraph(filtered_edges,filter)
     print(f'The subgraph ({relation}) has {len(list(subgraph.nodes()))} nodes and {len(list(subgraph.edges()))} edges')
 
     #Get positives edges of the subgraph
@@ -670,7 +670,7 @@ def compute(relation: str,strategy,strategy_name: str,name_kg: str,embedding_nam
     results["strategy_name"] = strategy_name
     results["embedding"] = embedding_name
     results["nodes_type_src"] = number_type_src
-    results["nodes_type_dst"] = numeber_type_dst
+    results["nodes_type_dst"] = number_type_dst
     results["total_nodes"] = len(set(list(subgraph.nodes())))
     results["edges"] = len(list(subgraph.edges()))
     results["tp"] = tp
@@ -700,7 +700,7 @@ def compute(relation: str,strategy,strategy_name: str,name_kg: str,embedding_nam
     results["MCC"] = results_mean["MCC"]
 
     #NOTE: change this if you want another directory
-    save_dir = f'experiments/{name_kg}/{embedding_name}/RF_{strategy_name}_fixed.csv'
+    save_dir = f'experiments/{name_kg}/{embedding_name}/RF_{strategy_name}.csv'
 
     os.makedirs(os.path.dirname(save_dir), exist_ok=True)
     df = pd.DataFrame([results])
@@ -728,7 +728,7 @@ TYPES_miRNA_KG = [
     # 'miRNA - acts upstream of - GO'
     ]
 
-compute(TYPES_miRNA_KG[0],strategy=community_based_negative_sampling,strategy_name='c-b-n-s_1',name_kg = 'miRNA-KG',embedding_name = 'transe',parameter_model_selection="error_beta_score_1",load_embedding = True,dump = True,blind_test= True)
+compute(TYPES_miRNA_KG[0],strategy=community_based_negative_sampling,strategy_name='c-b-n-s',name_kg = 'miRNA-KG',embedding_name = 'transe',parameter_model_selection="error_beta_score_1",load_embedding = True,dump = True,blind_test= True)
 
 
 TYPES_PKT_KG = [
@@ -767,7 +767,7 @@ TYPES_PKT_KG = [
     'Gene - participates in - Pathway'
 ]
 
-# compute(TYPES_PKT_KG[0],strategy=community_based_negative_sampling,strategy_name='c-b-n-s_1',name_kg = 'PKT-KG',embedding_name = 'distmult',parameter_model_selection= "error_beta_score_1",dump= True,load_embedding=True,blind_test=True)
+# compute(TYPES_PKT_KG[0],strategy=community_based_negative_sampling,strategy_name='c-b-n-s',name_kg = 'PKT-KG',embedding_name = 'distmult',parameter_model_selection= "error_beta_score_1",dump= True,load_embedding=True,blind_test=True)
 
 
 TYPES_Hetionet = [
