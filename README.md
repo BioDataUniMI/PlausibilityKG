@@ -49,7 +49,8 @@ Given a bioKG, such as Hetionet or PrimeKG, and one of its schema facts, such as
      - [`plausibility_score_computation.py`](plausibility_score_computation.py)
      - [`plausibility_score_computation.ipynb`](plausibility_score_computation.ipynb)
 
-   MIAD: here you have to include the metrics you implemented for evaluating the quality of plausibility scores (a separate .py is fine). then the user can ignore them, but we need to provide
+   - You can see the methods implemented for evaluating the quality of plausibility scores in:
+     - [`plausibility_score_metrics.py`](plausibility_score_metrics.py)
 
 ## Data and pretrained models
 
