@@ -50,7 +50,7 @@ Each bioKG has its own top-level folder named after it (e.g. `dumps\_models/miRN
 
 
 
-See the main \[README](../README.md#data-and-pretrained-models) for the list of supported bioKGs.
+See the main \[README](../README.md) for the list of supported bioKGs.
 
 
 
