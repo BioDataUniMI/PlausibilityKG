@@ -1,4 +1,4 @@
-\# data/
+# data/
 
 
 
@@ -6,7 +6,7 @@ This folder holds the node and edge files for each bioKG used in this project.
 
 
 
-\## Setup
+## Setup
 
 
 
