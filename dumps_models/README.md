@@ -1,49 +1,17 @@
-# dumps\_models/
-
-
+# dumps_models/
 
 This folder holds the trained plausibility classifiers for each bioKG used in this project.
 
-
-
 ## Setup
 
+1. Download the trained models archive from [Zenodo]().
+2. Extract it. Inside, you'll find one folder per bioKG (e.g. `miRNA-KG/`).
+3. Inside each bioKG's folder, there is a `dumps_models/` subfolder. Copy that subfolder here, renaming it to the bioKG's name — e.g. copy `miRNA-KG/dumps_models/` and place it here as `dumps_models/miRNA-KG/`.
 
+Each model file's full path must end up looking exactly like this:
 
-1\. Download the trained models archive from \[Zenodo]().
+`dumps_models/<kg>/transe/c-b-n-s/err_beta_1/RF/<schema_fact>.pkl`
 
-2\. Extract it.
+For example: `dumps_models/miRNA-KG/transe/c-b-n-s/err_beta_1/RF/miRNA - participates in - GO.pkl`
 
-3\. Copy the model files into this folder, following this structure per bioKG:
-
-
-
-dumps\_models/
-
-├── <kg>/
-
-│     └── transe/
-
-│           └── c-b-n-s/
-
-│                 └── err\_beta\_1/
-
-│                       └── RF/
-
-│                             ├── <schema\_fact\_1>.pkl
-
-│                             ├── <schema\_fact\_2>.pkl
-
-│                             ...
-
-├── <kg\_2>/
-
-│     └── transe/c-b-n-s/err\_beta\_1/RF/...
-
-...
-
-
-
-
-
-Each bioKG has its own top-level folder named after it (e.g. `dumps\_models/miRNA-KG/`), and every path below that must match exactly — `transe/c-b-n-s/err\_beta\_1/RF/` — since the code reads models from this exact path.
+Repeat for every bioKG — each one gets its own top-level folder named after it, with the same `transe/c-b-n-s/err_beta_1/RF/` path underneath, since the code reads models from this exact path.
