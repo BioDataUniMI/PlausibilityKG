@@ -47,10 +47,3 @@ dumps\_models/
 
 
 Each bioKG has its own top-level folder named after it (e.g. `dumps\_models/miRNA-KG/`), and every path below that must match exactly — `transe/c-b-n-s/err\_beta\_1/RF/` — since the code reads models from this exact path.
-
-
-
-See the main \[`README`](../README.md) for the list of supported bioKGs.
-
-
-
