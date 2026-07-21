@@ -1,4 +1,4 @@
-\# dumps\_models/
+# dumps\_models/
 
 
 
@@ -6,7 +6,7 @@ This folder holds the trained plausibility classifiers for each bioKG used in th
 
 
 
-\## Setup
+## Setup
 
 
 
