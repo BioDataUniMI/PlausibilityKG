@@ -414,7 +414,7 @@ def train_and_evaluate(X, y, alpha_values, hidden_layer_values, embedding_to_edg
         elif model_selection_parameter == 'error_beta_score_2': err_beta = 'err_beta_2'
         elif model_selection_parameter == 'error_beta_score_0_5': err_beta = 'err_beta_0_5'
         # Dump del modello finale
-        path_model = f'dumps_models/{name_kg}/{embedding_name}/{strategy_name}/{err_beta}/MLPC/MLCP_model_{relation}_fixed.pkl'
+        path_model = f'dumps_models/{name_kg}/{embedding_name}/{strategy_name}/{err_beta}/MLPC/MLCP_model_{relation}.pkl'
         os.makedirs(os.path.dirname(path_model), exist_ok=True)
         with open(path_model, 'wb') as f:
             pickle.dump(final_model ,f)
@@ -753,7 +753,7 @@ def compute(relation: str,strategy,strategy_name: str,name_kg: str,embedding_nam
 
 
     #NOTE: change this if you want another directory
-    save_dir = f'experiments/{name_kg}/{embedding_name}/MLPC_{strategy_name}_fixed.csv'
+    save_dir = f'experiments/{name_kg}/{embedding_name}/MLPC_{strategy_name}.csv'
 
     os.makedirs(os.path.dirname(save_dir), exist_ok=True)
     df = pd.DataFrame([results])
@@ -781,7 +781,7 @@ TYPES_miRNA_KG = [
     # 'miRNA - acts upstream of - GO'
     ]
 
-# compute(TYPES_miRNA_KG[0],strategy=community_based_negative_sampling,strategy_name='c-b-n-s_1',name_kg = 'miRNA-KG',embedding_name = 'transe',parameter_model_selection="error_beta_score_1",load_embedding = True,dump = True,blind_test= True)
+# compute(TYPES_miRNA_KG[0],strategy=community_based_negative_sampling,strategy_name='c-b-n-s',name_kg = 'miRNA-KG',embedding_name = 'transe',parameter_model_selection="error_beta_score_1",load_embedding = True,dump = True,blind_test= True)
 
 
 TYPES_PKT_KG = [
@@ -820,7 +820,7 @@ TYPES_PKT_KG = [
     'Gene - participates in - Pathway'
 ]
 
-# compute(TYPES_PKT_KG[0],strategy=community_based_negative_sampling,strategy_name='c-b-n-s_1',name_kg = 'PKT-KG',embedding_name = 'distmult',parameter_model_selection= "error_beta_score_1",dump= True,load_embedding=True,blind_test=True)
+# compute(TYPES_PKT_KG[0],strategy=community_based_negative_sampling,strategy_name='c-b-n-s',name_kg = 'PKT-KG',embedding_name = 'distmult',parameter_model_selection= "error_beta_score_1",dump= True,load_embedding=True,blind_test=True)
 
 
 TYPES_Hetionet = [
