@@ -560,11 +560,20 @@ def get_medians(kg: str, schema_fact: str, formula: str = 'comb', max_lmbda: flo
     """
         Retrieves the median of the plausibility scores for positive (blind) and
         negative samples of the given schema fact, from the precomputed scores.
+        Computes and caches those scores first if they don't exist yet.
     """
     suffix = f'{formula}_{int(max_lmbda)}' if formula in ('gain', 'comb') else formula
+    paths = {split: f"plausibility_scores/{kg}/{strategy}/{kg}_{strategy}_{split}_{suffix}_scores.pkl" for split in ('blind', 'neg')}
+
+    if not all(os.path.exists(path) for path in paths.values()):
+        # imported lazily to avoid a circular import (plausibility_formula_comparison
+        # itself imports from this module)
+        import plausibility_formula_comparison as pfc
+        relation_pairs = list(pfc.KG_RELATIONS[kg].keys())
+        pfc.score_calculation(kg, strategy, [True, False], [formula], relation_pairs, max_lmbda)
+
     medians = {}
-    for split in ('blind', 'neg'):
-        path = f"plausibility_scores/{kg}/{strategy}/{kg}_{strategy}_{split}_{suffix}_scores.pkl"
+    for split, path in paths.items():
         with open(path, 'rb') as f:
             scores = pickle.load(f)
 
