@@ -49,8 +49,9 @@ Given a bioKG, such as Hetionet or PrimeKG, and one of its schema facts, such as
      - [`plausibility_score_computation.py`](plausibility_score_computation.py)
      - [`plausibility_score_computation.ipynb`](plausibility_score_computation.ipynb)
 
-   - You can see the methods implemented for evaluating the quality of plausibility scores in:
-     - [`plausibility_score_metrics.py`](plausibility_score_metrics.py)
+   - Reproduce the Base/Gain/SoftMax/Combo formula comparison behind with [`plausibility_formula_comparison.py`](plausibility_formula_comparison.py).
+     - [`test_plause_eval.ipynb`](test_plause_eval.ipynb) is an interactive notebook for running/testing it per bioKG.
+
 
 ## Data and pretrained models
 
