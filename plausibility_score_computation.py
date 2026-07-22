@@ -299,24 +299,22 @@ def show_schema_facts(kg: str = None, seed: int = None):
     return schema_fact_examples
 
 def get_models(kg: str, emb_name: str, strategy: str, model: str, valid_rels: list):
-    
+
     models = {}
-    if kg == 'miRNA-KG' or kg == 'PKT-KG':
-        model_path = f"dumps_models/{kg}/{emb_name}/{strategy}_1/err_beta_1/{model}/*.pkl"
-    else:
-        model_path = f"dumps_models/{kg}/{emb_name}/{strategy}/err_beta_1/{model}/*.pkl"
-    
+    model_path = f"dumps_models/{kg}/{emb_name}/{strategy}/err_beta_1/{model}/*.pkl"
+
     for f in glob.glob(model_path):
         relation = f.split('/')[-1]
         start_pos = relation.find('_model_')
-        relation = relation[start_pos + 7:-10]
+        relation = relation[start_pos + 7:]
+        relation = relation[:-len('_fixed.pkl')] if relation.endswith('_fixed.pkl') else relation[:-len('.pkl')]
         if not relation in valid_rels: continue
         with open(f, "rb") as model:
             models[relation] = pickle.load(model)
-    
-    if not len(models): 
+
+    if not len(models):
         raise Exception("No model is obtained! Check the file path")
-    
+
     return models
 
 def get_input(kg: str, emb_name: str, strategy: str, needed_models: list, rels_pair: str, negative: bool):
@@ -463,6 +461,37 @@ def p_comb(rel_main, rels_alt, score_main, score_alt, results, max_lmbda=10.0):
     p_max_scores = p_max(rel_main, rels_alt, score_main, score_alt, results, lmbda=max_lmbda)
     return (0.5 * score_main) + (0.5 * p_max_scores)
 
+def p_softmax(rel_main, rels_alt, score_main, score_alt, results):
+    lmbda = 10
+    rels_all = [rel_main] + rels_alt
+
+    s_p_main = s_p(rels_all, rel_main, results)
+    ba_p_main = ba_p(rels_all, rel_main, results)
+    w_main = w_p(s_p_main, ba_p_main)
+
+    numerator = np.exp(lmbda * score_main * w_main)
+    if len(rels_alt) == 0:
+        return score_main * w_main
+
+    s_p_alt, ba_p_alt, w_alt = {}, {}, {}
+    for rel_a in rels_alt:
+        s_p_alt[rel_a] = s_p(rels_all, rel_a, results)
+        ba_p_alt[rel_a] = ba_p(rels_all, rel_a, results)
+        w_alt[rel_a] = w_p(s_p_alt[rel_a], ba_p_alt[rel_a])
+
+    if len(rels_alt) == 1:
+        alt_score = list(score_alt.values())[0]
+        alt_score_w = alt_score * w_alt[list(score_alt.keys())[0]]
+        denominator = numerator + np.exp(lmbda * alt_score_w)
+        return numerator / denominator
+
+    alt_score_w = {rel_a: score_alt[rel_a] * w_alt[rel_a] for rel_a in rels_alt}
+    stacked_alt_score_w = np.stack(list(alt_score_w.values()))
+    score_best_alt_w = np.max(stacked_alt_score_w, axis=0)
+    score_2nd_best_alt_w = np.partition(stacked_alt_score_w, -2, axis=0)[-2]
+    denominator = numerator + np.exp(lmbda * score_best_alt_w) + np.exp(lmbda * score_2nd_best_alt_w)
+    return numerator / denominator
+
 
 def find_schema_fact(schema_fact: str):
     """
@@ -532,7 +561,7 @@ def get_medians(kg: str, schema_fact: str, formula: str = 'comb', max_lmbda: flo
         Retrieves the median of the plausibility scores for positive (blind) and
         negative samples of the given schema fact, from the precomputed scores.
     """
-    suffix = f'{formula}_{int(max_lmbda)}'
+    suffix = f'{formula}_{int(max_lmbda)}' if formula in ('gain', 'comb') else formula
     medians = {}
     for split in ('blind', 'neg'):
         path = f"plausibility_scores/{kg}/{strategy}/{kg}_{strategy}_{split}_{suffix}_scores.pkl"
@@ -548,20 +577,17 @@ def get_medians(kg: str, schema_fact: str, formula: str = 'comb', max_lmbda: flo
 
     return medians['blind'], medians['neg']
 
-def compute_plausibility_score(schema_fact: str, source_id: str, target_id: str, max_lmbda: float = 10.0):
+def compute_plausibility_score(schema_fact: str, source_id: str, target_id: str, formula: str = 'comb', max_lmbda: float = 10.0):
     kg, rels_pair, valid_rels = find_schema_fact(schema_fact)
     check_types(schema_fact, source_id, target_id, kg)
 
-    median_positive, median_negative = get_medians(kg, schema_fact, max_lmbda=max_lmbda)
+    median_positive, median_negative = get_medians(kg, schema_fact, formula=formula, max_lmbda=max_lmbda)
 
     emb_name = 'transe'
     strategy = 'c-b-n-s'
     model_name = 'RF'
 
-    if kg == 'miRNA-KG' or kg == 'PKT-KG':
-        results = pd.read_csv(f'experiments/{kg}/{emb_name}/RF_{strategy}_1_fixed.csv')[['relation', 'edges', 'balanced_accuracy']]
-    else:
-        results = pd.read_csv(f'experiments/{kg}/{emb_name}/RF_{strategy}_fixed.csv')[['relation', 'edges', 'balanced_accuracy']]
+    results = pd.read_csv(f'experiments/{kg}/{emb_name}/RF_{strategy}.csv')[['relation', 'edges', 'balanced_accuracy']]
 
     models = get_models(kg=kg, emb_name=emb_name, strategy=strategy, model=model_name, valid_rels=valid_rels)
     if schema_fact not in models:
@@ -574,7 +600,16 @@ def compute_plausibility_score(schema_fact: str, source_id: str, target_id: str,
     score_main = p_base(models[schema_fact], sample)
     score_alt = {rel: p_base(models[rel], sample) for rel in rels_alt}
 
-    score = p_comb(schema_fact, rels_alt, score_main, score_alt, results, max_lmbda)
+    if formula == 'base':
+        score = score_main
+    elif formula == 'gain':
+        score = p_max(schema_fact, rels_alt, score_main, score_alt, results, max_lmbda)
+    elif formula == 'softmax':
+        score = p_softmax(schema_fact, rels_alt, score_main, score_alt, results)
+    elif formula == 'comb':
+        score = p_comb(schema_fact, rels_alt, score_main, score_alt, results, max_lmbda)
+    else:
+        raise Exception(f"Formula name does not exist: {formula!r}. Choose from 'base', 'gain', 'softmax', 'comb'.")
 
     if score[0] >= median_positive:
         print(f"Triple is in the Plausible region, Plausibility Score: {score[0]:.4f}", color='green')
