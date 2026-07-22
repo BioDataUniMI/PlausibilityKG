@@ -55,7 +55,7 @@ Given a bioKG, such as Hetionet or PrimeKG, and one of its schema facts, such as
 
 ## Data and pretrained models
 
-The bioKG datasets, embeddings, generated negative samples, and pretrained models used in the experiments are available [here]().
+The bioKG datasets, embeddings, generated negative samples, and pretrained models used in the experiments are available [here](https://doi.org/10.5281/zenodo.21359878).
 
 The currently supported bioKGs are:
 
@@ -74,9 +74,6 @@ plausibility/
 ├── samplings.py                       General sampling utilities
 ├── embedding_utils.py                 Graph-embedding utilities
 └── metrics.py                         Classification and evaluation metrics
-
-
-[MIAD: let's add the empty subfolders here with readme pointing to zenodo and a minimal instruction on what to download and place inside]
 
 
 plausibility_computation_realKG_RF.py   Random Forest experiments
