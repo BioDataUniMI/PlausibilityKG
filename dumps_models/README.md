@@ -4,7 +4,7 @@ This folder holds the trained plausibility classifiers for each bioKG used in th
 
 ## Setup
 
-1. On [Zenodo](), download the zip file for each bioKG you need (each bioKG has its own separate zip).
+1. On [Zenodo](https://doi.org/10.5281/zenodo.21359878), download the zip file for each bioKG you need (each bioKG has its own separate zip).
 2. Extract a zip — it gives you one folder named after that bioKG (e.g. `miRNA-KG/`).
 3. Inside it, there is a `dumps_models/` subfolder. Copy that subfolder here, renaming it to the bioKG's name — e.g. copy `miRNA-KG/dumps_models/` and place it here as `dumps_models/miRNA-KG/`.
 
