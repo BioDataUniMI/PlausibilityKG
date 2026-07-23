@@ -190,9 +190,13 @@ The approach is designed as a support mechanism for assisted biomedical annotati
 Please cite the following articles if this project was useful for your research:
 
 ```bibtex
-  @article{Cavalleri2026plausibilitykg,
-      title="Plausibility-Driven Prioritization of Candidate Biomedical Annotations", 
-      author="Emanuele Cavalleri and Miad Alavinezhad and Dario Malchiodi and Marco Mesiti",
-      ADD ARXIV WHEN PUBLISHED
-  }
+  @misc{cavalleri2026plausibility,
+      title="{Plausibility-Driven Prioritization of Candidate Biomedical Annotations}", 
+      author={Emanuele Cavalleri and Miad Alavinezhad and Dario Malchiodi and Marco Mesiti},
+      year={2026},
+      eprint={2607.20163},
+      archivePrefix={arXiv},
+      primaryClass={q-bio.QM},
+      url={https://arxiv.org/abs/2607.20163}, 
+}
 ```
