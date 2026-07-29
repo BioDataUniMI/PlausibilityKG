@@ -1,0 +1,470 @@
+KG	schema_fact	subject	object	plausibility_combo	positive_median	negative_median	plausibility_region	curator
+miRNA-KG	miRNA-participates in-GO	https://rnacentral.org/rna/URS0000171CD1_9606	http://purl.obolibrary.org/obo/GO_0048468	0.1671384194781487	0.9771257350242406	0.2050667272631361	implausible	plausible
+miRNA-KG	miRNA-participates in-GO	https://rnacentral.org/rna/URS0000237AF9_9606	http://purl.obolibrary.org/obo/GO_0001897	0.3651921857576065	0.9771257350242406	0.2050667272631361	uncertain	implausible
+miRNA-KG	miRNA-participates in-GO	https://rnacentral.org/rna/URS00005092C2_9606	http://purl.obolibrary.org/obo/GO_0001897	0.3945668864425634	0.9771257350242406	0.2050667272631361	uncertain	implausible
+miRNA-KG	miRNA-participates in-GO	https://rnacentral.org/rna/URS00000254A6_9606	http://purl.obolibrary.org/obo/GO_0008283	0.973868299368776	0.9771257350242406	0.2050667272631361	uncertain	plausible
+miRNA-KG	miRNA-has function-GO	https://rnacentral.org/rna/URS000009262D_9606	http://purl.obolibrary.org/obo/GO_0023052	0.6717555086141918	0.511395274843389	0.1488396749092269	plausible	implausible
+miRNA-KG	miRNA-has function-GO	https://rnacentral.org/rna/URS00001383CF_9606	http://purl.obolibrary.org/obo/GO_0097194	0.5318186904535298	0.511395274843389	0.1488396749092269	plausible	implausible
+miRNA-KG	miRNA-located in-GO	https://rnacentral.org/rna/URS00005743AE_9606	http://purl.obolibrary.org/obo/GO_0048468	0.1528433648667301	0.5614597640821489	0.1846183027802885	implausible	implausible
+miRNA-KG	miRNA-located in-GO	https://rnacentral.org/rna/URS0000076995_9606	http://purl.obolibrary.org/obo/GO_0048468	0.1443717364261145	0.5614597640821489	0.1846183027802885	implausible	implausible
+miRNA-KG	miRNA-located in-GO	https://rnacentral.org/rna/URS00002F4D78_9606	http://purl.obolibrary.org/obo/GO_0048468	0.1497738711187296	0.5614597640821489	0.1846183027802885	implausible	implausible
+miRNA-KG	miRNA-located in-GO	https://rnacentral.org/rna/URS00001123BD_9606	http://purl.obolibrary.org/obo/GO_0048468	0.1181533208873568	0.5614597640821489	0.1846183027802885	implausible	implausible
+miRNA-KG	miRNA-participates in-GO	https://rnacentral.org/rna/URS000039ED8D_9606	http://purl.obolibrary.org/obo/GO_0007049	0.9717869726332118	0.9771257350242406	0.2050667272631361	uncertain	plausible
+miRNA-KG	miRNA-located in-GO	https://rnacentral.org/rna/URS00003496BE_9606	http://purl.obolibrary.org/obo/GO_0048468	0.1414244872411286	0.5614597640821489	0.1846183027802885	implausible	implausible
+miRNA-KG	miRNA-located in-GO	https://rnacentral.org/rna/URS000039ED8D_9606	http://purl.obolibrary.org/obo/GO_0032502	0.1488069353022239	0.5614597640821489	0.1846183027802885	implausible	implausible
+miRNA-KG	miRNA-located in-GO	https://rnacentral.org/rna/URS00005070A9_9606	http://purl.obolibrary.org/obo/GO_0040007	0.1709194697835413	0.5614597640821489	0.1846183027802885	implausible	implausible
+miRNA-KG	miRNA-located in-GO	https://rnacentral.org/rna/URS000055BB1F_9606	http://purl.obolibrary.org/obo/GO_0040007	0.1742901077180907	0.5614597640821489	0.1846183027802885	implausible	implausible
+miRNA-KG	miRNA-located in-GO	https://rnacentral.org/rna/URS00003F2D94_9606	http://purl.obolibrary.org/obo/GO_0040007	0.1747688122078164	0.5614597640821489	0.1846183027802885	implausible	implausible
+miRNA-KG	miRNA-located in-GO	https://rnacentral.org/rna/URS0000554A4F_9606	http://purl.obolibrary.org/obo/GO_0040007	0.1707107797447576	0.5614597640821489	0.1846183027802885	implausible	implausible
+miRNA-KG	miRNA-located in-GO	https://rnacentral.org/rna/URS00002C11C3_9606	http://purl.obolibrary.org/obo/GO_0040007	0.1846149569488993	0.5614597640821489	0.1846183027802885	implausible	implausible
+miRNA-KG	miRNA-located in-GO	https://rnacentral.org/rna/URS000019F055_9606	http://purl.obolibrary.org/obo/GO_0032964	0.1699804952174319	0.5614597640821489	0.1846183027802885	implausible	implausible
+miRNA-KG	miRNA-located in-GO	https://rnacentral.org/rna/URS0000574A2C_9606	http://purl.obolibrary.org/obo/GO_0016049	0.1750785605046161	0.5614597640821489	0.1846183027802885	implausible	implausible
+miRNA-KG	miRNA-located in-GO	https://rnacentral.org/rna/URS00000821E0_9606	http://purl.obolibrary.org/obo/GO_0006915	0.1752777565775571	0.5614597640821489	0.1846183027802885	implausible	implausible
+miRNA-KG	miRNA-located in-GO	https://rnacentral.org/rna/URS00004208C5_9606	http://purl.obolibrary.org/obo/GO_0048468	0.1234086074007438	0.5614597640821489	0.1846183027802885	implausible	implausible
+miRNA-KG	miRNA-located in-GO	https://rnacentral.org/rna/URS000039ED8D_9606	http://purl.obolibrary.org/obo/GO_0019725	0.1462160979295657	0.5614597640821489	0.1846183027802885	implausible	implausible
+miRNA-KG	miRNA-participates in-GO	https://rnacentral.org/rna/URS000009262D_9606	http://purl.obolibrary.org/obo/GO_0007049	0.5599219250249813	0.9771257350242406	0.2050667272631361	uncertain	plausible
+miRNA-KG	miRNA-participates in-GO	https://rnacentral.org/rna/URS000039ED8D_9606	http://purl.obolibrary.org/obo/GO_0016049	0.879108133137877	0.9771257350242406	0.2050667272631361	uncertain	plausible
+miRNA-KG	miRNA-participates in-GO	https://rnacentral.org/rna/URS00003B6B84_9606	http://purl.obolibrary.org/obo/GO_0006954	0.3045882969484471	0.9771257350242406	0.2050667272631361	uncertain	plausible
+miRNA-KG	miRNA-participates in-GO	https://rnacentral.org/rna/URS00003CF1AD_9606	http://purl.obolibrary.org/obo/GO_0006954	0.3467888919827665	0.9771257350242406	0.2050667272631361	uncertain	plausible
+miRNA-KG	miRNA-participates in-GO	https://rnacentral.org/rna/URS000042A57E_9606	http://purl.obolibrary.org/obo/GO_0006954	0.3395662109905033	0.9771257350242406	0.2050667272631361	uncertain	plausible
+miRNA-KG	miRNA-participates in-GO	https://rnacentral.org/rna/URS000058BF17_9606	http://purl.obolibrary.org/obo/GO_0006954	0.3969207574330654	0.9771257350242406	0.2050667272631361	uncertain	plausible
+miRNA-KG	miRNA-participates in-GO	https://rnacentral.org/rna/URS00004BF1DC_9606	http://purl.obolibrary.org/obo/GO_0005737	0.3434069857767725	0.9771257350242406	0.2050667272631361	uncertain	implausible
+miRNA-KG	miRNA-participates in-GO	https://rnacentral.org/rna/URS00004BF1DC_9606	http://purl.obolibrary.org/obo/GO_0005634	0.4334613511368986	0.9771257350242406	0.2050667272631361	uncertain	implausible
+miRNA-KG	miRNA-participates in-GO	https://rnacentral.org/rna/URS00004BF1DC_9606	http://purl.obolibrary.org/obo/GO_0001525	0.6639509263243933	0.9771257350242406	0.2050667272631361	uncertain	plausible
+miRNA-KG	miRNA-participates in-GO	https://rnacentral.org/rna/URS00004BF1DC_9606	http://purl.obolibrary.org/obo/GO_0097194	0.5010241383923023	0.9771257350242406	0.2050667272631361	uncertain	implausible
+miRNA-KG	miRNA-participates in-GO	https://rnacentral.org/rna/URS00001383CF_9606	http://purl.obolibrary.org/obo/GO_0097194	0.3311960570197328	0.9771257350242406	0.2050667272631361	uncertain	implausible
+miRNA-KG	miRNA-participates in-GO	https://rnacentral.org/rna/URS000039ED8D_9606	http://purl.obolibrary.org/obo/GO_0019725	0.8764176207647981	0.9771257350242406	0.2050667272631361	uncertain	plausible
+miRNA-KG	miRNA-participates in-GO	https://rnacentral.org/rna/URS000056BFD0_9606	http://purl.obolibrary.org/obo/GO_0048468	0.3311819747936438	0.9771257350242406	0.2050667272631361	uncertain	plausible
+miRNA-KG	miRNA-participates in-GO	https://rnacentral.org/rna/URS000019F055_9606	http://purl.obolibrary.org/obo/GO_0006915	0.6343424338769282	0.9771257350242406	0.2050667272631361	uncertain	plausible
+miRNA-KG	miRNA-participates in-GO	https://rnacentral.org/rna/URS000061AB33_9606	http://purl.obolibrary.org/obo/GO_0048102	0.2504453299318787	0.9771257350242406	0.2050667272631361	uncertain	plausible
+miRNA-KG	miRNA-participates in-GO	https://rnacentral.org/rna/URS0000574A2C_9606	http://purl.obolibrary.org/obo/GO_0016049	0.8982252573464657	0.9771257350242406	0.2050667272631361	uncertain	plausible
+miRNA-KG	miRNA-participates in-GO	https://rnacentral.org/rna/URS00000821E0_9606	http://purl.obolibrary.org/obo/GO_0008283	0.422739934185495	0.9771257350242406	0.2050667272631361	uncertain	plausible
+miRNA-KG	miRNA-participates in-GO	https://rnacentral.org/rna/URS00000821E0_9606	http://purl.obolibrary.org/obo/GO_0006915	0.9043661302282804	0.9771257350242406	0.2050667272631361	uncertain	plausible
+miRNA-KG	miRNA-participates in-GO	https://rnacentral.org/rna/URS000026261D_9606	http://purl.obolibrary.org/obo/GO_0006954	0.8754739945117612	0.9771257350242406	0.2050667272631361	uncertain	plausible
+miRNA-KG	miRNA-participates in-GO	https://rnacentral.org/rna/URS00000821E0_9606	http://purl.obolibrary.org/obo/GO_0006954	0.3382877988490973	0.9771257350242406	0.2050667272631361	uncertain	plausible
+miRNA-KG	miRNA-participates in-GO	https://rnacentral.org/rna/URS000009262D_9606	http://purl.obolibrary.org/obo/GO_0012501	0.2999085454984468	0.9771257350242406	0.2050667272631361	uncertain	plausible
+miRNA-KG	miRNA-participates in-GO	https://rnacentral.org/rna/URS000009262D_9606	http://purl.obolibrary.org/obo/GO_0016049	0.2895148507049038	0.9771257350242406	0.2050667272631361	uncertain	plausible
+miRNA-KG	miRNA-participates in-GO	https://rnacentral.org/rna/URS00003380C1_9606	http://purl.obolibrary.org/obo/GO_0006915	0.9388607821407452	0.9771257350242406	0.2050667272631361	uncertain	plausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS00003496BE_9606	http://purl.obolibrary.org/obo/GO_0048468	0.1024776547225322	0.5725209168951445	0.147790586100207	implausible	implausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS0000272A3D_9606	http://purl.obolibrary.org/obo/GO_0016055	0.1102954865971085	0.5725209168951445	0.147790586100207	implausible	implausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS00005070A9_9606	http://purl.obolibrary.org/obo/GO_0040007	0.1054370550018521	0.5725209168951445	0.147790586100207	implausible	implausible
+miRNA-KG	miRNA-has function-GO	https://rnacentral.org/rna/URS000009262D_9606	http://purl.obolibrary.org/obo/GO_0032502	0.7121828376720416	0.511395274843389	0.1488396749092269	plausible	plausible
+miRNA-KG	miRNA-has function-GO	https://rnacentral.org/rna/URS00003B6B84_9606	http://purl.obolibrary.org/obo/GO_0006954	0.6245549078660937	0.511395274843389	0.1488396749092269	plausible	plausible
+miRNA-KG	miRNA-has function-GO	https://rnacentral.org/rna/URS000042A57E_9606	http://purl.obolibrary.org/obo/GO_0006954	0.5747624776950052	0.511395274843389	0.1488396749092269	plausible	plausible
+miRNA-KG	miRNA-has function-GO	https://rnacentral.org/rna/URS0000171CD1_9606	http://purl.obolibrary.org/obo/GO_0048468	0.7022139194540886	0.511395274843389	0.1488396749092269	plausible	plausible
+miRNA-KG	miRNA-has function-GO	https://rnacentral.org/rna/URS000056BFD0_9606	http://purl.obolibrary.org/obo/GO_0048468	0.5432034897418208	0.511395274843389	0.1488396749092269	plausible	plausible
+miRNA-KG	miRNA-has function-GO	https://rnacentral.org/rna/URS00000AF93C_9606	http://purl.obolibrary.org/obo/GO_0048468	0.7699323081207321	0.511395274843389	0.1488396749092269	plausible	plausible
+miRNA-KG	miRNA-has function-GO	https://rnacentral.org/rna/URS00000821E0_9606	http://purl.obolibrary.org/obo/GO_0008283	0.5389839883499313	0.511395274843389	0.1488396749092269	plausible	plausible
+miRNA-KG	miRNA-has function-GO	https://rnacentral.org/rna/URS000009262D_9606	http://purl.obolibrary.org/obo/GO_0019725	0.5864059050372177	0.511395274843389	0.1488396749092269	plausible	plausible
+miRNA-KG	miRNA-has function-GO	https://rnacentral.org/rna/URS000009262D_9606	http://purl.obolibrary.org/obo/GO_0007049	0.5534279984618933	0.511395274843389	0.1488396749092269	plausible	plausible
+miRNA-KG	miRNA-has function-GO	https://rnacentral.org/rna/URS000009262D_9606	http://purl.obolibrary.org/obo/GO_0008283	0.5684235611898678	0.511395274843389	0.1488396749092269	plausible	plausible
+miRNA-KG	miRNA-has function-GO	https://rnacentral.org/rna/URS000022EC48_9606	http://purl.obolibrary.org/obo/GO_0035194	0.4182961868580019	0.511395274843389	0.1488396749092269	uncertain	plausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS00002E857A_9606	http://purl.obolibrary.org/obo/GO_0035194	0.1052332949623997	0.5725209168951445	0.147790586100207	implausible	plausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS000039ED8D_9606	http://purl.obolibrary.org/obo/GO_0008283	0.1120216135350652	0.5725209168951445	0.147790586100207	implausible	plausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS00005743AE_9606	http://purl.obolibrary.org/obo/GO_0048468	0.1010024716467692	0.5725209168951445	0.147790586100207	implausible	plausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS0000076995_9606	http://purl.obolibrary.org/obo/GO_0048468	0.1042238706678353	0.5725209168951445	0.147790586100207	implausible	plausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS00002F4D78_9606	http://purl.obolibrary.org/obo/GO_0048468	0.1002012599971281	0.5725209168951445	0.147790586100207	implausible	plausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS00001123BD_9606	http://purl.obolibrary.org/obo/GO_0048468	0.0999151832834296	0.5725209168951445	0.147790586100207	implausible	plausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS00004208C5_9606	http://purl.obolibrary.org/obo/GO_0048468	0.0920141848261501	0.5725209168951445	0.147790586100207	implausible	plausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS000039ED8D_9606	http://purl.obolibrary.org/obo/GO_0032502	0.1080725047190335	0.5725209168951445	0.147790586100207	implausible	plausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS000039ED8D_9606	http://purl.obolibrary.org/obo/GO_0023052	0.1099433083095135	0.5725209168951445	0.147790586100207	implausible	plausible
+miRNA-KG	miRNA-has function-GO	https://rnacentral.org/rna/URS00002E857A_9606	http://purl.obolibrary.org/obo/GO_0035194	0.3698040529794293	0.511395274843389	0.1488396749092269	uncertain	plausible
+miRNA-KG	miRNA-participates in-GO	https://rnacentral.org/rna/URS000009262D_9606	http://purl.obolibrary.org/obo/GO_0032502	0.1801197939069057	0.9771257350242406	0.2050667272631361	implausible	implausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS00000254A6_9606	http://purl.obolibrary.org/obo/GO_0008283	0.1074111532432904	0.5725209168951445	0.147790586100207	implausible	implausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS000039ED8D_9606	http://purl.obolibrary.org/obo/GO_0012501	0.1360878840569148	0.5725209168951445	0.147790586100207	implausible	implausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS00004E57E7_9606	http://purl.obolibrary.org/obo/GO_0040007	0.1385820817389568	0.5725209168951445	0.147790586100207	implausible	implausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS000055BB1F_9606	http://purl.obolibrary.org/obo/GO_0040007	0.109339057562129	0.5725209168951445	0.147790586100207	implausible	implausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS00005B3525_9606	http://purl.obolibrary.org/obo/GO_0040007	0.1077906267426535	0.5725209168951445	0.147790586100207	implausible	implausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS00003F2D94_9606	http://purl.obolibrary.org/obo/GO_0040007	0.1097977276126096	0.5725209168951445	0.147790586100207	implausible	implausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS0000554A4F_9606	http://purl.obolibrary.org/obo/GO_0040007	0.1004682640037899	0.5725209168951445	0.147790586100207	implausible	implausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS00002C11C3_9606	http://purl.obolibrary.org/obo/GO_0040007	0.1087124279376113	0.5725209168951445	0.147790586100207	implausible	implausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS000034B6F5_9606	http://purl.obolibrary.org/obo/GO_0005488	0.1146433432561747	0.5725209168951445	0.147790586100207	implausible	implausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS000019F055_9606	http://purl.obolibrary.org/obo/GO_0032964	0.142738164787626	0.5725209168951445	0.147790586100207	implausible	implausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS0000574A2C_9606	http://purl.obolibrary.org/obo/GO_0016049	0.0970656426991268	0.5725209168951445	0.147790586100207	implausible	implausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS00003496BE_9606	http://purl.obolibrary.org/obo/GO_0009056	0.0998954091510469	0.5725209168951445	0.147790586100207	implausible	implausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS00004208C5_9606	http://purl.obolibrary.org/obo/GO_0009056	0.102970895897485	0.5725209168951445	0.147790586100207	implausible	implausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS000000B1C9_9606	http://purl.obolibrary.org/obo/GO_0035196	0.1360723804663534	0.5725209168951445	0.147790586100207	implausible	implausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS000029979D_9606	http://purl.obolibrary.org/obo/GO_0035196	0.1293628480841	0.5725209168951445	0.147790586100207	implausible	implausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS0000324096_9606	http://purl.obolibrary.org/obo/GO_0035196	0.1426810330880016	0.5725209168951445	0.147790586100207	implausible	implausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS00004023EA_9606	http://purl.obolibrary.org/obo/GO_0035196	0.1293875393408248	0.5725209168951445	0.147790586100207	implausible	implausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS0000416056_9606	http://purl.obolibrary.org/obo/GO_0035196	0.1413084704440819	0.5725209168951445	0.147790586100207	implausible	implausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS00004AFF8D_9606	http://purl.obolibrary.org/obo/GO_0035196	0.1403909357773155	0.5725209168951445	0.147790586100207	implausible	implausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS000050DE77_9606	http://purl.obolibrary.org/obo/GO_0035196	0.1435172777762084	0.5725209168951445	0.147790586100207	implausible	implausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS000028D811_9606	http://purl.obolibrary.org/obo/GO_0035196	0.145869196383778	0.5725209168951445	0.147790586100207	implausible	implausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS00003496BE_9606	http://purl.obolibrary.org/obo/GO_0035196	0.1387997332910803	0.5725209168951445	0.147790586100207	implausible	implausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS00004208C5_9606	http://purl.obolibrary.org/obo/GO_0035196	0.1253166793432539	0.5725209168951445	0.147790586100207	implausible	implausible
+miRNA-KG	miRNA-participates in-GO	https://rnacentral.org/rna/URS0000010D30_9606	http://purl.obolibrary.org/obo/GO_0006954	0.5312352503936104	0.9771257350242406	0.2050667272631361	uncertain	plausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS00001DEE11_9606	http://purl.obolibrary.org/obo/GO_0040007	0.1437837011023559	0.5725209168951445	0.147790586100207	implausible	plausible
+miRNA-KG	miRNA-participates in-GO	https://rnacentral.org/rna/URS0000010C72_9606	http://purl.obolibrary.org/obo/GO_0006954	0.3823781855396765	0.9771257350242406	0.2050667272631361	uncertain	plausible
+miRNA-KG	miRNA-participates in-GO	https://rnacentral.org/rna/URS000019F055_9606	http://purl.obolibrary.org/obo/GO_0032964	0.8622926294083606	0.9771257350242406	0.2050667272631361	uncertain	implausible
+miRNA-KG	miRNA-has function-GO	https://rnacentral.org/rna/URS000061AB33_9606	http://purl.obolibrary.org/obo/GO_0006914	0.3848312357762665	0.511395274843389	0.1488396749092269	uncertain	plausible
+miRNA-KG	miRNA-has function-GO	https://rnacentral.org/rna/URS000061AB33_9606	http://purl.obolibrary.org/obo/GO_0048102	0.4633046700681213	0.511395274843389	0.1488396749092269	uncertain	implausible
+miRNA-KG	miRNA-has function-GO	https://rnacentral.org/rna/URS0000574A2C_9606	http://purl.obolibrary.org/obo/GO_0016049	0.4604217050917637	0.511395274843389	0.1488396749092269	uncertain	plausible
+miRNA-KG	miRNA-has function-GO	https://rnacentral.org/rna/URS0000574A2C_9606	http://purl.obolibrary.org/obo/GO_0006915	0.4293703039463084	0.511395274843389	0.1488396749092269	uncertain	plausible
+miRNA-KG	miRNA-has function-GO	https://rnacentral.org/rna/URS000026261D_9606	http://purl.obolibrary.org/obo/GO_0008283	0.3984356409378453	0.511395274843389	0.1488396749092269	uncertain	plausible
+miRNA-KG	miRNA-has function-GO	https://rnacentral.org/rna/URS000026261D_9606	http://purl.obolibrary.org/obo/GO_0006915	0.4385533910206001	0.511395274843389	0.1488396749092269	uncertain	plausible
+miRNA-KG	miRNA-has function-GO	https://rnacentral.org/rna/URS000026261D_9606	http://purl.obolibrary.org/obo/GO_0006954	0.3767884450087939	0.511395274843389	0.1488396749092269	uncertain	plausible
+miRNA-KG	miRNA-has function-GO	https://rnacentral.org/rna/URS00000821E0_9606	http://purl.obolibrary.org/obo/GO_0006915	0.3122533305120472	0.511395274843389	0.1488396749092269	uncertain	plausible
+miRNA-KG	miRNA-has function-GO	https://rnacentral.org/rna/URS00003496BE_9606	http://purl.obolibrary.org/obo/GO_0009056	0.2897728731705806	0.511395274843389	0.1488396749092269	uncertain	implausible
+miRNA-KG	miRNA-has function-GO	https://rnacentral.org/rna/URS0000527228_9606	http://purl.obolibrary.org/obo/GO_0006915	0.3765421572855861	0.511395274843389	0.1488396749092269	uncertain	plausible
+miRNA-KG	miRNA-located in-GO	https://rnacentral.org/rna/URS000022EC48_9606	http://purl.obolibrary.org/obo/GO_0035194	0.3363020227422112	0.5614597640821489	0.1846183027802885	uncertain	implausible
+miRNA-KG	miRNA-located in-GO	https://rnacentral.org/rna/URS00000AF93C_9606	http://purl.obolibrary.org/obo/GO_0048468	0.2561753707201342	0.5614597640821489	0.1846183027802885	uncertain	implausible
+miRNA-KG	miRNA-located in-GO	https://rnacentral.org/rna/URS00003380C1_9606	http://purl.obolibrary.org/obo/GO_0006915	0.191896276551353	0.5614597640821489	0.1846183027802885	uncertain	implausible
+miRNA-KG	miRNA-located in-GO	https://rnacentral.org/rna/URS00001383CF_9606	http://purl.obolibrary.org/obo/GO_0006915	0.21242248686901	0.5614597640821489	0.1846183027802885	uncertain	implausible
+miRNA-KG	miRNA-located in-GO	https://rnacentral.org/rna/URS000019F055_9606	http://purl.obolibrary.org/obo/GO_0006915	0.2531101395735087	0.5614597640821489	0.1846183027802885	uncertain	implausible
+miRNA-KG	miRNA-located in-GO	https://rnacentral.org/rna/URS000019907A_9606	http://purl.obolibrary.org/obo/GO_0006915	0.2073728077729813	0.5614597640821489	0.1846183027802885	uncertain	implausible
+miRNA-KG	miRNA-located in-GO	https://rnacentral.org/rna/URS0000237FB8_9606	http://purl.obolibrary.org/obo/GO_0006915	0.2111027024211823	0.5614597640821489	0.1846183027802885	uncertain	implausible
+miRNA-KG	miRNA-located in-GO	https://rnacentral.org/rna/URS0000527228_9606	http://purl.obolibrary.org/obo/GO_0006915	0.2104614796740887	0.5614597640821489	0.1846183027802885	uncertain	implausible
+miRNA-KG	miRNA-located in-GO	https://rnacentral.org/rna/URS000061AB33_9606	http://purl.obolibrary.org/obo/GO_0006914	0.191504933419931	0.5614597640821489	0.1846183027802885	uncertain	implausible
+miRNA-KG	miRNA-located in-GO	https://rnacentral.org/rna/URS000061AB33_9606	http://purl.obolibrary.org/obo/GO_0048102	0.3336230182199496	0.5614597640821489	0.1846183027802885	uncertain	implausible
+miRNA-KG	miRNA-located in-GO	https://rnacentral.org/rna/URS000009262D_9606	http://purl.obolibrary.org/obo/GO_0008283	0.2943910650172581	0.5614597640821489	0.1846183027802885	uncertain	implausible
+miRNA-KG	miRNA-located in-GO	https://rnacentral.org/rna/URS0000574A2C_9606	http://purl.obolibrary.org/obo/GO_0006915	0.2157430026916308	0.5614597640821489	0.1846183027802885	uncertain	implausible
+miRNA-KG	miRNA-has function-GO	https://rnacentral.org/rna/URS0000237FB8_9606	http://purl.obolibrary.org/obo/GO_0006915	0.3693388753173967	0.511395274843389	0.1488396749092269	uncertain	plausible
+miRNA-KG	miRNA-has function-GO	https://rnacentral.org/rna/URS000019F055_9606	http://purl.obolibrary.org/obo/GO_0006915	0.5112883241749964	0.511395274843389	0.1488396749092269	uncertain	plausible
+miRNA-KG	miRNA-participates in-GO	https://rnacentral.org/rna/URS000009262D_9606	http://purl.obolibrary.org/obo/GO_0019725	0.2020940949627823	0.9771257350242406	0.2050667272631361	implausible	plausible
+miRNA-KG	miRNA-participates in-GO	https://rnacentral.org/rna/URS00000AF93C_9606	http://purl.obolibrary.org/obo/GO_0048468	0.2003495692396335	0.9771257350242406	0.2050667272631361	implausible	plausible
+miRNA-KG	miRNA-participates in-GO	https://rnacentral.org/rna/URS000022EC48_9606	http://purl.obolibrary.org/obo/GO_0035194	0.3932248229899311	0.9771257350242406	0.2050667272631361	uncertain	plausible
+miRNA-KG	miRNA-participates in-GO	https://rnacentral.org/rna/URS0000597BED_9606	http://purl.obolibrary.org/obo/GO_0006915	0.9934540850229252	0.9771257350242406	0.2050667272631361	plausible	plausible
+miRNA-KG	miRNA-participates in-GO	https://rnacentral.org/rna/URS00002E92A8_9606	http://purl.obolibrary.org/obo/GO_0007049	0.9918432216064444	0.9771257350242406	0.2050667272631361	plausible	plausible
+miRNA-KG	miRNA-participates in-GO	https://rnacentral.org/rna/URS000061AB33_9606	http://purl.obolibrary.org/obo/GO_0006914	0.9904079182102844	0.9771257350242406	0.2050667272631361	plausible	plausible
+miRNA-KG	miRNA-participates in-GO	https://rnacentral.org/rna/URS00001383CF_9606	http://purl.obolibrary.org/obo/GO_0006915	0.99590415103148	0.9771257350242406	0.2050667272631361	plausible	plausible
+miRNA-KG	miRNA-participates in-GO	https://rnacentral.org/rna/URS00001123BD_9606	http://purl.obolibrary.org/obo/GO_0048468	0.9941049699862716	0.9771257350242406	0.2050667272631361	plausible	plausible
+miRNA-KG	miRNA-participates in-GO	https://rnacentral.org/rna/URS0000076995_9606	http://purl.obolibrary.org/obo/GO_0048468	0.980556333607917	0.9771257350242406	0.2050667272631361	plausible	plausible
+miRNA-KG	miRNA-has function-GO	https://rnacentral.org/rna/URS000019907A_9606	http://purl.obolibrary.org/obo/GO_0006915	0.4284482278830009	0.511395274843389	0.1488396749092269	uncertain	plausible
+miRNA-KG	miRNA-participates in-GO	https://rnacentral.org/rna/URS00002E857A_9606	http://purl.obolibrary.org/obo/GO_0035194	0.9804488994659052	0.9771257350242406	0.2050667272631361	plausible	plausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS000026261D_9606	http://purl.obolibrary.org/obo/GO_0008283	0.105994467013826	0.5725209168951445	0.147790586100207	implausible	plausible
+miRNA-KG	miRNA-has function-GO	https://rnacentral.org/rna/URS0000010D30_9606	http://purl.obolibrary.org/obo/GO_0006954	0.364890787380237	0.511395274843389	0.1488396749092269	uncertain	plausible
+miRNA-KG	miRNA-has function-GO	https://rnacentral.org/rna/URS00003CF1AD_9606	http://purl.obolibrary.org/obo/GO_0006954	0.4639275823430602	0.511395274843389	0.1488396749092269	uncertain	plausible
+miRNA-KG	miRNA-has function-GO	https://rnacentral.org/rna/URS000058BF17_9606	http://purl.obolibrary.org/obo/GO_0006954	0.4362378612664345	0.511395274843389	0.1488396749092269	uncertain	plausible
+miRNA-KG	miRNA-has function-GO	https://rnacentral.org/rna/URS00004BF1DC_9606	http://purl.obolibrary.org/obo/GO_0001525	0.3503941201103844	0.511395274843389	0.1488396749092269	uncertain	plausible
+miRNA-KG	miRNA-has function-GO	https://rnacentral.org/rna/URS00004BF1DC_9606	http://purl.obolibrary.org/obo/GO_0097194	0.4510453438223565	0.511395274843389	0.1488396749092269	uncertain	plausible
+miRNA-KG	miRNA-has function-GO	https://rnacentral.org/rna/URS00004BF1DC_9606	http://purl.obolibrary.org/obo/GO_0006915	0.3388076522693658	0.511395274843389	0.1488396749092269	uncertain	plausible
+miRNA-KG	miRNA-has function-GO	https://rnacentral.org/rna/URS00003380C1_9606	http://purl.obolibrary.org/obo/GO_0006915	0.278045100212196	0.511395274843389	0.1488396749092269	uncertain	plausible
+miRNA-KG	miRNA-has function-GO	https://rnacentral.org/rna/URS00001383CF_9606	http://purl.obolibrary.org/obo/GO_0006915	0.3652070434463563	0.511395274843389	0.1488396749092269	uncertain	plausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS000039ED8D_9606	http://purl.obolibrary.org/obo/GO_0019725	0.1154100534598095	0.5725209168951445	0.147790586100207	implausible	plausible
+miRNA-KG	miRNA-located in-GO	https://rnacentral.org/rna/URS000026261D_9606	http://purl.obolibrary.org/obo/GO_0008283	0.211631503399243	0.5614597640821489	0.1846183027802885	uncertain	implausible
+miRNA-KG	miRNA-located in-GO	https://rnacentral.org/rna/URS00000821E0_9606	http://purl.obolibrary.org/obo/GO_0008283	0.3585604213369971	0.5614597640821489	0.1846183027802885	uncertain	implausible
+miRNA-KG	miRNA-located in-GO	https://rnacentral.org/rna/URS000026261D_9606	http://purl.obolibrary.org/obo/GO_0006915	0.1985984428449893	0.5614597640821489	0.1846183027802885	uncertain	implausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS00002F8148_9606	http://purl.obolibrary.org/obo/GO_0035196	0.3656217135443063	0.5725209168951445	0.147790586100207	uncertain	implausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS00003B7674_9606	http://purl.obolibrary.org/obo/GO_0035196	0.2234621664925294	0.5725209168951445	0.147790586100207	uncertain	implausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS00003DBD40_9606	http://purl.obolibrary.org/obo/GO_0035196	0.3096325803703253	0.5725209168951445	0.147790586100207	uncertain	implausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS00003F0B88_9606	http://purl.obolibrary.org/obo/GO_0035196	0.3154795934883594	0.5725209168951445	0.147790586100207	uncertain	implausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS0000409B45_9606	http://purl.obolibrary.org/obo/GO_0035196	0.239747455190264	0.5725209168951445	0.147790586100207	uncertain	implausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS00004BC34C_9606	http://purl.obolibrary.org/obo/GO_0035196	0.3252817179549675	0.5725209168951445	0.147790586100207	uncertain	implausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS00004BFD1E_9606	http://purl.obolibrary.org/obo/GO_0035196	0.319669003193391	0.5725209168951445	0.147790586100207	uncertain	implausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS00005918D5_9606	http://purl.obolibrary.org/obo/GO_0035196	0.3648623975699696	0.5725209168951445	0.147790586100207	uncertain	implausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS00005EB5B7_9606	http://purl.obolibrary.org/obo/GO_0035196	0.3099224651576015	0.5725209168951445	0.147790586100207	uncertain	implausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS000028D142_9606	http://purl.obolibrary.org/obo/GO_0035196	0.3636400719776639	0.5725209168951445	0.147790586100207	uncertain	implausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS000060A34C_9606	http://purl.obolibrary.org/obo/GO_0035196	0.3612685713068271	0.5725209168951445	0.147790586100207	uncertain	implausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS000075B243_9606	http://purl.obolibrary.org/obo/GO_0035196	0.3066667944675243	0.5725209168951445	0.147790586100207	uncertain	implausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS000075B982_9606	http://purl.obolibrary.org/obo/GO_0035196	0.3012359211247966	0.5725209168951445	0.147790586100207	uncertain	implausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS000075D19A_9606	http://purl.obolibrary.org/obo/GO_0035196	0.3145779512039441	0.5725209168951445	0.147790586100207	uncertain	implausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS000075DE48_9606	http://purl.obolibrary.org/obo/GO_0035196	0.3076732277183518	0.5725209168951445	0.147790586100207	uncertain	implausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS0000161522_9606	http://purl.obolibrary.org/obo/GO_0035196	0.1607648169916919	0.5725209168951445	0.147790586100207	uncertain	implausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS0000572E11_9606	http://purl.obolibrary.org/obo/GO_0035196	0.3563132712404794	0.5725209168951445	0.147790586100207	uncertain	implausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS00002E92A8_9606	http://purl.obolibrary.org/obo/GO_0006915	0.2843141520068385	0.5725209168951445	0.147790586100207	uncertain	plausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS000037C5A8_9606	http://purl.obolibrary.org/obo/GO_0006915	0.2853123611966426	0.5725209168951445	0.147790586100207	uncertain	plausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS00002E92A8_9606	http://purl.obolibrary.org/obo/GO_0007049	0.3093941721574058	0.5725209168951445	0.147790586100207	uncertain	implausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS000075A6A4_9606	http://purl.obolibrary.org/obo/GO_0035196	0.310668630824445	0.5725209168951445	0.147790586100207	uncertain	implausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS0000237CBD_9606	http://purl.obolibrary.org/obo/GO_0035196	0.3670201488558513	0.5725209168951445	0.147790586100207	uncertain	implausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS00001C04A2_9606	http://purl.obolibrary.org/obo/GO_0035196	0.3634074965912475	0.5725209168951445	0.147790586100207	uncertain	implausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS00000A07C1_9606	http://purl.obolibrary.org/obo/GO_0035196	0.2947491545026441	0.5725209168951445	0.147790586100207	uncertain	implausible
+miRNA-KG	miRNA-located in-GO	https://rnacentral.org/rna/URS000026261D_9606	http://purl.obolibrary.org/obo/GO_0006954	0.2170881702037324	0.5614597640821489	0.1846183027802885	uncertain	implausible
+miRNA-KG	miRNA-located in-GO	https://rnacentral.org/rna/URS00000821E0_9606	http://purl.obolibrary.org/obo/GO_0006954	0.4287189887021423	0.5614597640821489	0.1846183027802885	uncertain	implausible
+miRNA-KG	miRNA-located in-GO	https://rnacentral.org/rna/URS00002E92A8_9606	http://purl.obolibrary.org/obo/GO_0006915	0.2170498130112828	0.5614597640821489	0.1846183027802885	uncertain	implausible
+miRNA-KG	miRNA-located in-GO	https://rnacentral.org/rna/URS000037C5A8_9606	http://purl.obolibrary.org/obo/GO_0006915	0.2249124282220724	0.5614597640821489	0.1846183027802885	uncertain	implausible
+miRNA-KG	miRNA-located in-GO	https://rnacentral.org/rna/URS00002E92A8_9606	http://purl.obolibrary.org/obo/GO_0007049	0.3545224689008264	0.5614597640821489	0.1846183027802885	uncertain	implausible
+miRNA-KG	miRNA-located in-GO	https://rnacentral.org/rna/URS00005092C2_9606	http://purl.obolibrary.org/obo/GO_0001897	0.2146451919726722	0.5614597640821489	0.1846183027802885	uncertain	implausible
+miRNA-KG	miRNA-located in-GO	https://rnacentral.org/rna/URS00000254A6_9606	http://purl.obolibrary.org/obo/GO_0008283	0.2247964915881536	0.5614597640821489	0.1846183027802885	uncertain	implausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS000019907A_9606	http://purl.obolibrary.org/obo/GO_0006915	0.2803988520111861	0.5725209168951445	0.147790586100207	uncertain	plausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS0000237FB8_9606	http://purl.obolibrary.org/obo/GO_0006915	0.2842120519134369	0.5725209168951445	0.147790586100207	uncertain	implausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS0000527228_9606	http://purl.obolibrary.org/obo/GO_0006915	0.279265403981569	0.5725209168951445	0.147790586100207	uncertain	plausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS000061AB33_9606	http://purl.obolibrary.org/obo/GO_0006914	0.2673073545040956	0.5725209168951445	0.147790586100207	uncertain	implausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS000061AB33_9606	http://purl.obolibrary.org/obo/GO_0048102	0.3475927581914745	0.5725209168951445	0.147790586100207	uncertain	implausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS0000574A2C_9606	http://purl.obolibrary.org/obo/GO_0006915	0.2842865961883147	0.5725209168951445	0.147790586100207	uncertain	implausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS00000821E0_9606	http://purl.obolibrary.org/obo/GO_0008283	0.2251837517196414	0.5725209168951445	0.147790586100207	uncertain	plausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS000026261D_9606	http://purl.obolibrary.org/obo/GO_0006915	0.281469556065415	0.5725209168951445	0.147790586100207	uncertain	plausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS00000821E0_9606	http://purl.obolibrary.org/obo/GO_0006915	0.2858240962300615	0.5725209168951445	0.147790586100207	uncertain	plausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS000026261D_9606	http://purl.obolibrary.org/obo/GO_0006954	0.2654874614272764	0.5725209168951445	0.147790586100207	uncertain	plausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS00000821E0_9606	http://purl.obolibrary.org/obo/GO_0006954	0.4367274481712963	0.5725209168951445	0.147790586100207	uncertain	plausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS00000157F5_9606	http://purl.obolibrary.org/obo/GO_0035196	0.3637106492231613	0.5725209168951445	0.147790586100207	uncertain	implausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS0000031E12_9606	http://purl.obolibrary.org/obo/GO_0035196	0.3060761261820898	0.5725209168951445	0.147790586100207	uncertain	implausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS000004F5D8_9606	http://purl.obolibrary.org/obo/GO_0035196	0.3135556576582519	0.5725209168951445	0.147790586100207	uncertain	implausible
+miRNA-KG	miRNA-participates in-GO	https://rnacentral.org/rna/URS00003380C1_9606	http://purl.obolibrary.org/obo/GO_0097194	0.4596275503510617	0.9771257350242406	0.2050667272631361	uncertain	implausible
+miRNA-KG	miRNA-part of-GO	https://rnacentral.org/rna/URS000059273E_9606	http://purl.obolibrary.org/obo/GO_0040007	0.1106019166124567	0.5725209168951445	0.147790586100207	implausible	plausible
+Hetionet	Gene-participates-Biological_process	Gene::51475	Biological_process::GO:0008283	0.8576408549536265	0.9180237905008846	0.3872676590405491	uncertain	implausible
+Hetionet	Gene-participates-Biological_process	Gene::7157	Biological_process::GO:0097194	0.9199751465780815	0.9180237905008846	0.3872676590405491	plausible	plausible
+Hetionet	Gene-participates-Biological_process	Gene::7157	Biological_process::GO:0042254	0.9234008173581408	0.9180237905008846	0.3872676590405491	plausible	plausible
+Hetionet	Gene-participates-Biological_process	Gene::51475	Biological_process::GO:0071363	0.8549550960255787	0.9180237905008846	0.3872676590405491	uncertain	implausible
+Hetionet	Gene-participates-Biological_process	Gene::2207	Biological_process::GO:0008283	0.9529878269836444	0.9180237905008846	0.3872676590405491	plausible	implausible
+Hetionet	Gene-participates-Biological_process	Gene::2207	Biological_process::GO:0071363	0.9525167344269913	0.9180237905008846	0.3872676590405491	plausible	implausible
+Hetionet	Gene-participates-Cellular_component	Gene::4320	Cellular_component::GO:0005730	0.9711766389057996	0.9721735919850044	0.2595019558026826	uncertain	implausible
+Hetionet	Gene-participates-Biological_process	Gene::2002	Biological_process::GO:0097194	0.9243185343490417	0.9180237905008846	0.3872676590405491	plausible	implausible
+Hetionet	Gene-participates-Pathway	Gene::7422	Pathway::WP428_r79854	0.8495444744027997	0.8656691379787216	0.4095609025621949	uncertain	implausible
+Hetionet	Gene-participates-Biological_process	Gene::3759	Biological_process::GO:0040007	0.95337447164777	0.9180237905008846	0.3872676590405491	plausible	plausible
+Hetionet	Gene-participates-Biological_process	Gene::5601	Biological_process::GO:0030097	0.9328695123327536	0.9180237905008846	0.3872676590405491	plausible	plausible
+Hetionet	Gene-participates-Biological_process	Gene::284111	Biological_process::GO:0008283	0.944168035052848	0.9180237905008846	0.3872676590405491	plausible	plausible
+Hetionet	Gene-participates-Pathway	Gene::871	Pathway::WP428_r79854	0.5638922291446536	0.8656691379787216	0.4095609025621949	uncertain	implausible
+PKT-KG	Protein-located in-GO	http://purl.obolibrary.org/obo/PR_000011325	http://purl.obolibrary.org/obo/GO_0008283	0.0540499727251359	0.7109684907860846	0.3156012850939369	implausible	implausible
+PKT-KG	Protein-located in-GO	http://purl.obolibrary.org/obo/PR_000000184	http://purl.obolibrary.org/obo/GO_0006915	0.172431737320874	0.7109684907860846	0.3156012850939369	implausible	implausible
+PKT-KG	Protein-located in-GO	http://purl.obolibrary.org/obo/PR_Q13148	http://purl.obolibrary.org/obo/GO_0006338	0.0716415049859655	0.7109684907860846	0.3156012850939369	implausible	implausible
+PKT-KG	Protein-located in-GO	http://purl.obolibrary.org/obo/PR_Q13148	http://purl.obolibrary.org/obo/GO_0006412	0.0601321798509307	0.7109684907860846	0.3156012850939369	implausible	implausible
+PKT-KG	Protein-located in-GO	http://purl.obolibrary.org/obo/PR_000017549	http://purl.obolibrary.org/obo/GO_0010629	0.0232846682488754	0.7109684907860846	0.3156012850939369	implausible	implausible
+PKT-KG	Protein-located in-GO	http://purl.obolibrary.org/obo/PR_000004419	http://purl.obolibrary.org/obo/GO_0006914	0.2092542759382786	0.7109684907860846	0.3156012850939369	implausible	implausible
+PKT-KG	Protein-located in-GO	http://purl.obolibrary.org/obo/PR_Q13546	http://purl.obolibrary.org/obo/GO_0048102	0.2254886764722942	0.7109684907860846	0.3156012850939369	implausible	implausible
+PKT-KG	Protein-located in-GO	http://purl.obolibrary.org/obo/PR_Q9Y572	http://purl.obolibrary.org/obo/GO_0048102	0.2612370446133001	0.7109684907860846	0.3156012850939369	implausible	implausible
+PKT-KG	Protein-located in-GO	http://purl.obolibrary.org/obo/PR_000000184	http://purl.obolibrary.org/obo/GO_0008283	0.177549157272614	0.7109684907860846	0.3156012850939369	implausible	implausible
+PKT-KG	Protein-located in-GO	http://purl.obolibrary.org/obo/PR_P27487	http://purl.obolibrary.org/obo/GO_0016310	0.0283744948345421	0.7109684907860846	0.3156012850939369	implausible	implausible
+PKT-KG	Protein-located in-GO	http://purl.obolibrary.org/obo/PR_Q99685	http://purl.obolibrary.org/obo/GO_0016042	0.0557001385765585	0.7109684907860846	0.3156012850939369	implausible	implausible
+PKT-KG	Protein-located in-GO	http://purl.obolibrary.org/obo/PR_000008943	http://purl.obolibrary.org/obo/GO_0008283	0.1669445679477662	0.7109684907860846	0.3156012850939369	implausible	implausible
+PKT-KG	Protein-located in-GO	http://purl.obolibrary.org/obo/PR_000008943	http://purl.obolibrary.org/obo/GO_0007049	0.0939990563822295	0.7109684907860846	0.3156012850939369	implausible	implausible
+PKT-KG	Protein-located in-GO	http://purl.obolibrary.org/obo/PR_000046635	http://purl.obolibrary.org/obo/GO_0016310	0.0610072929716773	0.7109684907860846	0.3156012850939369	implausible	implausible
+PKT-KG	Protein-located in-GO	http://purl.obolibrary.org/obo/PR_Q99685	http://purl.obolibrary.org/obo/GO_0016310	0.0564891501665525	0.7109684907860846	0.3156012850939369	implausible	implausible
+PKT-KG	Protein-located in-GO	http://purl.obolibrary.org/obo/PR_000016057	http://purl.obolibrary.org/obo/GO_0006412	0.1807562828458581	0.7109684907860846	0.3156012850939369	implausible	implausible
+PKT-KG	Protein-located in-GO	http://purl.obolibrary.org/obo/PR_Q99685	http://purl.obolibrary.org/obo/GO_0006914	0.0430286265807965	0.7109684907860846	0.3156012850939369	implausible	implausible
+PKT-KG	Protein-located in-GO	http://purl.obolibrary.org/obo/PR_P42574	http://purl.obolibrary.org/obo/GO_0006915	0.0649526408180835	0.7109684907860846	0.3156012850939369	implausible	implausible
+PKT-KG	Protein-located in-GO	http://purl.obolibrary.org/obo/PR_Q9UPY5	http://purl.obolibrary.org/obo/GO_0097707	0.1524373965335141	0.7109684907860846	0.3156012850939369	implausible	implausible
+PKT-KG	Protein-located in-GO	http://purl.obolibrary.org/obo/PR_Q9NRZ9	http://purl.obolibrary.org/obo/GO_0097707	0.1822316391327215	0.7109684907860846	0.3156012850939369	implausible	implausible
+PKT-KG	Protein-located in-GO	http://purl.obolibrary.org/obo/PR_000048755	http://purl.obolibrary.org/obo/GO_0040007	0.0860624045473904	0.7109684907860846	0.3156012850939369	implausible	implausible
+PKT-KG	Protein-located in-GO	http://purl.obolibrary.org/obo/PR_000004790	http://purl.obolibrary.org/obo/GO_0042254	0.0579839490492349	0.7109684907860846	0.3156012850939369	implausible	implausible
+PKT-KG	Protein-located in-GO	http://purl.obolibrary.org/obo/PR_000016057	http://purl.obolibrary.org/obo/GO_0006338	0.1132199450887761	0.7109684907860846	0.3156012850939369	implausible	implausible
+PKT-KG	GO-regulates-GO	http://purl.obolibrary.org/obo/GO_0008283	http://purl.obolibrary.org/obo/GO_0071363	0.7884481127296114	0.758589941426224	0.270683298910668	plausible	implausible
+PKT-KG	Protein-located in-GO	http://purl.obolibrary.org/obo/PR_000017435	http://purl.obolibrary.org/obo/GO_0016055	0.1214232503982113	0.7109684907860846	0.3156012850939369	implausible	implausible
+PKT-KG	Chemical-molecularly interacts with-GO	http://purl.obolibrary.org/obo/CHEBI_17234	http://purl.obolibrary.org/obo/GO_0006914	0.8094772457371351	0.9546991674244372	0.2964841597105667	uncertain	implausible
+PKT-KG	Chemical-participates in-GO	http://purl.obolibrary.org/obo/CHEBI_16136	http://purl.obolibrary.org/obo/GO_0046323	0.4960697691012077	0.7344757167535741	0.1548967460493537	uncertain	implausible
+PKT-KG	Chemical-participates in-GO	http://purl.obolibrary.org/obo/CHEBI_15355	http://purl.obolibrary.org/obo/GO_0006956	0.5060678637692948	0.7344757167535741	0.1548967460493537	uncertain	implausible
+PKT-KG	Chemical-participates in-Pathway	http://purl.obolibrary.org/obo/CHEBI_15846	http://purl.obolibrary.org/obo/PW_0000239	0.6054929091526828	0.9023404999355366	0.3888983346737827	uncertain	implausible
+PKT-KG	Gene-participates in-Pathway	http://www.ncbi.nlm.nih.gov/gene/871	http://purl.obolibrary.org/obo/PW_0000008	0.5937816345535916	0.8707006048096153	0.4065498287081919	uncertain	implausible
+PKT-KG	Gene-participates in-Pathway	http://www.ncbi.nlm.nih.gov/gene/7422	http://purl.obolibrary.org/obo/PW_0000008	0.6362564403491521	0.8707006048096153	0.4065498287081919	uncertain	implausible
+PKT-KG	GO-negatively regulates-GO	http://purl.obolibrary.org/obo/GO_0035194	http://purl.obolibrary.org/obo/GO_0035194	0.2493267933186012	0.5894002089105674	0.2502490651251171	implausible	implausible
+PKT-KG	GO-negatively regulates-GO	http://purl.obolibrary.org/obo/GO_0000280	http://purl.obolibrary.org/obo/GO_0000917	0.2485887705598862	0.5894002089105674	0.2502490651251171	implausible	implausible
+PKT-KG	GO-positively regulates-GO	http://purl.obolibrary.org/obo/GO_0001525	http://purl.obolibrary.org/obo/GO_0097194	0.2589015106417974	0.5784981999438767	0.260534730898181	implausible	implausible
+PKT-KG	GO-positively regulates-GO	http://purl.obolibrary.org/obo/GO_0001649	http://purl.obolibrary.org/obo/GO_0006915	0.6828685155459879	0.5784981999438767	0.260534730898181	plausible	implausible
+PKT-KG	GO-positively regulates-GO	http://purl.obolibrary.org/obo/GO_0006351	http://purl.obolibrary.org/obo/GO_0010467	0.6431275110655175	0.5784981999438767	0.260534730898181	plausible	implausible
+PKT-KG	GO-positively regulates-GO	http://purl.obolibrary.org/obo/GO_0008283	http://purl.obolibrary.org/obo/GO_0007049	0.6380090059654151	0.5784981999438767	0.260534730898181	plausible	implausible
+PKT-KG	GO-regulates-GO	http://purl.obolibrary.org/obo/GO_0042730	http://purl.obolibrary.org/obo/GO_0042730	0.2436174324613658	0.758589941426224	0.270683298910668	implausible	implausible
+PKT-KG	GO-regulates-GO	http://purl.obolibrary.org/obo/GO_0008283	http://purl.obolibrary.org/obo/GO_0008283	0.7920086296803459	0.758589941426224	0.270683298910668	plausible	implausible
+PKT-KG	GO-regulates-GO	http://purl.obolibrary.org/obo/GO_0005886	http://purl.obolibrary.org/obo/GO_0009986	0.7998277233846148	0.758589941426224	0.270683298910668	plausible	implausible
+PKT-KG	GO-regulates-GO	http://purl.obolibrary.org/obo/GO_0006915	http://purl.obolibrary.org/obo/GO_0006915	0.8034376834795047	0.758589941426224	0.270683298910668	plausible	implausible
+PKT-KG	GO-regulates-GO	http://purl.obolibrary.org/obo/GO_0016049	http://purl.obolibrary.org/obo/GO_0006915	0.7803160337216543	0.758589941426224	0.270683298910668	plausible	implausible
+PKT-KG	Protein-located in-GO	http://purl.obolibrary.org/obo/PR_000048755	http://purl.obolibrary.org/obo/GO_0032502	0.0805111885103676	0.7109684907860846	0.3156012850939369	implausible	implausible
+PKT-KG	Protein-enables-GO	http://purl.obolibrary.org/obo/PR_000014190	http://purl.obolibrary.org/obo/GO_0005730	0.0997191828736865	0.9670602405295052	0.1468242052901463	implausible	implausible
+PKT-KG	Protein-located in-GO	http://purl.obolibrary.org/obo/PR_000006968	http://purl.obolibrary.org/obo/GO_0035194	0.2537631929720497	0.7109684907860846	0.3156012850939369	implausible	implausible
+PKT-KG	Protein-located in-GO	http://purl.obolibrary.org/obo/PR_000014708	http://purl.obolibrary.org/obo/GO_0001525	0.0910346358582866	0.7109684907860846	0.3156012850939369	implausible	implausible
+PKT-KG	Protein-located in-GO	http://purl.obolibrary.org/obo/PR_000005897	http://purl.obolibrary.org/obo/GO_0042730	0.2946647627858327	0.7109684907860846	0.3156012850939369	implausible	implausible
+PKT-KG	Protein-located in-GO	http://purl.obolibrary.org/obo/PR_000017568	http://purl.obolibrary.org/obo/GO_0001897	0.1488621677557079	0.7109684907860846	0.3156012850939369	implausible	implausible
+PKT-KG	Protein-located in-GO	http://purl.obolibrary.org/obo/PR_000013094	http://purl.obolibrary.org/obo/GO_0001897	0.2144074275878708	0.7109684907860846	0.3156012850939369	implausible	implausible
+PKT-KG	Protein-located in-GO	http://purl.obolibrary.org/obo/PR_000004419	http://purl.obolibrary.org/obo/GO_0001897	0.1863556641677637	0.7109684907860846	0.3156012850939369	implausible	implausible
+PKT-KG	Chemical-molecularly interacts with-GO	http://purl.obolibrary.org/obo/CHEBI_143658	http://purl.obolibrary.org/obo/GO_0097707	0.2510183717596083	0.9546991674244372	0.2964841597105667	implausible	plausible
+PKT-KG	Chemical-participates in-GO	http://purl.obolibrary.org/obo/CHEBI_145810	http://purl.obolibrary.org/obo/GO_0046323	0.3516969390845711	0.7344757167535741	0.1548967460493537	uncertain	plausible
+PKT-KG	Chemical-participates in-GO	http://purl.obolibrary.org/obo/CHEBI_16412	http://purl.obolibrary.org/obo/GO_0006954	0.2408757613970411	0.7344757167535741	0.1548967460493537	uncertain	plausible
+PKT-KG	Chemical-participates in-GO	http://purl.obolibrary.org/obo/CHEBI_27899	http://purl.obolibrary.org/obo/GO_0006915	0.2515669836202676	0.7344757167535741	0.1548967460493537	uncertain	plausible
+PKT-KG	Chemical-participates in-GO	http://purl.obolibrary.org/obo/CHEBI_143658	http://purl.obolibrary.org/obo/GO_0006915	0.1990337595249784	0.7344757167535741	0.1548967460493537	uncertain	plausible
+PKT-KG	GO-negatively regulates-GO	http://purl.obolibrary.org/obo/GO_0016310	http://purl.obolibrary.org/obo/GO_0006915	0.53965875387651	0.5894002089105674	0.2502490651251171	uncertain	plausible
+PKT-KG	GO-negatively regulates-GO	http://purl.obolibrary.org/obo/GO_0031507	http://purl.obolibrary.org/obo/GO_0010467	0.4394941078838408	0.5894002089105674	0.2502490651251171	uncertain	plausible
+PKT-KG	GO-negatively regulates-GO	http://purl.obolibrary.org/obo/GO_0005694	http://purl.obolibrary.org/obo/GO_0042254	0.3621730588532078	0.5894002089105674	0.2502490651251171	uncertain	plausible
+PKT-KG	GO-negatively regulates-GO	http://purl.obolibrary.org/obo/GO_0005694	http://purl.obolibrary.org/obo/GO_0006412	0.5557062690065718	0.5894002089105674	0.2502490651251171	uncertain	plausible
+PKT-KG	GO-negatively regulates-GO	http://purl.obolibrary.org/obo/GO_0006915	http://purl.obolibrary.org/obo/GO_0007049	0.5611594733824893	0.5894002089105674	0.2502490651251171	uncertain	plausible
+PKT-KG	Chemical-molecularly interacts with-GO	http://purl.obolibrary.org/obo/CHEBI_16240	http://purl.obolibrary.org/obo/GO_0048102	0.2575377466843877	0.9546991674244372	0.2964841597105667	implausible	plausible
+PKT-KG	GO-negatively regulates-GO	http://purl.obolibrary.org/obo/GO_0005488	http://purl.obolibrary.org/obo/GO_0030154	0.5208157852866926	0.5894002089105674	0.2502490651251171	uncertain	plausible
+PKT-KG	GO-negatively regulates-GO	http://purl.obolibrary.org/obo/GO_0006954	http://purl.obolibrary.org/obo/GO_0001525	0.5125174040088626	0.5894002089105674	0.2502490651251171	uncertain	plausible
+PKT-KG	GO-negatively regulates-GO	http://purl.obolibrary.org/obo/GO_0097194	http://purl.obolibrary.org/obo/GO_0030217	0.1951817380166745	0.5894002089105674	0.2502490651251171	implausible	plausible
+PKT-KG	GO-negatively regulates-GO	http://purl.obolibrary.org/obo/GO_0005488	http://purl.obolibrary.org/obo/GO_0035196	0.1116501862568591	0.5894002089105674	0.2502490651251171	implausible	plausible
+PKT-KG	GO-negatively regulates-GO	http://purl.obolibrary.org/obo/GO_0009056	http://purl.obolibrary.org/obo/GO_0035196	0.0632427964694002	0.5894002089105674	0.2502490651251171	implausible	plausible
+PKT-KG	GO-positively regulates-GO	http://purl.obolibrary.org/obo/GO_0016055	http://purl.obolibrary.org/obo/GO_0001525	0.6343732660860213	0.5784981999438767	0.260534730898181	plausible	plausible
+PKT-KG	GO-positively regulates-GO	http://purl.obolibrary.org/obo/GO_0006915	http://purl.obolibrary.org/obo/GO_0008283	0.5797025316500035	0.5784981999438767	0.260534730898181	plausible	plausible
+PKT-KG	GO-positively regulates-GO	http://purl.obolibrary.org/obo/GO_0007049	http://purl.obolibrary.org/obo/GO_0006915	0.6416694075679087	0.5784981999438767	0.260534730898181	plausible	plausible
+PKT-KG	GO-positively regulates-GO	http://purl.obolibrary.org/obo/GO_0006325	http://purl.obolibrary.org/obo/GO_0010467	0.6598469304040538	0.5784981999438767	0.260534730898181	plausible	plausible
+PKT-KG	GO-positively regulates-GO	http://purl.obolibrary.org/obo/GO_0019725	http://purl.obolibrary.org/obo/GO_0007049	0.6187932973609764	0.5784981999438767	0.260534730898181	plausible	plausible
+PKT-KG	GO-positively regulates-GO	http://purl.obolibrary.org/obo/GO_0016310	http://purl.obolibrary.org/obo/GO_0006915	0.6109430823481312	0.5784981999438767	0.260534730898181	plausible	plausible
+PKT-KG	GO-negatively regulates-GO	http://purl.obolibrary.org/obo/GO_0016310	http://purl.obolibrary.org/obo/GO_0016042	0.4218856813520754	0.5894002089105674	0.2502490651251171	uncertain	plausible
+PKT-KG	Protein-located in-GO	http://purl.obolibrary.org/obo/PR_000013524	http://purl.obolibrary.org/obo/GO_0001897	0.0945098392008282	0.7109684907860846	0.3156012850939369	implausible	implausible
+PKT-KG	Chemical-molecularly interacts with-GO	http://purl.obolibrary.org/obo/CHEBI_16136	http://purl.obolibrary.org/obo/GO_0046323	0.2651125984239178	0.9546991674244372	0.2964841597105667	implausible	plausible
+PKT-KG	Protein-located in-GO	http://purl.obolibrary.org/obo/PR_000048624	http://purl.obolibrary.org/obo/GO_0006915	0.0780567404494459	0.7109684907860846	0.3156012850939369	implausible	implausible
+PKT-KG	Protein-located in-GO	http://purl.obolibrary.org/obo/PR_000004617	http://purl.obolibrary.org/obo/GO_0001897	0.1227925653534467	0.7109684907860846	0.3156012850939369	implausible	implausible
+PKT-KG	Protein-located in-GO	http://purl.obolibrary.org/obo/PR_000002030	http://purl.obolibrary.org/obo/GO_0001897	0.1502584027687201	0.7109684907860846	0.3156012850939369	implausible	implausible
+PKT-KG	Protein-located in-GO	http://purl.obolibrary.org/obo/PR_000016652	http://purl.obolibrary.org/obo/GO_0001897	0.1579294606759164	0.7109684907860846	0.3156012850939369	implausible	implausible
+PKT-KG	Chemical-molecularly interacts with-GO	http://purl.obolibrary.org/obo/CHEBI_16113	http://purl.obolibrary.org/obo/GO_0009594	0.2367823591316763	0.9546991674244372	0.2964841597105667	implausible	implausible
+PKT-KG	Protein-located in-GO	http://purl.obolibrary.org/obo/PR_000005121	http://purl.obolibrary.org/obo/GO_0001897	0.1556248689700903	0.7109684907860846	0.3156012850939369	implausible	implausible
+PKT-KG	Protein-located in-GO	http://purl.obolibrary.org/obo/PR_000005264	http://purl.obolibrary.org/obo/GO_0001897	0.1536058088885059	0.7109684907860846	0.3156012850939369	implausible	implausible
+PKT-KG	Protein-located in-GO	http://purl.obolibrary.org/obo/PR_000014665	http://purl.obolibrary.org/obo/GO_0001897	0.1364835192882762	0.7109684907860846	0.3156012850939369	implausible	implausible
+PKT-KG	Protein-located in-GO	http://purl.obolibrary.org/obo/PR_000014468	http://purl.obolibrary.org/obo/GO_0001897	0.0663450058979523	0.7109684907860846	0.3156012850939369	implausible	implausible
+PKT-KG	Protein-located in-GO	http://purl.obolibrary.org/obo/PR_000014404	http://purl.obolibrary.org/obo/GO_0001897	0.0818115344860669	0.7109684907860846	0.3156012850939369	implausible	implausible
+PKT-KG	Protein-located in-GO	http://purl.obolibrary.org/obo/PR_000008704	http://purl.obolibrary.org/obo/GO_0001897	0.1662198380566181	0.7109684907860846	0.3156012850939369	implausible	implausible
+PKT-KG	Chemical-molecularly interacts with-GO	http://purl.obolibrary.org/obo/CHEBI_21891	http://purl.obolibrary.org/obo/GO_0010629	0.7581812554939844	0.9546991674244372	0.2964841597105667	uncertain	plausible
+PKT-KG	Protein-located in-GO	http://purl.obolibrary.org/obo/PR_000008689	http://purl.obolibrary.org/obo/GO_0001897	0.1104269985635034	0.7109684907860846	0.3156012850939369	implausible	implausible
+PKT-KG	Protein-located in-GO	http://purl.obolibrary.org/obo/PR_000013743	http://purl.obolibrary.org/obo/GO_0001897	0.0756391370980101	0.7109684907860846	0.3156012850939369	implausible	implausible
+PKT-KG	Protein-located in-GO	http://purl.obolibrary.org/obo/PR_000008660	http://purl.obolibrary.org/obo/GO_0010468	0.1397141149582064	0.7109684907860846	0.3156012850939369	implausible	implausible
+PKT-KG	Protein-located in-GO	http://purl.obolibrary.org/obo/PR_000046576	http://purl.obolibrary.org/obo/GO_0006955	0.0574177519094278	0.7109684907860846	0.3156012850939369	implausible	implausible
+PKT-KG	Protein-located in-GO	http://purl.obolibrary.org/obo/PR_000007597	http://purl.obolibrary.org/obo/GO_0008283	0.0563255318730262	0.7109684907860846	0.3156012850939369	implausible	implausible
+PKT-KG	Protein-located in-GO	http://purl.obolibrary.org/obo/PR_000013586	http://purl.obolibrary.org/obo/GO_0008283	0.1877456516639785	0.7109684907860846	0.3156012850939369	implausible	implausible
+PKT-KG	Protein-located in-GO	http://purl.obolibrary.org/obo/PR_000029763	http://purl.obolibrary.org/obo/GO_0006338	0.1353502443946699	0.7109684907860846	0.3156012850939369	implausible	implausible
+PKT-KG	Protein-located in-GO	http://purl.obolibrary.org/obo/PR_000010348	http://purl.obolibrary.org/obo/GO_0006915	0.0859554135589218	0.7109684907860846	0.3156012850939369	implausible	implausible
+PKT-KG	Protein-located in-GO	http://purl.obolibrary.org/obo/PR_000002307	http://purl.obolibrary.org/obo/GO_0006915	0.1983637884640619	0.7109684907860846	0.3156012850939369	implausible	implausible
+PKT-KG	Protein-located in-GO	http://purl.obolibrary.org/obo/PR_000002193	http://purl.obolibrary.org/obo/GO_0006915	0.1795119871867892	0.7109684907860846	0.3156012850939369	implausible	implausible
+PKT-KG	Protein-located in-GO	http://purl.obolibrary.org/obo/PR_000002190	http://purl.obolibrary.org/obo/GO_0016310	0.1153987454819215	0.7109684907860846	0.3156012850939369	implausible	implausible
+PKT-KG	Protein-located in-GO	http://purl.obolibrary.org/obo/PR_000030904	http://purl.obolibrary.org/obo/GO_0001897	0.2001991876691957	0.7109684907860846	0.3156012850939369	implausible	implausible
+PKT-KG	Chemical-molecularly interacts with-GO	http://purl.obolibrary.org/obo/CHEBI_50114	http://purl.obolibrary.org/obo/GO_0046323	0.2486672135172273	0.9546991674244372	0.2964841597105667	implausible	implausible
+PKT-KG	Protein-enables-GO	http://purl.obolibrary.org/obo/PR_000010348	http://purl.obolibrary.org/obo/GO_0006915	0.8032035690195554	0.9670602405295052	0.1468242052901463	uncertain	implausible
+PKT-KG	Protein-participates in-Pathway	http://purl.obolibrary.org/obo/PR_000017435	http://purl.obolibrary.org/obo/PW_0000008	0.5464770849639605	0.8928071374849194	0.3818400569691269	uncertain	plausible
+PKT-KG	GO-regulates-GO	http://purl.obolibrary.org/obo/GO_0006915	http://purl.obolibrary.org/obo/GO_0030217	0.6402082300267902	0.758589941426224	0.270683298910668	uncertain	plausible
+PKT-KG	GO-regulates-GO	http://purl.obolibrary.org/obo/GO_0006915	http://purl.obolibrary.org/obo/GO_0030316	0.2914121560670252	0.758589941426224	0.270683298910668	uncertain	plausible
+PKT-KG	GO-regulates-GO	http://purl.obolibrary.org/obo/GO_0005783	http://purl.obolibrary.org/obo/GO_0046323	0.4424511069226745	0.758589941426224	0.270683298910668	uncertain	plausible
+PKT-KG	GO-regulates-GO	http://purl.obolibrary.org/obo/GO_0097194	http://purl.obolibrary.org/obo/GO_0030217	0.3987393135191985	0.758589941426224	0.270683298910668	uncertain	plausible
+PKT-KG	GO-regulates-GO	http://purl.obolibrary.org/obo/GO_0001649	http://purl.obolibrary.org/obo/GO_0030217	0.278061630297043	0.758589941426224	0.270683298910668	uncertain	plausible
+PKT-KG	GO-regulates-GO	http://purl.obolibrary.org/obo/GO_0097194	http://purl.obolibrary.org/obo/GO_0030316	0.3092426753103009	0.758589941426224	0.270683298910668	uncertain	implausible
+PKT-KG	GO-regulates-GO	http://purl.obolibrary.org/obo/GO_0030097	http://purl.obolibrary.org/obo/GO_0030097	0.3677371875678327	0.758589941426224	0.270683298910668	uncertain	implausible
+PKT-KG	GO-regulates-GO	http://purl.obolibrary.org/obo/GO_0008283	http://purl.obolibrary.org/obo/GO_0001525	0.8012842126257071	0.758589941426224	0.270683298910668	plausible	plausible
+PKT-KG	GO-regulates-GO	http://purl.obolibrary.org/obo/GO_0001525	http://purl.obolibrary.org/obo/GO_0008283	0.8012842126257071	0.758589941426224	0.270683298910668	plausible	plausible
+PKT-KG	GO-regulates-GO	http://purl.obolibrary.org/obo/GO_0008283	http://purl.obolibrary.org/obo/GO_0006915	0.7815454805212212	0.758589941426224	0.270683298910668	plausible	plausible
+PKT-KG	GO-regulates-GO	http://purl.obolibrary.org/obo/GO_0001525	http://purl.obolibrary.org/obo/GO_0006915	0.8019069413695662	0.758589941426224	0.270683298910668	plausible	plausible
+PKT-KG	GO-regulates-GO	http://purl.obolibrary.org/obo/GO_0006915	http://purl.obolibrary.org/obo/GO_0008283	0.7815454805212212	0.758589941426224	0.270683298910668	plausible	plausible
+PKT-KG	GO-regulates-GO	http://purl.obolibrary.org/obo/GO_0006915	http://purl.obolibrary.org/obo/GO_0032964	0.2984270129692785	0.758589941426224	0.270683298910668	uncertain	plausible
+PKT-KG	GO-regulates-GO	http://purl.obolibrary.org/obo/GO_0006915	http://purl.obolibrary.org/obo/GO_0001525	0.8019069413695662	0.758589941426224	0.270683298910668	plausible	plausible
+PKT-KG	GO-regulates-GO	http://purl.obolibrary.org/obo/GO_0006914	http://purl.obolibrary.org/obo/GO_0006915	0.7839446706606994	0.758589941426224	0.270683298910668	plausible	plausible
+PKT-KG	GO-regulates-GO	http://purl.obolibrary.org/obo/GO_0006915	http://purl.obolibrary.org/obo/GO_0006914	0.7839446706606994	0.758589941426224	0.270683298910668	plausible	plausible
+PKT-KG	GO-regulates-GO	http://purl.obolibrary.org/obo/GO_0009056	http://purl.obolibrary.org/obo/GO_0035196	0.7824212089634792	0.758589941426224	0.270683298910668	plausible	plausible
+PKT-KG	GO-regulates-GO	http://purl.obolibrary.org/obo/GO_0016310	http://purl.obolibrary.org/obo/GO_0006915	0.7685733204463395	0.758589941426224	0.270683298910668	plausible	plausible
+PKT-KG	Chemical-molecularly interacts with-GO	http://purl.obolibrary.org/obo/CHEBI_17234	http://purl.obolibrary.org/obo/GO_0046323	0.2510830595862793	0.9546991674244372	0.2964841597105667	implausible	implausible
+PKT-KG	GO-regulates-GO	http://purl.obolibrary.org/obo/GO_0060307	http://purl.obolibrary.org/obo/GO_0061337	0.2607945409399749	0.758589941426224	0.270683298910668	implausible	plausible
+PKT-KG	GO-regulates-GO	http://purl.obolibrary.org/obo/GO_0097194	http://purl.obolibrary.org/obo/GO_0032964	0.2356463482073568	0.758589941426224	0.270683298910668	implausible	plausible
+PKT-KG	GO-regulates-GO	http://purl.obolibrary.org/obo/GO_0001649	http://purl.obolibrary.org/obo/GO_0030316	0.2216399483090542	0.758589941426224	0.270683298910668	implausible	plausible
+PKT-KG	GO-regulates-GO	http://purl.obolibrary.org/obo/GO_0006338	http://purl.obolibrary.org/obo/GO_0006412	0.2525759008645821	0.758589941426224	0.270683298910668	implausible	plausible
+PKT-KG	Protein-located in-GO	http://purl.obolibrary.org/obo/PR_000014230	http://purl.obolibrary.org/obo/GO_0005730	0.7202574739929167	0.7109684907860846	0.3156012850939369	plausible	plausible
+PKT-KG	Protein-located in-GO	http://purl.obolibrary.org/obo/PR_000014190	http://purl.obolibrary.org/obo/GO_0005730	0.8592460425521327	0.7109684907860846	0.3156012850939369	plausible	plausible
+PKT-KG	GO-positively regulates-GO	http://purl.obolibrary.org/obo/GO_0000280	http://purl.obolibrary.org/obo/GO_0000917	0.2438393831427409	0.5784981999438767	0.260534730898181	implausible	plausible
+PKT-KG	GO-regulates-GO	http://purl.obolibrary.org/obo/GO_0010629	http://purl.obolibrary.org/obo/GO_0010467	0.7721804512445256	0.758589941426224	0.270683298910668	plausible	plausible
+PKT-KG	GO-regulates-GO	http://purl.obolibrary.org/obo/GO_0006914	http://purl.obolibrary.org/obo/GO_0048102	0.2833899178848783	0.758589941426224	0.270683298910668	uncertain	plausible
+PKT-KG	GO-regulates-GO	http://purl.obolibrary.org/obo/GO_0007155	http://purl.obolibrary.org/obo/GO_0008283	0.7908810236640054	0.758589941426224	0.270683298910668	plausible	plausible
+PKT-KG	Protein-enables-GO	http://purl.obolibrary.org/obo/PR_000006968	http://purl.obolibrary.org/obo/GO_0035194	0.4977203070908448	0.9670602405295052	0.1468242052901463	uncertain	plausible
+PKT-KG	Protein-participates in-Pathway	http://purl.obolibrary.org/obo/PR_000007786	http://purl.obolibrary.org/obo/PW_0000239	0.5970688532115027	0.8928071374849194	0.3818400569691269	uncertain	plausible
+PKT-KG	GO-regulates-GO	http://purl.obolibrary.org/obo/GO_0005488	http://purl.obolibrary.org/obo/GO_0008283	0.5413719249555417	0.758589941426224	0.270683298910668	uncertain	plausible
+PKT-KG	Protein-enables-GO	http://purl.obolibrary.org/obo/PR_000048624	http://purl.obolibrary.org/obo/GO_0006915	0.6433901524954944	0.9670602405295052	0.1468242052901463	uncertain	implausible
+PKT-KG	Protein-enables-GO	http://purl.obolibrary.org/obo/PR_000002190	http://purl.obolibrary.org/obo/GO_0016310	0.6973757661848051	0.9670602405295052	0.1468242052901463	uncertain	implausible
+PKT-KG	Protein-enables-GO	http://purl.obolibrary.org/obo/PR_000014468	http://purl.obolibrary.org/obo/GO_0001897	0.8038182563956726	0.9670602405295052	0.1468242052901463	uncertain	implausible
+PKT-KG	Protein-enables-GO	http://purl.obolibrary.org/obo/PR_000014665	http://purl.obolibrary.org/obo/GO_0001897	0.5503115015094077	0.9670602405295052	0.1468242052901463	uncertain	implausible
+PKT-KG	Protein-enables-GO	http://purl.obolibrary.org/obo/PR_000005264	http://purl.obolibrary.org/obo/GO_0001897	0.7416005946128779	0.9670602405295052	0.1468242052901463	uncertain	implausible
+PKT-KG	Protein-enables-GO	http://purl.obolibrary.org/obo/PR_000005121	http://purl.obolibrary.org/obo/GO_0001897	0.681005504429111	0.9670602405295052	0.1468242052901463	uncertain	implausible
+PKT-KG	Protein-enables-GO	http://purl.obolibrary.org/obo/PR_000013094	http://purl.obolibrary.org/obo/GO_0001897	0.5151841717047858	0.9670602405295052	0.1468242052901463	uncertain	implausible
+PKT-KG	Protein-enables-GO	http://purl.obolibrary.org/obo/PR_000016652	http://purl.obolibrary.org/obo/GO_0001897	0.6938991890797691	0.9670602405295052	0.1468242052901463	uncertain	implausible
+PKT-KG	Protein-enables-GO	http://purl.obolibrary.org/obo/PR_000002030	http://purl.obolibrary.org/obo/GO_0001897	0.6637260503804194	0.9670602405295052	0.1468242052901463	uncertain	implausible
+PKT-KG	Protein-enables-GO	http://purl.obolibrary.org/obo/PR_000004617	http://purl.obolibrary.org/obo/GO_0001897	0.8314175099569479	0.9670602405295052	0.1468242052901463	uncertain	implausible
+PKT-KG	Protein-enables-GO	http://purl.obolibrary.org/obo/PR_000004419	http://purl.obolibrary.org/obo/GO_0001897	0.572005503960641	0.9670602405295052	0.1468242052901463	uncertain	implausible
+PKT-KG	Protein-enables-GO	http://purl.obolibrary.org/obo/PR_000013524	http://purl.obolibrary.org/obo/GO_0001897	0.7498366567761163	0.9670602405295052	0.1468242052901463	uncertain	implausible
+PKT-KG	GO-regulates-GO	http://purl.obolibrary.org/obo/GO_0023052	http://purl.obolibrary.org/obo/GO_0032502	0.787651936773704	0.758589941426224	0.270683298910668	plausible	plausible
+PKT-KG	Protein-enables-GO	http://purl.obolibrary.org/obo/PR_000048755	http://purl.obolibrary.org/obo/GO_0032502	0.6275307275264217	0.9670602405295052	0.1468242052901463	uncertain	implausible
+PKT-KG	Protein-enables-GO	http://purl.obolibrary.org/obo/PR_000010348	http://purl.obolibrary.org/obo/GO_0010629	0.8245669792684613	0.9670602405295052	0.1468242052901463	uncertain	plausible
+PKT-KG	Protein-enables-GO	http://purl.obolibrary.org/obo/PR_000017568	http://purl.obolibrary.org/obo/GO_0001897	0.5922495064605338	0.9670602405295052	0.1468242052901463	uncertain	implausible
+PKT-KG	Protein-enables-GO	http://purl.obolibrary.org/obo/PR_000014708	http://purl.obolibrary.org/obo/GO_0001525	0.7559032444556077	0.9670602405295052	0.1468242052901463	uncertain	plausible
+PKT-KG	Protein-enables-GO	http://purl.obolibrary.org/obo/PR_000004419	http://purl.obolibrary.org/obo/GO_0006914	0.5267636588120934	0.9670602405295052	0.1468242052901463	uncertain	plausible
+PKT-KG	Protein-enables-GO	http://purl.obolibrary.org/obo/PR_Q13546	http://purl.obolibrary.org/obo/GO_0048102	0.6191601119192611	0.9670602405295052	0.1468242052901463	uncertain	implausible
+PKT-KG	Protein-enables-GO	http://purl.obolibrary.org/obo/PR_Q9Y572	http://purl.obolibrary.org/obo/GO_0048102	0.6002995807594347	0.9670602405295052	0.1468242052901463	uncertain	implausible
+PKT-KG	Protein-enables-GO	http://purl.obolibrary.org/obo/PR_000017549	http://purl.obolibrary.org/obo/GO_0010629	0.88143691867876	0.9670602405295052	0.1468242052901463	uncertain	plausible
+PKT-KG	Protein-enables-GO	http://purl.obolibrary.org/obo/PR_000000005	http://purl.obolibrary.org/obo/GO_0006915	0.6380645627568081	0.9670602405295052	0.1468242052901463	uncertain	implausible
+PKT-KG	Protein-enables-GO	http://purl.obolibrary.org/obo/PR_000000184	http://purl.obolibrary.org/obo/GO_0008283	0.6424285149363497	0.9670602405295052	0.1468242052901463	uncertain	implausible
+PKT-KG	Protein-enables-GO	http://purl.obolibrary.org/obo/PR_000000184	http://purl.obolibrary.org/obo/GO_0006915	0.6418064480980799	0.9670602405295052	0.1468242052901463	uncertain	plausible
+PKT-KG	Protein-enables-GO	http://purl.obolibrary.org/obo/PR_P27487	http://purl.obolibrary.org/obo/GO_0016310	0.8154658828684364	0.9670602405295052	0.1468242052901463	uncertain	implausible
+PKT-KG	Protein-enables-GO	http://purl.obolibrary.org/obo/PR_000048755	http://purl.obolibrary.org/obo/GO_0040007	0.6088879564085511	0.9670602405295052	0.1468242052901463	uncertain	implausible
+PKT-KG	Protein-enables-GO	http://purl.obolibrary.org/obo/PR_000000005	http://purl.obolibrary.org/obo/GO_0008283	0.5842851102432892	0.9670602405295052	0.1468242052901463	uncertain	implausible
+PrimeKG	Biological_process-interacts with-Gene_and_or_protein	GO::10629	NCBI::79671	0.989651094617472	0.9650906233914494	0.3646550403461955	plausible	plausible
+PrimeKG	Biological_process-interacts with-Gene_and_or_protein	GO::6954	NCBI::5265	0.9900978059260132	0.9650906233914494	0.3646550403461955	plausible	plausible
+PrimeKG	Biological_process-interacts with-Gene_and_or_protein	GO::97194	NCBI::3800	0.967037603862887	0.9650906233914494	0.3646550403461955	plausible	plausible
+PrimeKG	Biological_process-interacts with-Gene_and_or_protein	GO::6915	NCBI::4320	0.9829965995320468	0.9650906233914494	0.3646550403461955	plausible	plausible
+PrimeKG	Biological_process-interacts with-Gene_and_or_protein	GO::51726	NCBI::4320	0.987854616055526	0.9650906233914494	0.3646550403461955	plausible	plausible
+PrimeKG	Biological_process-interacts with-Gene_and_or_protein	GO::30097	NCBI::5601	0.989989000589204	0.9650906233914494	0.3646550403461955	plausible	plausible
+PrimeKG	Biological_process-interacts with-Gene_and_or_protein	GO::6915	NCBI::2296	0.9797952374645637	0.9650906233914494	0.3646550403461955	plausible	plausible
+PrimeKG	Biological_process-interacts with-Gene_and_or_protein	GO::8283	NCBI::11282	0.9762888378389308	0.9650906233914494	0.3646550403461955	plausible	plausible
+PrimeKG	Biological_process-interacts with-Gene_and_or_protein	GO::6915	NCBI::8841	0.9884432839938256	0.9650906233914494	0.3646550403461955	plausible	plausible
+PrimeKG	Biological_process-interacts with-Gene_and_or_protein	GO::6914	NCBI::834	0.98914215673897	0.9650906233914494	0.3646550403461955	plausible	plausible
+PrimeKG	Biological_process-interacts with-Gene_and_or_protein	GO::6915	NCBI::834	0.9888827298720532	0.9650906233914494	0.3646550403461955	plausible	plausible
+PrimeKG	Biological_process-interacts with-Gene_and_or_protein	GO::6338	NCBI::3977	0.98308062540149	0.9650906233914494	0.3646550403461955	plausible	plausible
+PrimeKG	Biological_process-interacts with-Gene_and_or_protein	GO::97194	NCBI::2002	0.9685914031001416	0.9650906233914494	0.3646550403461955	plausible	plausible
+PrimeKG	Biological_process-interacts with-Gene_and_or_protein	GO::6915	NCBI::6392	0.9886869036088652	0.9650906233914494	0.3646550403461955	plausible	plausible
+PrimeKG	Biological_process-interacts with-Gene_and_or_protein	GO::6915	NCBI::8662	0.9876751430777352	0.9650906233914494	0.3646550403461955	plausible	plausible
+PrimeKG	Biological_process-interacts with-Gene_and_or_protein	GO::7155	NCBI::2207	0.9868917650396064	0.9650906233914494	0.3646550403461955	plausible	plausible
+PrimeKG	Biological_process-interacts with-Gene_and_or_protein	GO::8283	NCBI::2207	0.9852763123138596	0.9650906233914494	0.3646550403461955	plausible	plausible
+PrimeKG	Biological_process-interacts with-Gene_and_or_protein	GO::6915	NCBI::11282	0.9771170921759278	0.9650906233914494	0.3646550403461955	plausible	plausible
+PrimeKG	Biological_process-interacts with-Gene_and_or_protein	GO::30097	NCBI::407975	0.985913001657946	0.9650906233914494	0.3646550403461955	plausible	plausible
+PrimeKG	Biological_process-interacts with-Gene_and_or_protein	GO::8283	NCBI::51475	0.9418123455085364	0.9650906233914494	0.3646550403461955	uncertain	plausible
+PrimeKG	Biological_process-interacts with-Gene_and_or_protein	GO::97194	NCBI::7157	0.9790472300103044	0.9650906233914494	0.3646550403461955	plausible	plausible
+PrimeKG	Biological_process-interacts with-Gene_and_or_protein	GO::6915	NCBI::8972	0.9527702855107674	0.9650906233914494	0.3646550403461955	uncertain	implausible
+PrimeKG	Biological_process-interacts with-Gene_and_or_protein	GO::7049	NCBI::284111	0.937603400818962	0.9650906233914494	0.3646550403461955	uncertain	implausible
+PrimeKG	Biological_process-interacts with-Gene_and_or_protein	GO::8283	NCBI::494150	0.961671569670528	0.9650906233914494	0.3646550403461955	uncertain	implausible
+PrimeKG	Biological_process-interacts with-Gene_and_or_protein	GO::7155	NCBI::51475	0.9536175838501786	0.9650906233914494	0.3646550403461955	uncertain	implausible
+PrimeKG	Biological_process-interacts with-Gene_and_or_protein	GO::71363	NCBI::51475	0.9421845016622196	0.9650906233914494	0.3646550403461955	uncertain	implausible
+PrimeKG	Biological_process-interacts with-Gene_and_or_protein	GO::16055	NCBI::871	0.9823019190753948	0.9650906233914494	0.3646550403461955	plausible	implausible
+PrimeKG	Cellular_component-interacts with-Gene_and_or_protein	GO::5730	NCBI::4320	0.9785929394792654	0.9844151416500942	0.2631229441648463	uncertain	implausible
+PrimeKG	Cellular_component-interacts with-Gene_and_or_protein	GO::5737	NCBI::8972	0.9573546204350324	0.9844151416500942	0.2631229441648463	uncertain	implausible
+PrimeKG	Biological_process-interacts with-Gene_and_or_protein	GO::97194	NCBI::54790	0.9777121556746184	0.9650906233914494	0.3646550403461955	plausible	plausible
+PrimeKG	Gene_and_or_protein-interacts with-Molecular_function	NCBI::11282	GO::5488	0.6814793264897658	0.9949664524112471	0.2639946700777909	uncertain	implausible
+PrimeKG	Gene_and_or_protein-interacts with-Pathway	NCBI::871	REACTOME::R-HSA-195721	0.3928725462873798	0.9684479087049014	0.2741692565163821	uncertain	implausible
+PrimeKG	Biological_process-interacts with-Exposure	GO::46323	CTD::D000431	0.7915784313971586	0.9409261219664622	0.3495337031674085	uncertain	plausible
+PrimeKG	Biological_process-interacts with-Gene_and_or_protein	GO::16055	NCBI::7422	0.9824383030570564	0.9650906233914494	0.3646550403461955	plausible	plausible
+PrimeKG	Biological_process-interacts with-Gene_and_or_protein	GO::8283	NCBI::284111	0.9579529579568432	0.9650906233914494	0.3646550403461955	uncertain	plausible
+PrimeKG	Biological_process-interacts with-Gene_and_or_protein	GO::97707	NCBI::10020	0.6225715124947597	0.9650906233914494	0.3646550403461955	uncertain	plausible
+PrimeKG	Biological_process-interacts with-Gene_and_or_protein	GO::1525	NCBI::871	0.988609496761383	0.9650906233914494	0.3646550403461955	plausible	plausible
+PrimeKG	Biological_process-interacts with-Gene_and_or_protein	GO::6954	NCBI::114614	0.9850909787648904	0.9650906233914494	0.3646550403461955	plausible	plausible
+PrimeKG	Biological_process-interacts with-Gene_and_or_protein	GO::8283	NCBI::7157	0.9900912747962264	0.9650906233914494	0.3646550403461955	plausible	plausible
+PrimeKG	Gene_and_or_protein-interacts with-Molecular_function	NCBI::8972	GO::5488	0.7487839457665406	0.9949664524112471	0.2639946700777909	uncertain	implausible
+PrimeKG	Gene_and_or_protein-interacts with-Molecular_function	NCBI::5265	GO::5488	0.7987636884216827	0.9949664524112471	0.2639946700777909	uncertain	implausible
+PrimeKG	Gene_and_or_protein-interacts with-Pathway	NCBI::7422	REACTOME::R-HSA-195721	0.4002157724798744	0.9684479087049014	0.2741692565163821	uncertain	plausible
+PrimeKG	Biological_process-interacts with-Gene_and_or_protein	GO::71363	NCBI::2207	0.9794383883816742	0.9650906233914494	0.3646550403461955	plausible	plausible
+OptimusKG	Biological_process-interacts with-Gene	GO_0007049	ENSG00000141485	0.6677591084314037	0.9818492473495866	0.2907143587988353	uncertain	plausible
+OptimusKG	Biological_process-interacts with-Gene	GO_0009056	ENSG00000099953	0.8033991595902445	0.9818492473495866	0.2907143587988353	uncertain	plausible
+OptimusKG	Biological_process-interacts with-Gene	GO_0097707	ENSG00000141510	0.8260175153595486	0.9818492473495866	0.2907143587988353	uncertain	plausible
+OptimusKG	Biological_process-interacts with-Gene	GO_0097194	ENSG00000126767	0.9771933055488996	0.9818492473495866	0.2907143587988353	uncertain	plausible
+OptimusKG	Biological_process-interacts with-Gene	GO_0006914	ENSG00000137752	0.9981630600793924	0.9818492473495866	0.2907143587988353	plausible	plausible
+OptimusKG	Biological_process-interacts with-Gene	GO_0016055	ENSG00000112715	0.9938080197362862	0.9818492473495866	0.2907143587988353	plausible	plausible
+OptimusKG	Cellular_component-interacts with-Gene	GO_0005730	ENSG00000099953	0.9675974778432204	0.980193055924356	0.2874914575452398	uncertain	implausible
+OptimusKG	Biological_process-interacts with-Gene	GO_0016055	ENSG00000149257	0.9960568897496912	0.9818492473495866	0.2907143587988353	plausible	implausible
+OptimusKG	Biological_process-interacts with-Gene	GO_0097707	ENSG00000159921	0.7696982855523731	0.9818492473495866	0.2907143587988353	uncertain	implausible
+OptimusKG	Biological_process-interacts with-Gene	GO_0008283	ENSG00000267597	0.538786015014334	0.9818492473495866	0.2907143587988353	uncertain	implausible
+OptimusKG	Biological_process-interacts with-Gene	GO_0006915	ENSG00000267589	0.6813102299153196	0.9818492473495866	0.2907143587988353	uncertain	implausible
+OptimusKG	Biological_process-interacts with-Gene	GO_0006914	ENSG00000267589	0.7931177415546569	0.9818492473495866	0.2907143587988353	uncertain	implausible
+OptimusKG	Biological_process-interacts with-Gene	GO_0019725	ENSG00000267597	0.4319665078297	0.9818492473495866	0.2907143587988353	uncertain	plausible
+OptimusKG	Biological_process-interacts with-Gene	GO_0097707	ENSG00000099953	0.7612718659869293	0.9818492473495866	0.2907143587988353	uncertain	implausible
+OptimusKG	Biological_process-interacts with-Gene	GO_0032964	ENSG00000160868	0.9097363338574868	0.9818492473495866	0.2907143587988353	uncertain	implausible
+OptimusKG	Biological_process-interacts with-Gene	GO_0097194	ENSG00000168769	0.9589004288377536	0.9818492473495866	0.2907143587988353	uncertain	implausible
+OptimusKG	Biological_process-interacts with-Gene	GO_0009056	ENSG00000141510	0.8394437319835699	0.9818492473495866	0.2907143587988353	uncertain	implausible
+OptimusKG	Biological_process-interacts with-Gene	GO_0040007	ENSG00000123700	0.7232851004976014	0.9818492473495866	0.2907143587988353	uncertain	implausible
+OptimusKG	Biological_process-interacts with-Gene	GO_0040007	ENSG00000152661	0.7830359586686729	0.9818492473495866	0.2907143587988353	uncertain	implausible
+OptimusKG	Biological_process-interacts with-Gene	GO_0007049	ENSG00000267597	0.2720886344835429	0.9818492473495866	0.2907143587988353	implausible	implausible
+OptimusKG	Biological_process-interacts with-Gene	GO_0016049	ENSG00000267597	0.2559666692709643	0.9818492473495866	0.2907143587988353	implausible	implausible
+OptimusKG	Pathway-interacts with-Gene	REACT:R-HSA-195721	ENSG00000112715	0.4414739018818823	0.969958641388574	0.2779092891873225	uncertain	plausible
+OptimusKG	Pathway-interacts with-Gene	REACT:R-HSA-195721	ENSG00000149257	0.3754979281192614	0.969958641388574	0.2779092891873225	uncertain	implausible
+OptimusKG	Molecular_function-interacts with-Gene	GO_0005488	ENSG00000257335	0.5941525905370516	0.986895087669001	0.3775681430548144	uncertain	implausible
+OptimusKG	Molecular_function-interacts with-Gene	GO_0005488	ENSG00000161013	0.6083096879629946	0.986895087669001	0.3775681430548144	uncertain	implausible
+OptimusKG	Molecular_function-interacts with-Gene	GO_0005488	ENSG00000197249	0.6062848416096671	0.986895087669001	0.3775681430548144	uncertain	implausible
+OptimusKG	Biological_process-interacts with-Gene	GO_0097194	ENSG00000168280	0.9247853564276598	0.9818492473495866	0.2907143587988353	uncertain	implausible
+OptimusKG	Biological_process-interacts with-Gene	GO_0008283	ENSG00000257246	0.4815400470879993	0.9818492473495866	0.2907143587988353	uncertain	plausible
+OptimusKG	Cellular_component-interacts with-Gene	GO_0005737	ENSG00000257335	0.9951058421466784	0.980193055924356	0.2874914575452398	plausible	plausible
+OptimusKG	Biological_process-interacts with-Gene	GO_0001525	ENSG00000149257	0.9973186024455556	0.9818492473495866	0.2907143587988353	plausible	plausible
+OptimusKG	Cellular_component-interacts with-Gene	GO_0005737	ENSG00000161013	0.989677188441782	0.980193055924356	0.2874914575452398	plausible	plausible
+OptimusKG	Biological_process-interacts with-Gene	GO_0071363	ENSG00000158869	0.9953328337212684	0.9818492473495866	0.2907143587988353	plausible	plausible
+OptimusKG	Biological_process-interacts with-Gene	GO_0008283	ENSG00000158869	0.9962190844410796	0.9818492473495866	0.2907143587988353	plausible	plausible
+OptimusKG	Biological_process-interacts with-Gene	GO_0007155	ENSG00000158869	0.9967973740001164	0.9818492473495866	0.2907143587988353	plausible	plausible
+OptimusKG	Biological_process-interacts with-Gene	GO_0007155	ENSG00000167791	0.9838655853914188	0.9818492473495866	0.2907143587988353	plausible	plausible
+OptimusKG	Biological_process-interacts with-Gene	GO_0006915	ENSG00000106263	0.993468573163874	0.9818492473495866	0.2907143587988353	plausible	plausible
+OptimusKG	Biological_process-interacts with-Gene	GO_0006915	ENSG00000204370	0.9968901310763506	0.9818492473495866	0.2907143587988353	plausible	plausible
+OptimusKG	Biological_process-interacts with-Gene	GO_0006915	ENSG00000171720	0.9976662536508664	0.9818492473495866	0.2907143587988353	plausible	plausible
+OptimusKG	Biological_process-interacts with-Gene	GO_0006338	ENSG00000113594	0.9948483166402458	0.9818492473495866	0.2907143587988353	plausible	plausible
+OptimusKG	Biological_process-interacts with-Gene	GO_0008283	ENSG00000141485	0.9873630238552538	0.9818492473495866	0.2907143587988353	plausible	plausible
+OptimusKG	Biological_process-interacts with-Gene	GO_0006915	ENSG00000257335	0.9977404111129842	0.9818492473495866	0.2907143587988353	plausible	plausible
+OptimusKG	Biological_process-interacts with-Gene	GO_0008283	ENSG00000257335	0.9974061765791256	0.9818492473495866	0.2907143587988353	plausible	plausible
+OptimusKG	Biological_process-interacts with-Gene	GO_0006915	ENSG00000161013	0.9966962110870686	0.9818492473495866	0.2907143587988353	plausible	plausible
+OptimusKG	Biological_process-interacts with-Gene	GO_0008283	ENSG00000161013	0.9930367702114196	0.9818492473495866	0.2907143587988353	plausible	plausible
+OptimusKG	Biological_process-interacts with-Gene	GO_0010629	ENSG00000160703	0.9933506083336624	0.9818492473495866	0.2907143587988353	plausible	plausible
+OptimusKG	Biological_process-interacts with-Gene	GO_0006915	ENSG00000054598	0.998712046744388	0.9818492473495866	0.2907143587988353	plausible	plausible
+OptimusKG	Biological_process-interacts with-Gene	GO_0030097	ENSG00000050748	0.99630954718023	0.9818492473495866	0.2907143587988353	plausible	plausible
+OptimusKG	Biological_process-interacts with-Gene	GO_0042254	ENSG00000099953	0.9930326833372602	0.9818492473495866	0.2907143587988353	plausible	plausible
+OptimusKG	Biological_process-interacts with-Gene	GO_0051726	ENSG00000099953	0.9969459854332045	0.9818492473495866	0.2907143587988353	plausible	plausible
+OptimusKG	Biological_process-interacts with-Gene	GO_0006915	ENSG00000099953	0.997073229934628	0.9818492473495866	0.2907143587988353	plausible	plausible
+OptimusKG	Biological_process-interacts with-Gene	GO_0006954	ENSG00000197249	0.9995066957819334	0.9818492473495866	0.2907143587988353	plausible	plausible
+OptimusKG	Biological_process-interacts with-Gene	GO_0046323	ENSG00000136244	0.984264711826336	0.9818492473495866	0.2907143587988353	plausible	plausible
+OptimusKG	Biological_process-interacts with-Gene	GO_0030097	ENSG00000215417	0.9869107647482868	0.9818492473495866	0.2907143587988353	plausible	plausible
+OptimusKG	Biological_process-interacts with-Gene	GO_0097194	ENSG00000138336	0.9942987970756368	0.9818492473495866	0.2907143587988353	plausible	plausible
+OptimusKG	Biological_process-interacts with-Gene	GO_0042254	ENSG00000141510	0.9894912005653472	0.9818492473495866	0.2907143587988353	plausible	plausible
+OptimusKG	Biological_process-interacts with-Gene	GO_0097194	ENSG00000141510	0.9962362080632354	0.9818492473495866	0.2907143587988353	plausible	plausible
+OptimusKG	Biological_process-interacts with-Gene	GO_0006954	ENSG00000234883	0.997255531442881	0.9818492473495866	0.2907143587988353	plausible	plausible
+OptimusKG	Exposure-interacts with-Biological_process	MESH:D000431	GO_0046323	0.6708711200097763	0.9248982865109724	0.3849872405638062	uncertain	plausible
+OptimusKG	Biological_process-interacts with-Gene	GO_0008283	ENSG00000167791	0.9658529010382416	0.9818492473495866	0.2907143587988353	uncertain	plausible
