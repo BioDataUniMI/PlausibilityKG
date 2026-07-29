@@ -66,7 +66,7 @@ The currently supported bioKGs are:
 - [OptimusKG](https://doi.org/10.48550/arXiv.2604.27269)
 
 ## Case Study
-You can find the case study that is mentioned in the article [here](case_study.tsv)
+You can find the case study that is mentioned in the article [here](case_study.tsv).
 
 ## Project structure
 
