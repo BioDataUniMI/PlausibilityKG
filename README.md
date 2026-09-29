@@ -15,6 +15,7 @@ Given a bioKG, such as Hetionet or PrimeKG, and one of its schema facts, such as
 
 2. **Generate negative examples**
    - Generate negative edges using one of the strategies implemented in [`plausibility/strategies.py`](plausibility/strategies.py), including the community-based sampling presented in the article.
+   - Community-based sampling supports multiple community-detection backends: Louvain (`community_based_negative_sampling`), Markov Clustering (`community_based_negative_sampling_mcl`), and DBSCAN over the KG's node embeddings (`community_based_negative_sampling_dbscan`).
    - Alternatively, load a previously generated negative set from:
 
      ```text
@@ -41,7 +42,7 @@ Given a bioKG, such as Hetionet or PrimeKG, and one of its schema facts, such as
      - specificity;
      - F-beta score;
      - error-beta score (as described in the article).
-   - Optionally, hold out a blind set containing 10% of the observed positive edges. Blind positive edges are excluded from training and model selection and are subsequently used to evaluate plausibility on unseen positive facts (it is useful for replicating experiments in the article).
+   - Optionally, hold out a blind set of 10% of the positive edges (`blind_test_pos`) and/or 10% of the generated negatives (`blind_test_neg`). Both holdouts are removed *before* embeddings are computed and before training/model selection, so neither the embeddings nor the classifier ever see them. They are later used to evaluate plausibility on unseen facts (useful for replicating experiments in the article).
 
 6. **Compute plausibility scores**
    - Use the trained relation-specific classifiers to estimate the plausibility of candidate biomedical annotations. Estimates can be computed according to the Base, Gain, SoftMax, and COmbo formulations presented in the article.
@@ -119,12 +120,12 @@ To run an experiment:
        relation="Disease - associates - Gene",
        strategy=community_based_negative_sampling,
        strategy_name="c-b-n-s",
-       name_view_graph="Hetionet",
+       name_kg="Hetionet",
        embedding_name="transe",
        parameter_model_selection="error_beta_score_1",
        dump=True,
-       load_embedding=True,
-       blind_test=True,
+       blind_test_pos=True,
+       blind_test_neg=True,
    )
    ```
 
@@ -141,12 +142,13 @@ To run an experiment:
 | `relation` | Target schema fact, for example `Disease - associates - Gene` |
 | `strategy` | Negative-sampling function |
 | `strategy_name` | Short identifier used to cache and retrieve generated negatives |
-| `name_view_graph` | BioKG to use: `PKT-KG`, `miRNA-KG`, `Hetionet`, `PrimeKG`, or `OptimusKG` |
+| `name_kg` | BioKG to use: `PKT-KG`, `miRNA-KG`, `Hetionet`, `PrimeKG`, or `OptimusKG` |
 | `embedding_name` | Embedding method: `transe`, `node2vec`, `complex`, `transh`, `distmult`, or `rotate` |
 | `parameter_model_selection` | Metric used during classifier model selection |
-| `load_embedding` | Reuse a cached embedding instead of recomputing it |
+| `load_embedding` | Reuse a cached embedding instead of recomputing it (mutually exclusive with `blind_test_pos`) |
 | `dump` | Save the trained classifier |
-| `blind_test` | Hold out 10% of positive edges for the blind plausibility evaluation used in the article |
+| `blind_test_pos` | Hold out 10% of positive edges *before* embeddings/training, for blind plausibility evaluation |
+| `blind_test_neg` | Hold out 10% of generated negatives *before* training, symmetric to `blind_test_pos` |
 
 Experimental metrics and trained models are written to:
 
