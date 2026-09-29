@@ -159,14 +159,12 @@ def apply_node2vec(nx_graph: nx.MultiDiGraph, path = ''):
 
 def apply_strategy(graph: nx.MultiDiGraph, strategy ,positives,type_src,type_dst,name_kg = None,embeddings_path = None,load_pred_negs = False):
     if not load_pred_negs:
-        # Some strategies (e.g. embedding-based community detection) need to know which KG
-        # they're running on so they can load the matching stored node embeddings.
+        # some strategies (e.g. DBSCAN) need the KG name to load stored embeddings
         kwargs = {}
         strategy_params = inspect.signature(strategy).parameters
         if 'name_kg' in strategy_params:
             kwargs['name_kg'] = name_kg
-        # Lets callers point embedding-based strategies at embeddings that aren't the shared
-        # per-KG store, e.g. ones (re)computed with a blind holdout removed beforehand.
+        # optional override for a non-default embeddings path
         if 'embeddings_path' in strategy_params and embeddings_path is not None:
             kwargs['embeddings_path'] = embeddings_path
         predicted_negatives = strategy(graph, positives,type_src,type_dst,**kwargs) # Predice dei possibili negativi
@@ -174,13 +172,7 @@ def apply_strategy(graph: nx.MultiDiGraph, strategy ,positives,type_src,type_dst
 
 
 def load_transe_embeddings_as_nodes_df(store_path: str):
-    """
-    Loads a TransE embeddings csv (as written by compute_transe_embeddings_and_store) back
-    into the same [DataFrame] shape returned by grape's get_all_node_embedding(), so a
-    previously computed embedding can be reused exactly like a freshly computed one - e.g.
-    across the community-based and random negative-sampling runs for the same relation, which
-    both need identical blind_test_pos embeddings.
-    """
+    """Loads a stored TransE embeddings csv back into grape's node-embedding DataFrame shape."""
     df = pd.read_csv(store_path)
     vectors = [json.loads(v) for v in df['embedding']]
     embedding_df = pd.DataFrame(vectors, index=pd.Index(df['name'], name='name'))
@@ -188,12 +180,7 @@ def load_transe_embeddings_as_nodes_df(store_path: str):
 
 
 def compute_transe_embeddings_and_store(nx_graph: nx.MultiDiGraph, real_kg_graph: bool, store_path: str):
-    """
-    (Re)computes TransE node embeddings for nx_graph and persists them to store_path, in the
-    same format used for store_embeddings/transe/<kg>.csv. Used by blind_test_pos to
-    generate fresh, per-relation embeddings on a graph that has that relation's blind-positive
-    holdout removed, instead of reusing the shared (holdout-including) store.
-    """
+    """(Re)computes TransE embeddings for nx_graph and saves them to store_path."""
     transe_graph = grape_graph_from_networkx(nx_graph,'rna_kg',real_kg_graph)
     print("Applying TransE embedding...", color='yellow')
     transe_start = time.time()
@@ -441,21 +428,11 @@ def compute(relation: str,strategy,strategy_name: str,name_kg: str,embedding_nam
 
     embedding_subgraph: True if you want to calculate embeddings on the subgraph, otherwise False (DEFAULT is False)
 
-    blind_test_pos: True if the 10% blind-positive holdout should be selected and removed from the KG
-    *before* the node embeddings are (re)computed and communities are detected, so the embeddings can't encode
-    information about the held-out triples, then saved to blind_test_occ/ for later blind plausibility
-    assessment. Requires `load_embedding=False`, since the embeddings must be freshly generated on the
-    holdout-free graph rather than reused from the shared per-KG store. Currently only supported for
-    embedding_name='transe'. (DEFAULT is False)
+    blind_test_pos: True to hold out 10% of positives *before* embeddings/communities are computed
+    (saved to blind_test_occ/). Requires load_embedding=False and embedding_name='transe'. (DEFAULT is False)
 
-    blind_test_neg: True if a 10% blind-negative holdout should be selected and removed from the predicted
-    negatives *before* they are used to train/evaluate the RF classifier, symmetric to what blind_test_pos
-    does for positives (just at the "before training" cutoff rather than "before embeddings" - negatives are
-    constructed non-edges, not real KG edges, so they never influence embedding generation or community
-    detection either way). Without this, the negatives used for the later blind plausibility assessment would
-    be resampled from the same pool the RF was already trained/evaluated on, which is not a real holdout.
-    The held-out negatives (and their Hadamard embeddings) are saved to negative_blind_test_occ/ for that later
-    assessment, never used for training. (DEFAULT is False)
+    blind_test_neg: True to hold out 10% of negatives *before* training, symmetric to blind_test_pos
+    (saved to negative_blind_test_occ/). (DEFAULT is False)
 
 
     """
@@ -491,10 +468,7 @@ def compute(relation: str,strategy,strategy_name: str,name_kg: str,embedding_nam
     graph_source_df = triple_type_df
 
     if blind_test_pos:
-        # Select the 10% blind-positive holdout with a fixed seed, at the raw-triple level,
-        # and drop those rows before the graph/subgraph are built - rather than building them
-        # first and surgically deleting edges afterwards - so there's no way for the graph,
-        # the subgraph, negative sampling or the embeddings to ever see the held-out triples.
+        # pick 10% blind-positive holdout before the graph/subgraph are built
         relation_rows = filtered_edges[filter]
         row_indices = list(relation_rows.index)
         holdout = int(len(row_indices) * 0.1)
@@ -506,14 +480,13 @@ def compute(relation: str,strategy,strategy_name: str,name_kg: str,embedding_nam
             for _, row in relation_rows.loc[holdout_indices].iterrows()
         ]
 
-        # Drop the held-out rows from the relation's edges (feeds the subgraph) and from the
-        # full triple set (feeds the full graph), before either is constructed.
+        # drop held-out rows before graph/subgraph are built
         filtered_edges[filter] = relation_rows.drop(index=holdout_indices)
         graph_source_df = triple_type_df.drop(index=holdout_indices)
 
         print(f'{len(blind_test_positives)} blind-positives held out before embedding, {filtered_edges[filter].shape[0]} positives remain', color='yellow')
 
-        # Save the held-out positives for reference / reuse.
+        # save held-out positives
         df_blind = pd.DataFrame(blind_test_positives, columns=["subject", "object", "predicate"])
         blind_test_dir = 'blind_test_occ'
         save_blind_path = f'{blind_test_dir}/{name_kg}/{relation}.csv'
@@ -532,23 +505,18 @@ def compute(relation: str,strategy,strategy_name: str,name_kg: str,embedding_nam
     positives_subgraph = list(subgraph.edges())
 
     if blind_test_pos:
-        # Generate TransE embeddings fresh, on the holdout-free graph, before any negative
-        # sampling / community detection strategy runs (embedding-based strategies, e.g. the
-        # DBSCAN one, need these already on disk).
+        # fresh TransE on the holdout-free graph, before negative sampling/community detection
         safe_relation = relation.replace('/', '_')
         blind_embeddings_path = f'store_embeddings/transe/blind_before_embedding/{name_kg}/{safe_relation}.csv'
         if os.path.exists(blind_embeddings_path):
-            # Running both the community-based and random negative-sampling strategies for the
-            # same relation would otherwise recompute identical (fixed-seed) TransE embeddings
-            # twice - reuse what's already on disk instead.
+            # reuse cache so the two strategy passes don't recompute the same embeddings twice
             print(f'Loading cached blind_before_embedding TransE embeddings from {blind_embeddings_path}', color='cyan')
             embedding_nodes = load_transe_embeddings_as_nodes_df(blind_embeddings_path)
         else:
             nx_graph_for_embedding = subgraph if embedding_subgraph else graph
             embedding_nodes = compute_transe_embeddings_and_store(nx_graph_for_embedding, embedding_subgraph, blind_embeddings_path)
 
-        # Compute the Hadamard representations of the blind triples using these newly
-        # generated node embeddings, and persist them for downstream blind evaluation.
+        # Hadamard vectors for the blind positives, for later blind evaluation
         df_embedding_nodes = embedding_nodes[0]
         blind_hadamard_rows = []
         skipped = 0
@@ -567,9 +535,7 @@ def compute(relation: str,strategy,strategy_name: str,name_kg: str,embedding_nam
 
     predicted_negatives = None
     strategy_time = None
-    # Check if negative samples already exist. blind_test_pos gets its own cache
-    # namespace since its negatives are sampled from a holdout-free graph/embeddings and
-    # shouldn't be mixed up with negatives cached from the ordinary (full-graph) pipeline.
+    # blind_test_pos gets its own negative-samples cache namespace
     negative_dir = (f'negative_samples/blind_before_embedding/{name_kg}/{strategy_name}/{relation}.csv'
                      if blind_test_pos else
                      f'negative_samples/{name_kg}/{strategy_name}/{relation}.csv')
@@ -609,9 +575,7 @@ def compute(relation: str,strategy,strategy_name: str,name_kg: str,embedding_nam
 
     negative_blind_test = None
     if blind_test_neg:
-        # Hold out 10% of the negatives BEFORE they ever reach training/evaluation, with a
-        # fixed seed. Sets don't have a stable iteration order across runs, so sort first for
-        # a reproducible sample.
+        # hold out 10% of negatives before training; sort first for a reproducible sample
         predicted_negatives_list = sorted(predicted_negatives)
         neg_holdout = int(len(predicted_negatives_list) * 0.1)
         random.seed(42)
@@ -622,7 +586,7 @@ def compute(relation: str,strategy,strategy_name: str,name_kg: str,embedding_nam
         if len(predicted_negatives) == 0:
             return
 
-        # Save the held-out negatives for reference / reuse (mirrors blind_test_occ for positives).
+        # save held-out negatives
         predicate = relation.split(' - ')[1]
         type_src = relation.split('-')[0].strip()
         type_dst = relation.split('-')[2].strip()
@@ -792,9 +756,7 @@ def compute(relation: str,strategy,strategy_name: str,name_kg: str,embedding_nam
         embedding_to_edge[tuple(emb.tolist())] = n  # Salva the mapping
 
     if blind_test_neg and negative_blind_test:
-        # Compute the Hadamard representations of the blind negatives using the same
-        # embeddings used for training, and persist them for downstream blind plausibility
-        # assessment - never for training.
+        # Hadamard vectors for the blind negatives, for later plausibility assessment only
         predicate = relation.split(' - ')[1]
         neg_blind_hadamard_rows = []
         neg_blind_skipped = 0
