@@ -2,7 +2,7 @@
 
 This repository provides the implementation of a plausibility-based approach for supporting biomedical annotation and curation.
 
-Given a candidate biomedical fact, the pipeline estimates how compatible it is with the patterns already encoded in a bioKG. The resulting plausibility scores can help curators prioritize strongly supported candidates, identify likely implausible annotations, and flag uncertain cases that require expert inspection.
+Given a candidate biomedical fact, the pipeline estimates how compatible it is with the patterns already encoded in a biomedical Knowledge Graph (bioKG). The resulting plausibility scores can help curators prioritize strongly supported candidates, identify likely implausible annotations, and flag uncertain cases that require expert inspection.
 
 ## Pipeline overview
 
@@ -22,11 +22,13 @@ Given a bioKG, such as Hetionet or PrimeKG, and one of its schema facts, such as
      negative_samples/<kg>/<strategy_name>/<schema_fact>.csv
      ```
 
+   - Optionally, hold out a blind set of 10% of the positive edges (`blind_test_pos`) and/or 10% of the generated negatives (`blind_test_neg`). They are later used to evaluate plausibility on unseen facts (useful for replicating experiments in the article).
+
 3. **Compute graph embeddings**
    - Compute or load node embeddings for the complete bioKG using [`grape`](https://github.com/AnacletoLAB/grape).
    - Supported embedding methods include TransE, ComplEx, TransH, DistMult, RotatE, and Node2Vec.
    - For each positive or negative edge, retrieve the embeddings of its source and target nodes.
-   - Combine the two endpoint embeddings through an element-wise Hadamard product.
+   - Combine the two endpoint embeddings through element-wise Hadamard product.
    - The resulting edge-level feature vector is used as input to the binary classifier.
 
 4. **Train a relation-specific classifier**
@@ -40,34 +42,34 @@ Given a bioKG, such as Hetionet or PrimeKG, and one of its schema facts, such as
      - precision;
      - recall;
      - specificity;
-     - F-beta score;
-     - error-beta score (as described in the article).
-   - Optionally, hold out a blind set of 10% of the positive edges (`blind_test_pos`) and/or 10% of the generated negatives (`blind_test_neg`). Both holdouts are removed *before* embeddings are computed and before training/model selection, so neither the embeddings nor the classifier ever see them. They are later used to evaluate plausibility on unseen facts (useful for replicating experiments in the article).
+     - $F_1$ score;
+     - $\hat{F}_1$ score (as described in the article).
 
 6. **Compute plausibility scores**
-   - Use the trained relation-specific classifiers to estimate the plausibility of candidate biomedical annotations. Estimates can be computed according to the Base, Gain, SoftMax, and COmbo formulations presented in the article.
+   - Use the trained relation-specific classifiers to estimate the plausibility of candidate biomedical annotations. Estimates can be computed according to the Base, Gain, SoftMax, and Combo formulations presented in the article.
    - See:
      - [`plausibility_score_computation.py`](plausibility_score_computation.py)
      - [`plausibility_score_computation.ipynb`](plausibility_score_computation.ipynb)
 
-   - Reproduce the Base/Gain/SoftMax/Combo formula comparison behind with [`plausibility_formula_comparison.py`](plausibility_formula_comparison.py).
+   - Reproduce the Base/Gain/SoftMax/Combo formula comparison with [`plausibility_formula_comparison.py`](plausibility_formula_comparison.py).
      - [`test_plause_eval.ipynb`](test_plause_eval.ipynb) is an interactive notebook for running/testing it per bioKG.
 
 
 ## Data and pretrained models
 
-The bioKG datasets, embeddings, generated negative samples, and pretrained models used in the experiments are available [here](https://doi.org/10.5281/zenodo.21359878).
+The bioKG datasets, generated negative samples, and pretrained models used in the experiments are available [here](https://doi.org/10.5281/zenodo.21359878).
 
 The currently supported bioKGs are:
 
-- [PKT-KG](https://doi.org/10.1038/s41597-024-03171-w)
 - [miRNA-KG](https://doi.org/10.1093/nargab/lqaf194)
 - [Hetionet](https://doi.org/10.7554/eLife.26726)
+- [PKT-KG](https://doi.org/10.1038/s41597-024-03171-w)
 - [PrimeKG](https://doi.org/10.1038/s41597-023-01960-3)
 - [OptimusKG](https://doi.org/10.48550/arXiv.2604.27269)
 
-## Case Study
-You can find the case study that is mentioned in the article [here](case_study.tsv).
+## Case Studies
+
+You can find the case studies mentioned in the article here: [curation case study](curation_case_study.tsv) and [temporal case study](temporal_case_study.tsv).
 
 ## Project structure
 
@@ -142,13 +144,13 @@ To run an experiment:
 | `relation` | Target schema fact, for example `Disease - associates - Gene` |
 | `strategy` | Negative-sampling function |
 | `strategy_name` | Short identifier used to cache and retrieve generated negatives |
-| `name_kg` | BioKG to use: `PKT-KG`, `miRNA-KG`, `Hetionet`, `PrimeKG`, or `OptimusKG` |
-| `embedding_name` | Embedding method: `transe`, `node2vec`, `complex`, `transh`, `distmult`, or `rotate` |
+| `name_kg` | Supported bioKGs: `miRNA-KG`, `Hetionet`, `PKT-KG`, `PrimeKG`, `OptimusKG` |
+| `embedding_name` | Supported embedding methods: `transe`, `node2vec`, `complex`, `transh`, `distmult`, or `rotate` |
 | `parameter_model_selection` | Metric used during classifier model selection |
-| `load_embedding` | Reuse a cached embedding instead of recomputing it (mutually exclusive with `blind_test_pos`) |
+| `load_embedding` | Reuse a cached embedding instead of recomputing it (mutually exclusive with `blind_test_pos` and `blind_test_neg`) |
 | `dump` | Save the trained classifier |
 | `blind_test_pos` | Hold out 10% of positive edges *before* embeddings/training, for blind plausibility evaluation |
-| `blind_test_neg` | Hold out 10% of generated negatives *before* training, symmetric to `blind_test_pos` |
+| `blind_test_neg` | Hold out 10% of generated negatives, symmetric to `blind_test_pos` |
 
 Experimental metrics and trained models are written to:
 
@@ -172,7 +174,7 @@ subject - predicate - object
 For example:
 
 ```text
-Disease - associates - Gene
+Melanoma - associates - BRAF
 ```
 
 The candidate entities must use identifiers compatible with those adopted in the selected bioKG.
@@ -192,7 +194,7 @@ The approach is designed as a support mechanism for assisted biomedical annotati
 
 ## Citation
 
-Please cite the following articles if this project was useful for your research:
+Please cite the following pre-print if this project was useful for your research:
 
 ```bibtex
   @misc{cavalleri2026plausibility,
