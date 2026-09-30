@@ -317,76 +317,6 @@ def get_models(kg: str, emb_name: str, strategy: str, model: str, valid_rels: li
 
     return models
 
-def get_input(kg: str, emb_name: str, strategy: str, needed_models: list, rels_pair: str, negative: bool):
-
-    triples_dict = {}
-    triples_cardinality = {}
-
-    if not negative:
-        dir_add = f"blind_test_occ/{kg}/*.csv"
-    else:
-        if kg == 'miRNA-KG' or kg == 'PKT-KG':
-            dir_add = f"negative_samples/{kg}/{strategy}_1/*.csv"
-        else:
-            dir_add = f"negative_samples/{kg}/{strategy}/*.csv"
-        # Get the number of blind sample triples for each relation
-        blind_size = {}
-        for f in glob.glob(f"blind_test_occ/{kg}/*.csv"):
-            relation = f.split('/')[-1][:-4]
-            if not relation in needed_models: continue
-            blind_size[relation] = pd.read_csv(f).rename(columns={'subcject': 'subject'}).shape[0]
-            
-
-    for f in glob.glob(dir_add):
-        relation = f.split('/')[-1][:-4]
-
-        if not relation in needed_models: continue
-
-        if not negative:
-            triple_df = pd.read_csv(f).rename(columns={'subcject': 'subject'})
-        else:
-            # Get negative triples and sample them randomly with the corresponding blind sample size
-            triple_df = pd.read_csv(f).rename(columns={'source': 'subject', 'target': 'object'})
-            triple_df = triple_df.sample(n=min(blind_size[relation], len(triple_df)), random_state=5)
-
-        if triple_df.shape[0] == 0:
-            continue
-        triples_dict[relation] = triple_df
-        triples_cardinality[relation] = triples_dict[relation].shape[0]
-
-    embedding = pd.read_csv(f"store_embeddings/{emb_name}/{kg}.csv")
-
-    # Map triples to their embeddings
-    mapped_emb = {}
-    for rel in tqdm(triples_dict, desc="Mapping triples and create inputs"):
-        mapped_emb[rel] = []
-        for row in triples_dict[rel].iterrows():
-            # Map URIs to embeddings
-            uri = ''
-            if emb_name == 'transe': uri = 'name'
-            else: uri = 'node_id'
-
-            # Find embedding vector from embedding list
-            subject_emb = embedding[embedding[uri] == row[1]['subject']].squeeze().to_list()[1]
-            object_emb = embedding[embedding[uri] == row[1]['object']].squeeze().to_list()[1]
-            # Convert str to List
-            subject_emb = ast.literal_eval(subject_emb)
-            object_emb = ast.literal_eval(object_emb)
-            # Compute model input
-            mul_emb = np.array(subject_emb) * np.array(object_emb)
-            mapped_emb[rel].append(mul_emb)
-
-    if not negative:
-        save_dir = f"formula_plausibility_files/{kg}/{kg}_blind_{rels_pair}.pkl"
-    else:
-        save_dir = f"formula_plausibility_files/{kg}/{kg}_{strategy}_{rels_pair}.pkl"
-    print(save_dir)
-    os.makedirs(os.path.dirname(save_dir), exist_ok=True)
-    with open(save_dir, "wb") as f:
-        pickle.dump(mapped_emb, f)
-    
-    return mapped_emb
-
 def sigmoid(z):
     return 1 / (1 + np.exp(-z))
 
@@ -505,12 +435,15 @@ def find_schema_fact(schema_fact: str):
 
     raise Exception(f"Schema fact '{schema_fact}' was not found in any KG schema.")
 
-def get_pair_embedding(kg: str, emb_name: str, source_id: str, target_id: str):
-    """
-        Looks up the embeddings of a single source/target ID pair and combines
-        them the same way models were trained on (element-wise product).
-    """
-    embedding = pd.read_csv(f"store_embeddings/{emb_name}/{kg}.csv")
+def get_pair_embedding(kg: str, emb_name: str, source_id: str, target_id: str, strategy: str = None, relation: str = None):
+    """Looks up and Hadamard-combines a source/target ID pair's embeddings. For '-bbe'
+    strategies, relation selects the matching per-relation embeddings file."""
+    if strategy is not None and strategy.endswith('-bbe'):
+        if relation is None:
+            raise ValueError("relation is required to look up per-relation embeddings for a '-bbe' strategy")
+        embedding = pd.read_csv(f"store_embeddings/{emb_name}/blind_before_embedding/{kg}/{relation}.csv")
+    else:
+        embedding = pd.read_csv(f"store_embeddings/{emb_name}/{kg}.csv")
 
     source_row = embedding[embedding['name'] == source_id]
     target_row = embedding[embedding['name'] == target_id]
@@ -566,8 +499,7 @@ def get_medians(kg: str, schema_fact: str, formula: str = 'comb', max_lmbda: flo
     paths = {split: f"plausibility_scores/{kg}/{strategy}/{kg}_{strategy}_{split}_{suffix}_scores.pkl" for split in ('blind', 'neg')}
 
     if not all(os.path.exists(path) for path in paths.values()):
-        # imported lazily to avoid a circular import (plausibility_formula_comparison
-        # itself imports from this module)
+        # Avoiding circular import (plausibility_formula_comparison itself imports from this module)
         import plausibility_formula_comparison as pfc
         relation_pairs = list(pfc.KG_RELATIONS[kg].keys())
         pfc.score_calculation(kg, strategy, [True, False], [formula], relation_pairs, max_lmbda)
@@ -586,14 +518,13 @@ def get_medians(kg: str, schema_fact: str, formula: str = 'comb', max_lmbda: flo
 
     return medians['blind'], medians['neg']
 
-def compute_plausibility_score(schema_fact: str, source_id: str, target_id: str, formula: str = 'comb', max_lmbda: float = 10.0):
+def compute_plausibility_score(schema_fact: str, source_id: str, target_id: str, formula: str = 'comb', max_lmbda: float = 10.0, strategy: str = 'c-b-n-s'):
     kg, rels_pair, valid_rels = find_schema_fact(schema_fact)
     check_types(schema_fact, source_id, target_id, kg)
 
-    median_positive, median_negative = get_medians(kg, schema_fact, formula=formula, max_lmbda=max_lmbda)
+    median_positive, median_negative = get_medians(kg, schema_fact, formula=formula, max_lmbda=max_lmbda, strategy=strategy)
 
     emb_name = 'transe'
-    strategy = 'c-b-n-s'
     model_name = 'RF'
 
     results = pd.read_csv(f'experiments/{kg}/{emb_name}/RF_{strategy}.csv')[['relation', 'edges', 'balanced_accuracy']]
@@ -602,7 +533,7 @@ def compute_plausibility_score(schema_fact: str, source_id: str, target_id: str,
     if schema_fact not in models:
         raise Exception(f"No trained {model_name} model found for schema fact '{schema_fact}' in {kg}.")
 
-    sample = get_pair_embedding(kg=kg, emb_name=emb_name, source_id=source_id, target_id=target_id)
+    sample = get_pair_embedding(kg=kg, emb_name=emb_name, source_id=source_id, target_id=target_id, strategy=strategy, relation=schema_fact)
 
     rels_alt = [rel for rel in valid_rels if rel != schema_fact and rel in models]
 
