@@ -15,7 +15,7 @@ Given a bioKG, such as Hetionet or PrimeKG, and one of its schema facts, such as
 
 2. **Generate negative examples**
    - Generate negative edges using one of the strategies implemented in [`plausibility/strategies.py`](plausibility/strategies.py), including the community-based sampling presented in the article.
-   - Community-based sampling supports multiple community-detection backends: Louvain (`community_based_negative_sampling`), Markov Clustering (`community_based_negative_sampling_mcl`), and DBSCAN over the KG's node embeddings (`community_based_negative_sampling_dbscan`).
+   - Community-based sampling (`community_based_negative_sampling`) supports multiple community-detection backends via its `community_detection_algorithm` argument: Louvain (`'louvain'`, the default), Markov Clustering (`'mcl'`), or DBSCAN over the KG's node embeddings (`'dbscan'`).
    - Alternatively, load a previously generated negative set from:
 
      ```text
@@ -143,6 +143,7 @@ To run an experiment:
 |---|---|
 | `relation` | Target schema fact, for example `Disease - associates - Gene` |
 | `strategy` | Negative-sampling function |
+| `community_detection_algorithm` | Only used when `strategy=community_based_negative_sampling`: `'louvain'` (default), `'mcl'`, or `'dbscan'` |
 | `strategy_name` | Short identifier used to cache and retrieve generated negatives |
 | `name_kg` | Supported bioKGs: `miRNA-KG`, `Hetionet`, `PKT-KG`, `PrimeKG`, `OptimusKG` |
 | `embedding_name` | Supported embedding methods: `transe`, `node2vec`, `complex`, `transh`, `distmult`, or `rotate` |
