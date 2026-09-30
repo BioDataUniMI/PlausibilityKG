@@ -132,14 +132,19 @@ def get_models(kg: str, emb_name: str, strategy: str, model: str, valid_rels: li
     return models
 
 
-def get_input(kg: str, emb_name: str, strategy: str, needed_models: list, rels_pair: str, negative: bool):
-    import ast
+def get_input(kg: str, strategy: str, needed_models: list, rels_pair: str, negative: bool):
     import glob
+
+    # '-bbe' strategies have their own per-relation embeddings and negatives directory
+    is_bbe = strategy.endswith('-bbe')
 
     triples_dict = {}
 
     if not negative:
         dir_add = f"blind_test_occ/{kg}/*.csv"
+    elif is_bbe:
+        # blind_test_neg's genuine holdout - already correctly sized, no resampling needed
+        dir_add = f"negative_blind_test_occ/{kg}/{strategy}/*.csv"
     else:
         dir_add = f"negative_samples/{kg}/{strategy}/*.csv"
         blind_size = {}
@@ -156,60 +161,105 @@ def get_input(kg: str, emb_name: str, strategy: str, needed_models: list, rels_p
 
         if not negative:
             triple_df = pd.read_csv(f).rename(columns={'subcject': 'subject'})
+        elif is_bbe:
+            triple_df = pd.read_csv(f).rename(columns={'source': 'subject', 'target': 'object'})
         else:
             triple_df = pd.read_csv(f).rename(columns={'source': 'subject', 'target': 'object'})
             triple_df = triple_df.sample(n=min(blind_size[relation], len(triple_df)), random_state=5)
 
         if triple_df.shape[0] == 0:
             continue
-        triples_dict[relation] = triple_df
+        triples_dict[relation] = triple_df[['subject', 'object']].reset_index(drop=True)
 
-    embedding = pd.read_csv(f"store_embeddings/{emb_name}/{kg}.csv")
-
-    mapped_emb = {}
-    for rel in tqdm(triples_dict, desc=f"Mapping {kg}/{rels_pair}"):
-        mapped_emb[rel] = []
-        for row in triples_dict[rel].iterrows():
-            uri = 'name' if emb_name == 'transe' else 'node_id'
-            subject_emb = embedding[embedding[uri] == row[1]['subject']].squeeze().to_list()[1]
-            object_emb = embedding[embedding[uri] == row[1]['object']].squeeze().to_list()[1]
-            subject_emb = ast.literal_eval(subject_emb)
-            object_emb = ast.literal_eval(object_emb)
-            mul_emb = np.array(subject_emb) * np.array(object_emb)
-            mapped_emb[rel].append(mul_emb)
-
+    # Cache raw triples, not Hadamard vectors: which embedding to use now depends on which
+    # relation is scoring the triple, decided in get_score(). '_triples' avoids colliding
+    # with the old pre-computed-embedding cache format.
     if not negative:
-        save_dir = f"formula_plausibility_files/{kg}/{kg}_blind_{rels_pair}.pkl"
+        save_dir = f"formula_plausibility_files/{kg}/{kg}_{strategy}_blind_{rels_pair}_triples.pkl"
     else:
-        save_dir = f"formula_plausibility_files/{kg}/{kg}_{strategy}_{rels_pair}.pkl"
+        save_dir = f"formula_plausibility_files/{kg}/{kg}_{strategy}_{rels_pair}_triples.pkl"
     os.makedirs(os.path.dirname(save_dir), exist_ok=True)
     with open(save_dir, "wb") as f:
-        pickle.dump(mapped_emb, f)
+        pickle.dump(triples_dict, f)
 
-    return mapped_emb
+    return triples_dict
 
 
-def get_score(kg: str, embeddings, models, formula, results, max_lmbda):
-    relations = list(embeddings.keys())
+def _map_triples_to_embeddings(triples_df, embedding_df, uri):
+    """Hadamard product per (subject, object) row, or None if an endpoint is missing."""
+    import ast
+    vectors = []
+    for _, row in triples_df.iterrows():
+        subject_match = embedding_df[embedding_df[uri] == row['subject']]
+        object_match = embedding_df[embedding_df[uri] == row['object']]
+        if len(subject_match) != 1 or len(object_match) != 1:
+            vectors.append(None)
+            continue
+        subject_emb = ast.literal_eval(subject_match.squeeze().to_list()[1])
+        object_emb = ast.literal_eval(object_match.squeeze().to_list()[1])
+        vectors.append(np.array(subject_emb) * np.array(object_emb))
+    return vectors
+
+
+def get_score(kg: str, emb_name: str, strategy: str, triples_dict: dict, models: dict, formula: str, results, max_lmbda):
+    """
+    Scores each relation's triples with its own classifier and with each competitor's,
+    for Gain/SoftMax/Combo. Under '-bbe', each relation has its own embedding space, so a
+    triple is re-embedded per scoring relation instead of reusing one vector for all of them.
+    """
+    is_bbe = strategy.endswith('-bbe')
+    uri = 'name' if emb_name == 'transe' else 'node_id'
+    embedding_cache = {}
+
+    def load_embedding(relation):
+        key = relation if is_bbe else '__shared__'
+        if key not in embedding_cache:
+            path = (f"store_embeddings/{emb_name}/blind_before_embedding/{kg}/{relation}.csv" if is_bbe
+                    else f"store_embeddings/{emb_name}/{kg}.csv")
+            embedding_cache[key] = pd.read_csv(path)
+        return embedding_cache[key]
+
+    relations = list(triples_dict.keys())
     rel_parts = {}
     for rel in relations:
         sub, pred, obj = rel.split(' - ')
         rel_parts[rel] = {'subject': sub, 'object': obj, 'predicate': pred}
 
     plausibility = {}
-    for rel in relations:
+    for rel in tqdm(relations, desc=f"Scoring {kg}/{formula}"):
         sub, obj = rel_parts[rel]['subject'], rel_parts[rel]['object']
         preds_alt = [rel_parts[k]['predicate'] for k in rel_parts if rel_parts[k]['subject'] == sub and rel_parts[k]['object'] == obj]
         rels_alt = [f'{sub} - {p} - {obj}' for p in preds_alt]
         rels_alt.remove(rel)
+        rels_alt = [r for r in rels_alt if r in models]  # only compare against relations with a trained model
 
-        model_main = models[rel]
-        embeddings_main = embeddings[rel]
-        score_main = p_base(model_main, embeddings_main)
+        triples_main = triples_dict[rel]
+        scoring_rels = [rel] + rels_alt
 
-        score_alt = {}
-        for rel_a in rels_alt:
-            score_alt[rel_a] = p_base(models[rel_a], embeddings_main)
+        if is_bbe:
+            per_scoring_rel_vectors = {
+                sr: _map_triples_to_embeddings(triples_main, load_embedding(sr), uri)
+                for sr in scoring_rels
+            }
+        else:
+            # shared embedding space - look up once, reuse for all
+            shared_vectors = _map_triples_to_embeddings(triples_main, load_embedding(rel), uri)
+            per_scoring_rel_vectors = {sr: shared_vectors for sr in scoring_rels}
+
+        # keep triples valid in every scoring relation's space, so score arrays stay aligned
+        n = len(triples_main)
+        keep = [i for i in range(n) if all(per_scoring_rel_vectors[sr][i] is not None for sr in scoring_rels)]
+        if not keep:
+            continue
+        skipped = n - len(keep)
+        if skipped:
+            print(f"[WARNING] {skipped}/{n} triples skipped for {rel}: endpoint missing from a competing relation's embedding")
+
+        score_main = p_base(models[rel], np.array([per_scoring_rel_vectors[rel][i] for i in keep]))
+        score_alt = {
+            rel_a: p_base(models[rel_a], np.array([per_scoring_rel_vectors[rel_a][i] for i in keep]))
+            for rel_a in rels_alt
+        }
 
         if formula == 'gain':
             plausibility[rel] = p_max(rel, rels_alt, score_main, score_alt, results, max_lmbda)
@@ -252,19 +302,19 @@ def run(kg, emb_name, strategy, model, formula, results, rels_pair, valid_rels, 
     models_name = list(models.keys())
 
     if not negative:
-        cache_path = f"formula_plausibility_files/{kg}/{kg}_blind_{rels_pair}.pkl"
+        cache_path = f"formula_plausibility_files/{kg}/{kg}_{strategy}_blind_{rels_pair}_triples.pkl"
     else:
-        cache_path = f"formula_plausibility_files/{kg}/{kg}_{strategy}_{rels_pair}.pkl"
+        cache_path = f"formula_plausibility_files/{kg}/{kg}_{strategy}_{rels_pair}_triples.pkl"
 
-    triple_embs = _load_cached_pickle(cache_path)
-    if triple_embs is None:
-        triple_embs = get_input(kg=kg, emb_name=emb_name, strategy=strategy, needed_models=models_name, rels_pair=rels_pair, negative=negative)
+    triples_dict = _load_cached_pickle(cache_path)
+    if triples_dict is None:
+        triples_dict = get_input(kg=kg, strategy=strategy, needed_models=models_name, rels_pair=rels_pair, negative=negative)
 
-    relations = list(triple_embs.keys())
-    models_subset = {k: models[k] for k in models if k in relations}
-    triple_embs = {k: triple_embs[k] for k in relations if k in models_subset}
+    # only relations with a trained model and triples here; pass the FULL models dict though,
+    # since scoring against a competitor needs its model even without triples of its own
+    triples_dict = {k: v for k, v in triples_dict.items() if k in models}
 
-    return get_score(kg=kg, embeddings=triple_embs, models=models_subset, formula=formula, results=results, max_lmbda=max_lmbda)
+    return get_score(kg=kg, emb_name=emb_name, strategy=strategy, triples_dict=triples_dict, models=models, formula=formula, results=results, max_lmbda=max_lmbda)
 
 
 def exe_ps(kg, rels_pair, strategy, formula, negative, max_lmbda):
@@ -417,7 +467,7 @@ def score_calculation(kg, strat, negatives, formulas, relation_pairs, max_lmbda,
 
             split = 'neg' if neg else 'blind'
             if fr in ('gain', 'comb'):
-                score_dir = f"plausibility_scores/{kg}/{strat}/{kg}_{strat}_{split}_{fr}_{max_lmbda}_scores.pkl"
+                score_dir = f"plausibility_scores/{kg}/{strat}/{kg}_{strat}_{split}_{fr}_{int(max_lmbda)}_scores.pkl"
             else:
                 score_dir = f"plausibility_scores/{kg}/{strat}/{kg}_{strat}_{split}_{fr}_scores.pkl"
 
@@ -452,7 +502,7 @@ def compute_kg_metrics(kg, strategies, formulas, formulas_dist, relation_pairs, 
 
     def blind_neg_path(strat, fr, split):
         if fr in ('gain', 'comb'):
-            return f"plausibility_scores/{kg}/{strat}/{kg}_{strat}_{split}_{fr}_{max_lmbda}_scores.pkl"
+            return f"plausibility_scores/{kg}/{strat}/{kg}_{strat}_{split}_{fr}_{int(max_lmbda)}_scores.pkl"
         return f"plausibility_scores/{kg}/{strat}/{kg}_{strat}_{split}_{fr}_scores.pkl"
 
     NRR, PAR, Cal = {}, {}, {}
