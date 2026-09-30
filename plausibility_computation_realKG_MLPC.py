@@ -161,7 +161,7 @@ def apply_node2vec(nx_graph: nx.MultiDiGraph, path = ''):
     return edges_embs
 
 
-def apply_strategy(graph: nx.MultiDiGraph, strategy ,positives,type_src,type_dst,name_kg = None,embeddings_path = None,load_pred_negs = False):
+def apply_strategy(graph: nx.MultiDiGraph, strategy ,positives,type_src,type_dst,name_kg = None,embeddings_path = None,community_detection_algorithm = None,load_pred_negs = False):
     if not load_pred_negs:
         # some strategies (e.g. DBSCAN) need the KG name to load stored embeddings
         kwargs = {}
@@ -171,6 +171,9 @@ def apply_strategy(graph: nx.MultiDiGraph, strategy ,positives,type_src,type_dst
         # optional override for a non-default embeddings path
         if 'embeddings_path' in strategy_params and embeddings_path is not None:
             kwargs['embeddings_path'] = embeddings_path
+        # only community_based_negative_sampling takes this; ignored by other strategies
+        if 'community_detection_algorithm' in strategy_params and community_detection_algorithm is not None:
+            kwargs['community_detection_algorithm'] = community_detection_algorithm
         predicted_negatives = strategy(graph, positives,type_src,type_dst,**kwargs) # Predice dei possibili negativi
     return predicted_negatives
 
@@ -466,7 +469,7 @@ def train_and_evaluate(X, y, alpha_values, hidden_layer_values, embedding_to_edg
 
 
 
-def compute(relation: str,strategy,strategy_name: str,name_kg: str,embedding_name: str, parameter_model_selection = 'accuracy', blind_test_pos = False,blind_test_neg = False,load_embedding = False,embedding_subgraph = False,dump = False):
+def compute(relation: str,strategy,strategy_name: str,name_kg: str,embedding_name: str, parameter_model_selection = 'accuracy', community_detection_algorithm = 'louvain',blind_test_pos = False,blind_test_neg = False,load_embedding = False,embedding_subgraph = False,dump = False):
 
     """
     PARAMS:
@@ -474,6 +477,10 @@ def compute(relation: str,strategy,strategy_name: str,name_kg: str,embedding_nam
     relation: the relation used to create the subgraph of the view
 
     strategy: strategy used to predicted negatives edges
+
+    community_detection_algorithm: only used when strategy=community_based_negative_sampling.
+    Which community-detection backend it uses: 'louvain' (default), 'mcl', or 'dbscan'.
+    Ignored by other strategies. (DEFAULT is 'louvain')
 
     strategy_name: the name of the strategy e.g strategy: community based negative sampling --> strategy_name: c-b-n-s
 
@@ -493,7 +500,7 @@ def compute(relation: str,strategy,strategy_name: str,name_kg: str,embedding_nam
     (saved to blind_test_occ/). Requires load_embedding=False and embedding_name='transe'. (DEFAULT is False)
 
     blind_test_neg: True to hold out 10% of negatives *before* training, symmetric to blind_test_pos
-    (saved to negative_blind_test_occ/). (DEFAULT is False)
+    (saved to negative_blind_test_occ/). Requires load_embedding=False. (DEFAULT is False)
 
 
     """
@@ -502,6 +509,8 @@ def compute(relation: str,strategy,strategy_name: str,name_kg: str,embedding_nam
             raise ValueError("blind_test_pos requires fresh embeddings computed after removing the blind holdout; set load_embedding=False")
         if embedding_name != 'transe':
             raise NotImplementedError("blind_test_pos is currently only supported for embedding_name='transe'")
+    if blind_test_neg and load_embedding:
+        raise ValueError("blind_test_neg requires fresh embeddings computed after removing the blind holdout; set load_embedding=False")
 
     MAX_SAMPLE_SIZE = 1500000
 
@@ -612,7 +621,7 @@ def compute(relation: str,strategy,strategy_name: str,name_kg: str,embedding_nam
         type_src = relation.split('-')[0].strip()
         type_dst = relation.split('-')[2].strip()
         strategy_start = time.time()
-        predicted_negatives = apply_strategy(subgraph,strategy,positives_subgraph,type_src,type_dst,name_kg=name_kg,embeddings_path=blind_embeddings_path)
+        predicted_negatives = apply_strategy(subgraph,strategy,positives_subgraph,type_src,type_dst,name_kg=name_kg,embeddings_path=blind_embeddings_path,community_detection_algorithm=community_detection_algorithm)
         strategy_time = time.time() - strategy_start
         print(f"Strategy ({strategy_name}) execution time: {strategy_time:.2f}s", color='cyan')
         print(type(predicted_negatives))
