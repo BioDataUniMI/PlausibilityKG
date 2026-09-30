@@ -1,7 +1,14 @@
+import ast
+import json
 import community.community_louvain as community_louvain
+import markov_clustering as mc
 import networkx as nx
+import numpy as np
 import pandas as pd
 import random
+import scipy.sparse
+from sklearn.cluster import DBSCAN
+from sklearn.preprocessing import StandardScaler
 from tqdm import tqdm
 import time
 
@@ -530,64 +537,137 @@ def edge_betweenness_negative_sampling(g: nx.Graph, pos_edges: list[tuple[int,in
     #return random.sample(negative_edges, number_of_negatives) if  len(negative_edges) > number_of_negatives else negative_edges
 
 
-def community_based_negative_sampling(g: nx.Graph, pos_edges: list[tuple[int,int,any]],type_src,type_dst,percentuale_negativi = 1.0) -> set[tuple[int, int]]:
-
+def community_based_negative_sampling(
+    g: nx.Graph,
+    pos_edges: list[tuple[int, int, any]],
+    type_src,
+    type_dst,
+    community_detection_algorithm: str = 'louvain',
+    percentuale_negativi: float = 1.0,
+    inflation: float = 2.0,
+    eps: float = 0.5,
+    min_samples: int = 5,
+    name_kg = None,
+    embeddings_path: str = None,
+) -> set[tuple[int, int]]:
     """
-    Generates negative edges by sampling node pairs from different communities detected in the graph,
-    ensuring no existing edges between them.
+    Generates negative edges by sampling node pairs from different communities detected in
+    the graph, ensuring no existing edges between them.
+
+    community_detection_algorithm selects how communities are detected (default 'louvain'):
+        'louvain': standard Louvain modularity optimization on graph topology.
+        'mcl': Markov Clustering; inflation controls cluster granularity (default=2.0).
+        'dbscan': DBSCAN over the KG's stored TransE node embeddings; name_kg (or
+            embeddings_path) is required to locate them, eps/min_samples control clustering.
+            Nodes DBSCAN labels as noise (no dense-enough neighborhood) are dropped.
 
     Parameters:
         g (nx.Graph):
-            The graph containing nodes and edges. If directed, it is converted to undirected for community detection.
+            The graph containing nodes and edges. If directed, it is converted to undirected
+            for community detection.
 
         pos_edges (list[tuple[int, int, Any]]):
-            List of positive edges as tuples (source, destination, label).
-            Label is ignored.
+            List of positive edges as tuples (source, destination, label). Label is ignored.
+
+        name_kg (str):
+            Name of the KG view, used by 'dbscan' to locate the stored TransE embeddings at
+            'store_embeddings/transe/{name_kg}.csv'. Ignored by 'louvain'/'mcl'.
+
+        embeddings_path (str):
+            Explicit path to a stored TransE node embeddings csv, overriding the default
+            'store_embeddings/transe/{name_kg}.csv' location for 'dbscan'. Used e.g. when the
+            embeddings were (re)computed on a KG with some triples held out
+            (blind_test_pos), so they live outside the shared per-KG store.
 
     Returns:
         set (set[tuple[int, int]]):
             Set of predicted negative edges.
-
-    Description:
-        - Converts directed graphs to undirected for compatibility with Louvain community detection
-        - Detects communities using the Louvain method
-        - Groups nodes by their community membership
-        - Samples negative edges by selecting node pairs from different communities
-        - Ensures sampled edges do not exist in the positive edge set and nodes are distinct
-        - Returns when reaching target count or after max iterations
     """
     random.seed(42)
+    max_negatives = len(pos_edges)
+    g_und = g.to_undirected() if g.is_directed() else g
 
-    # If the graph is directed, convert it to undirected since louvain doesn't support directed graphs
-    if g.is_directed():
-        g_und = g.to_undirected()
+    if community_detection_algorithm == 'louvain':
+        partition = community_louvain.best_partition(g_und)
+        communities = {}
+        for node, community_id in partition.items():
+            communities.setdefault(community_id, []).append(node)
+        desc = "Predicting negatives (Louvain): "
+
+    elif community_detection_algorithm == 'mcl':
+        nodes = list(g_und.nodes())
+        # markov_clustering expects the legacy scipy.sparse matrix semantics (where `**` means
+        # matrix power), not the newer sparse array API that nx.to_scipy_sparse_array returns.
+        adjacency_matrix = scipy.sparse.csr_matrix(nx.to_scipy_sparse_array(g_und, nodelist=nodes, dtype=float))
+        mcl_result = mc.run_mcl(adjacency_matrix, inflation=inflation)
+        clusters = mc.get_clusters(mcl_result)
+        communities = {
+            community_id: [nodes[idx] for idx in cluster]
+            for community_id, cluster in enumerate(clusters)
+        }
+        desc = "Predicting negatives (MCL): "
+
+    elif community_detection_algorithm == 'dbscan':
+        if embeddings_path is None:
+            if name_kg is None:
+                raise ValueError("community_detection_algorithm='dbscan' requires name_kg (or embeddings_path) to locate the stored TransE embeddings")
+            embeddings_path = f'store_embeddings/transe/{name_kg}.csv'
+
+        embeddings_df = pd.read_csv(embeddings_path)
+        embedding_by_node = {
+            str(row[0]): np.array(ast.literal_eval(row[1]), dtype=np.float64)
+            for row in embeddings_df.itertuples(index=False)
+        }
+
+        nodes = [node for node in g.nodes() if str(node) in embedding_by_node]
+        missing = len(g.nodes()) - len(nodes)
+        if missing:
+            print(f'[WARNING] {missing} nodes have no stored TransE embedding and were skipped for DBSCAN community detection')
+
+        X = StandardScaler().fit_transform(np.stack([embedding_by_node[str(node)] for node in nodes]))
+        labels = DBSCAN(eps=eps, min_samples=min_samples).fit_predict(X)
+
+        communities = {}
+        for node, label in zip(nodes, labels):
+            if label == -1:  # noise point, doesn't belong to any community
+                continue
+            communities.setdefault(label, []).append(node)
+        desc = "Predicting negatives (DBSCAN): "
+
     else:
-        g_und = g
+        raise ValueError(f"Unknown community_detection_algorithm: {community_detection_algorithm!r}. Choose from 'louvain', 'mcl', 'dbscan'.")
 
-    # Detect communities in the graph
-    partition = community_louvain.best_partition(g_und)
+    return _sample_negatives_from_communities(g, communities, type_src, type_dst, max_negatives, desc=desc)
 
-    # Groups of nodes by community
-    communities = {}
-    for node, community_id in partition.items():
-        if community_id not in communities:
-            communities[community_id] = []
-        communities[community_id].append(node)
 
-    # Select edges between nodes from different communities
+def _sample_negatives_from_communities(g: nx.Graph, communities: dict, type_src, type_dst, max_negatives: int, desc: str) -> set[tuple[int, int]]:
+    """
+    Shared sampling loop used by every community-detection backend: picks two distinct
+    communities at random and samples a cross-community node pair, keeping it only if it
+    matches the requested node types and isn't already an edge in the graph.
+    """
     negative_edges = set()
 
     print(f'Number of communities: {len(communities)}')
 
-    max_negatives = len(pos_edges)
+    # Fail fast if no cross-community pairing can ever satisfy the requested types - e.g. one
+    # type is entirely absorbed into a single community, or dropped as noise altogether. Without
+    # this check the loop below has zero success probability in that case and never terminates.
+    src_communities = {cid for cid, members in communities.items() if any(g.nodes[n]["label"] == type_src for n in members)}
+    dst_communities = {cid for cid, members in communities.items() if any(g.nodes[n]["label"] == type_dst for n in members)}
+    if not any(s != d for s in src_communities for d in dst_communities):
+        print(f'[WARNING] No community pair can satisfy types ({type_src} -> {type_dst}); returning 0 negatives')
+        return negative_edges
 
-    pbar = tqdm(desc = "Predicting negatives: ", total=max_negatives, dynamic_ncols=True)
+    pbar = tqdm(desc=desc, total=max_negatives, dynamic_ncols=True)
     i = 0
+    # Safety valve for the case where a valid pairing exists but is extremely rare (e.g. a tiny
+    # minority-type community): bail out with a warning instead of sampling near-indefinitely.
+    max_attempts = max(200_000, 200 * max_negatives)
+    attempts = 0
 
-    while len(negative_edges) < max_negatives:
+    while len(negative_edges) < max_negatives and attempts < max_attempts:
         community_ids = list(communities.keys())
-        # print(community_ids)
-        # break
         if len(community_ids) < 2:
             break
 
@@ -599,15 +679,15 @@ def community_based_negative_sampling(g: nx.Graph, pos_edges: list[tuple[int,int
             negative_edges.add((u, v))
             i += 1
 
-
+        attempts += 1
         pbar.update(1)
-        if i == max_negatives: # Let's reconsider this
+        if i == max_negatives:
             break
 
-    #return random.sample(negative_edges, int(len(negative_edges)*percentuale_negativi))
     pbar.close()
+    if attempts >= max_attempts:
+        print(f'[WARNING] Sampling stopped after {attempts} attempts with only {len(negative_edges)}/{max_negatives} negatives found')
     return negative_edges
-    #return random.sample(negative_edges, number_of_negatives) if  len(negative_edges) > number_of_negatives else negative_edges
 
 
 def shortest_path_based_negative_sampling(g: nx.Graph, pos_edges: list[tuple[int,int,any]],type_src,type_dst,percentuale_negativi = 1.0,max_distance: int =10) -> set[tuple[int, int]]:
