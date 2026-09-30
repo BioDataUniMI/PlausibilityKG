@@ -482,7 +482,9 @@ def compute(relation: str,strategy,strategy_name: str,name_kg: str,embedding_nam
     Which community-detection backend it uses: 'louvain' (default), 'mcl', or 'dbscan'.
     Ignored by other strategies. (DEFAULT is 'louvain')
 
-    strategy_name: the name of the strategy e.g strategy: community based negative sampling --> strategy_name: c-b-n-s
+    strategy_name: the name of the strategy e.g strategy: community based negative sampling --> strategy_name: c-b-n-s.
+    A '-bbe' suffix is appended automatically whenever blind_test_pos or blind_test_neg is True
+    (if not already present) - don't add it yourself.
 
     name_kg: the name of the rna_kg's view
 
@@ -511,6 +513,12 @@ def compute(relation: str,strategy,strategy_name: str,name_kg: str,embedding_nam
             raise NotImplementedError("blind_test_pos is currently only supported for embedding_name='transe'")
     if blind_test_neg and load_embedding:
         raise ValueError("blind_test_neg requires fresh embeddings computed after removing the blind holdout; set load_embedding=False")
+
+    if (blind_test_pos or blind_test_neg) and not strategy_name.endswith('-bbe'):
+        # The plausibility-scoring layer (plausibility_formula_comparison.py,
+        # formula_plausibility_computation.ipynb) detects a leak-free run purely from this
+        # suffix, so it can't be left to drift apart from the actual blind_test_pos/neg flags.
+        strategy_name = f'{strategy_name}-bbe'
 
     MAX_SAMPLE_SIZE = 1500000
 
@@ -953,7 +961,7 @@ TYPES_miRNA_KG = [
     # 'miRNA - acts upstream of - GO'
     ]
 
-# compute(TYPES_miRNA_KG[0],strategy=community_based_negative_sampling,strategy_name='c-b-n-s-bbe',name_kg = 'miRNA-KG',embedding_name = 'transe',parameter_model_selection="error_beta_score_1",dump = True,blind_test_pos = True,blind_test_neg = True)
+# compute(TYPES_miRNA_KG[0],strategy=community_based_negative_sampling,strategy_name='c-b-n-s',name_kg = 'miRNA-KG',embedding_name = 'transe',parameter_model_selection="error_beta_score_1",dump = True,blind_test_pos = True,blind_test_neg = True)
 
 
 TYPES_PKT_KG = [
@@ -992,7 +1000,7 @@ TYPES_PKT_KG = [
     'Gene - participates in - Pathway'
 ]
 
-# compute(TYPES_PKT_KG[0],strategy=community_based_negative_sampling,strategy_name='c-b-n-s-bbe',name_kg = 'PKT-KG',embedding_name = 'transe',parameter_model_selection= "error_beta_score_1",dump= True,blind_test_pos=True,blind_test_neg=True)
+# compute(TYPES_PKT_KG[0],strategy=community_based_negative_sampling,strategy_name='c-b-n-s',name_kg = 'PKT-KG',embedding_name = 'transe',parameter_model_selection= "error_beta_score_1",dump= True,blind_test_pos=True,blind_test_neg=True)
 
 
 TYPES_Hetionet = [
@@ -1022,7 +1030,7 @@ TYPES_Hetionet = [
     'Pharmacologic_class - includes - Compound'
 ]
 
-# compute(TYPES_Hetionet[0],strategy=community_based_negative_sampling,strategy_name='c-b-n-s-bbe',name_kg = 'Hetionet',embedding_name = 'transe',parameter_model_selection= "error_beta_score_1",dump= True,blind_test_pos=True,blind_test_neg=True)
+# compute(TYPES_Hetionet[0],strategy=community_based_negative_sampling,strategy_name='c-b-n-s',name_kg = 'Hetionet',embedding_name = 'transe',parameter_model_selection= "error_beta_score_1",dump= True,blind_test_pos=True,blind_test_neg=True)
 
                 
 TYPES_PrimeKG = [
@@ -1051,7 +1059,7 @@ TYPES_PrimeKG = [
     'Gene_and_or_protein - ppi - Gene_and_or_protein'
 ]
 
-# compute(TYPES_PrimeKG[0],strategy=community_based_negative_sampling,strategy_name='c-b-n-s-bbe',name_kg = 'PrimeKG',embedding_name = 'transe',parameter_model_selection= "error_beta_score_1",dump= True,blind_test_pos=True,blind_test_neg=True)
+# compute(TYPES_PrimeKG[0],strategy=community_based_negative_sampling,strategy_name='c-b-n-s',name_kg = 'PrimeKG',embedding_name = 'transe',parameter_model_selection= "error_beta_score_1",dump= True,blind_test_pos=True,blind_test_neg=True)
 
 TYPES_OptimusKG = [
     'Anatomy - EXPRESSION_ABSENT - Gene',               
@@ -1079,4 +1087,4 @@ TYPES_OptimusKG = [
     'Molecular_function - INTERACTS_WITH - Gene'        
 ]
 
-# compute(TYPES_OptimusKG[0],strategy=community_based_negative_sampling,strategy_name='c-b-n-s-bbe',name_kg = 'OptimusKG',embedding_name = 'transe',parameter_model_selection= "error_beta_score_1",dump= True,blind_test_pos=True,blind_test_neg=True)
+# compute(TYPES_OptimusKG[0],strategy=community_based_negative_sampling,strategy_name='c-b-n-s',name_kg = 'OptimusKG',embedding_name = 'transe',parameter_model_selection= "error_beta_score_1",dump= True,blind_test_pos=True,blind_test_neg=True)
